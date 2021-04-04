@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Add Service</title>
+<script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
+<link rel="stylesheet" type="text/css" media="all"  href="../static/css/style.css" th:href="@{/css/style.css}" />
+</head>
+<header>
+	<div class="topnav" id="myTopnav">
+		<a href="/" th:href="@{/}" >Home</a>
+		<a href="/addOrder" th:href="@{/addOrder}" class="active">Add Order</a>
+		<a href="/viewOrder" th:href="@{/viewOrder}">View Order</a>
+		<a href="javascript:void(0);" class="icon" onclick="myFunction()">
+		  <i class="fa fa-bars"></i>
+		</a>
+	</div>
+</header>
+<body>
+<div th:if="${service == true}">
+Successfully added [[${service.serviceName}]]
+</div>
+	<form method="post">
+	<input type="hidden" name="id"/>
+		<table>
+			<tr>
+				<td>Service Name</td>
+				<td ><input type="text" name="serviceName" required width="48"/></td>
+			</tr>
+			<tr>
+				<td>Service Cost</td>
+				<td><input type="number" name="serviceCost" required width="48"/></td>
+			</tr>
+			<tr>
+				<td>Service Description</td>
+				<td>
+					<textarea rows = "5" cols = "50" name="serviceDescription" required width="48">
+					
+					</textarea>
+				</td>
+			</tr>
+			<tr>
+				<td>Service Duration</td>
+				<td><input type="number" name="serviceDuration" required width="48"/><td>
+			</tr>
+			<tr>
+				<td colspan="2"> 
+					<input type="submit" value="ADD SERVICE"/>
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>
