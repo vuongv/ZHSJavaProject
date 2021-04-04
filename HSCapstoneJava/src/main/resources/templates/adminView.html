@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Admin View</title>
+<script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
+<link rel="stylesheet" type="text/css" media="all"  href="../static/css/style.css" th:href="@{/css/style.css}" />
+</head>
+<header>
+	<div class="topnav" id="myTopnav">
+		<a href="/" th:href="@{/}" class="active">Home</a>
+		<a href="/addOrder" th:href="@{/addOrder}">Add Order</a>
+		<a href="/viewOrder" th:href="@{/viewOrder}">View Order</a>
+		<a href="javascript:void(0);" class="icon" onclick="myFunction()">
+		  <i class="fa fa-bars"></i>
+		</a>
+	</div>
+</header>
+<body>
+
+<a href='/addOrder'>Add Order</a>
+<a href='/viewOrder'>View Order</a>
+</body>
+</html>

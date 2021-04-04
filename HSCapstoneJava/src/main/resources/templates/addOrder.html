@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Add Order</title>
+<script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
+<link rel="stylesheet" type="text/css" media="all"  href="../static/css/style.css" th:href="@{/css/style.css}" />
+</head>
+<header>
+	<div class="topnav" id="myTopnav">
+		<a href="/" th:href="@{/}" >Home</a>
+		<a href="/addOrder" th:href="@{/addOrder}" class="active">Add Order</a>
+		<a href="/viewOrder" th:href="@{/viewOrder}">View Order</a>
+		<a href="javascript:void(0);" class="icon" onclick="myFunction()">
+		  <i class="fa fa-bars"></i>
+		</a>
+	</div>
+</header>
+<body>
+	<h1>Add a New Work Order</h1>
+	
+	<form method="post">
+	<input type="hidden" name="id"/>
+	<table style="border-spacing: 10px;" class="center">
+		<tr>
+			<td>
+				<table>
+					<tr>
+					<td style="min-width:150px;">Customer Name:</td>
+					<td ><input type="text" name="customerName" required width="48"/></td>
+					</tr>
+				</table>
+
+			</td>
+			<td>
+				<table>
+					<tr>
+					<td style="min-width:150px;">Email:</td>
+					<td ><input type="email" name="customerEmail" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}"/></td>
+					</tr>
+				</table>
+			</td>
+		<tr>
+			<td>
+				<table>
+					<tr>
+					<td >Home Phone:</td>
+					<td><input type="tel" name="customerHomePhone" required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="123-456-7890"/></td>
+					</tr>
+				</table>
+
+			</td>
+			<td>
+				<table>
+					<tr>
+					<td>Cell Phone:</td>
+					<td><input type="tel" name="customerCellPhone" placeholder="123-456-7890"/></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			
+		</tr>
+		<tr>
+			<td>
+				<table>
+					<tr>
+					<td >Address:</td>
+					<td><input type="text" name="customerAddress" required/></td>
+					</tr>
+				</table>
+
+			</td>
+			<td>
+				<table>
+					<tr>
+					<td>City:</td>
+					<td><input type="text" name="customerCity" required/></td>
+					</tr>
+				</table>
+			</td>
+			<td>
+				<table>
+					<tr>
+					<td>Postal Code:</td>
+					<td><input type="text" name="customerPostal" required pattern="[A-Za-z][0-9][A-Za-z][0-9][A-Za-z][0-9]" placeholder="A1A1A1"/></td>
+					</tr>
+				</table>
+
+			</td>
+			<td>
+				<table>
+					<tr>
+					<td>Province:</td>
+					<td><select name="customerProvince" required>
+				    <option value="AB">Alberta</option>
+				    <option value="BC">British Columbia</option>
+				    <option value="MB">Manitoba</option>
+				    <option value="NB">New Brunswick</option>
+				    <option value="NL">Newfoundland and Labrador</option>
+				    <option value="NS">Nova Scotia</option>
+				    <option value="ON">Ontario</option>
+				    <option value="PE">Prince Edward Island</option>
+				    <option value="QC">Quebec</option>
+				    <option value="SK">Saskatchewan</option>
+				    <option value="NT">Northwest Territories</option>
+				    <option value="NU">Nunavut</option>
+				    <option value="YT">Yukon</option>
+				</select></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td>Service Type: </td>
+			<td>
+				<select name="orderServiceType" required >
+					<option  disabled selected value=""> --Select an option--</option>
+					<option value="Chimney cleaning">Chimney Cleaning</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Worker: </td>
+			<td>
+				<select name="orderWorker" required>
+					<option  disabled selected value=""> --Select an option--</option>
+					<option value="Kap3">Kap3</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Invoice Total ($):</td>
+			<td><input type="number" name="orderTotal" required/></td>
+		</tr>
+		<tr>
+			<td>Appointment Date:</td>
+			<td><input type="date" name="orderAppointmentDate" required/></td>
+		</tr>
+		<tr>
+			<td>Appointment Time:</td>
+			<td><input type="time" name="orderAppointmentTime" required/></td>
+		</tr>
+		<tr>
+			<td colspan="2"><input type="submit" value="ADD ORDER"></td>
+		<tr>
+	</table>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		 
+		
+		
+	</form>
+</body>
+</html>
