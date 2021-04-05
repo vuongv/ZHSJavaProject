@@ -283,8 +283,44 @@ public class HSController {
 		return "redirect:/viewCustomer";
 	}
 	
-	
-	
+	@GetMapping("/addService")
+	public String addService_GET(Model model) {
+		return "addService";
+	}
+	@PostMapping("/addService")
+	public String addService_POST(Model model,
+			@RequestParam String serviceName,
+			@RequestParam double serviceCost,
+			@RequestParam String serviceDescription,
+			@RequestParam int serviceDuration) {
+		
+		WorkService service = WorkService
+				.builder()
+				.serviceName(serviceName)
+				.serviceCost(serviceCost)
+				.serviceDescription(serviceDescription)
+				.serviceDuration(serviceDuration)
+				.build();
+		serviceRepo.save(service);
+		model.addAttribute("service", service);
+		return "viewService";
+	}
+	@GetMapping("/viewService")
+	public String viewService(Model model) {
+		List<WorkService> serviceList = serviceRepo.findAll();
+		model.addAttribute("serviceList", serviceList);
+		return "viewService";
+	}
+	@GetMapping("/deleteService/{serviceId}")
+	public String deleteService (Model model, @PathVariable String serviceId, RedirectAttributes redirectAttributes ) {
+		RedirectView redirectView = new RedirectView("/viewService",true);
+//		List<WorkOrder> orderListServiceRemoved = orderRepo.find
+		serviceRepo.deleteById(Long.valueOf(serviceId));
+		
+		redirectAttributes.addFlashAttribute("deleteService");
+		return "redirect:/deleteService";
+	}
+
 	//Failed Methods for testing
 //	
 //	public boolean addCustomer (Customer cust) {

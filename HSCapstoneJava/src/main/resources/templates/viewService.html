@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>View Service</title>
+<script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
+<link rel="stylesheet" type="text/css" media="all"  href="../static/css/style.css" th:href="@{/css/style.css}" />
+</head>
+<header>
+	<div class="topnav" id="myTopnav">
+		<a href="/" th:href="@{/}" >Home</a>
+		<a href="/addOrder" th:href="@{/addOrder}">Add Order</a>
+		<a href="/viewOrder" th:href="@{/viewOrder}" class="active">View Order</a>
+		<a href="javascript:void(0);" class="icon" onclick="myFunction()">
+		  <i class="fa fa-bars"></i>
+		</a>
+	</div>
+</header>
+<body>
+	<table th:if="${serviceList != null and !serviceList.empty}">
+		<tr>
+			<th>Service Id</th>
+			<th>Name</th>
+			<th>Cost</th>
+			<th>Description</th>
+			<th>Duration</th>
+			<th>Action</th>
+		</tr>
+		<tr th:each="s : ${serviceList}">
+			<td th:text="${s.serviceId}"></td>
+			<td th:text="${s.serviceName}"></td>
+			<td th:text="'$'+${s.serviceCost}"></td>
+			<td th:text="${s.serviceDescription}"></td>
+			<td th:text="${s.serviceDuration}"></td>
+			<td>
+				<form method="get" action="#" th:action="@{/deleteService/{serviceId}(serviceId=${s.serviceId})}">
+					<button>Delete</button>
+				</form>
+				
+			</td>
+		</tr>
+	</table>
+</body>
+</html>
