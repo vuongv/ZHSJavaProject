@@ -97,14 +97,14 @@ Successfully deleted [[${deletedOrder.workOrderId}]]
 		<td th:text="${o.appointmentDate}"></td>
 		<td th:text="${o.appointmentTime}"></td>
 		<td>
-			
+      
 		<div class="row">
 	    	<div class="col-md-1">
 				<form method="get" action="#" th:action="@{/deleteOrder/{workOrderId}(workOrderId=${o.workOrderId})}" 
-					th:data-workOrderId="${o.workOrderId}"
-					th:data-custName="${customerList[i.index].name}"
-					onsubmit="return verifyDelete(this.getAttribute('data-workOrderId'), this.getAttribute('data-custName'))">
-					<button type="submit" class="noStyleBtn"><img th:src="@{/images/delete.png}"  alt="delete.png" /></button>
+            th:data-workOrderId="${o.workOrderId}"
+            th:data-custName="${customerList[i.index].name}"
+            onsubmit="return verifyDeleteOrder(this.getAttribute('data-workOrderId'), this.getAttribute('data-custName'))">
+            <button type="submit" class="noStyleBtn"><img th:src="@{/images/delete.png}"  alt="delete.png" /></button>
 				</form>
 			</div>
 			<div class="col-md-1"></div>

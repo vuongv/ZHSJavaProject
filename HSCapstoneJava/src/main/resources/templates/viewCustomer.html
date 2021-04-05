@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
+</head>
+<body>
+	<h1>View Customers</h1>
+	<div th:if="${addSuccess} == true">
+		<p style="color:green;">Successfully added new Customer!</p>
+	</div>
+	<div th:if ="${customerResultDelete == true}">
+		<p style="color:green;">Successfully deleted [[${cust.name}]]</p>
+	</div>
+	<div th:if ="${customerResultDelete == false}">
+		<p style="color:red;">Couldn't delete [[${cust.name}]], You must delete his work orders first!</p>
+	</div>
+	<form method="get" action="#" th:action="@{/addCustomer}">
+		<button type="submit">Add Customer</button>
+	</form>
+	<table>
+		<tr>
+			<th>Id</th>
+			<th>Name</th>
+			<th>Email</th>
+			<th>Home Phone</th>
+			<th>Cell Phone</th>
+			<th>Address</th>
+			<th>City</th>
+			<th>Postal</th>
+			<th>Province</th>
+			<th>WorkOrders</th>
+		</tr>
+		<tr th:each="cust : ${customerList}">
+			<td th:text="${cust.id}"></td>
+			<td th:text="${cust.name}"></td>
+			<td th:text="${cust.email}"></td>
+			<td th:text="${cust.homePhone}"></td>
+			<td th:text="${cust.cellPhone}"></td>
+			<td th:text="${cust.address}"></td>
+			<td th:text="${cust.city}"></td>
+			<td th:text="${cust.postal}"></td>
+			<td th:text="${cust.province}"></td>
+			<td th:each="order : ${workOrders}" th:text="${order.workOrderId}"></td>
+			<td>
+				<form method="get" action="#" th:action="@{/editCustomer/{customerId}(customerId=${cust.id})}">
+					<button type="submit">Edit</button>
+				</form>
+				<form method="get" action="#" th:action="@{/deleteCustomer/{customerId}(customerId=${cust.id})}"
+				th:data-customerName="${cust.name}"
+				onsubmit="return verifyDeleteCust(this.getAttribute('data-customerName'))">
+					<button type="submit">Delete</button>
+				</form>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

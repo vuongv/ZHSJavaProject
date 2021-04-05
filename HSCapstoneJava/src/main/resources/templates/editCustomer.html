@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>Edit Customer</h1>
+	
+	
+		<form method="post" th:action="@{/editCustomer}">
+		<input type="hidden" name="id" th:value="${cust.id}"/>
+		Name: <input type="text" name="name" th:value="${cust.name}"/><br>
+		Email: <input type="email" name="email" th:value="${cust.email}"/><br>
+		Home Phone: <input type="tel" name="homePhone" th:value="${cust.homePhone}"/><br>
+		Cell Phone: <input type="tel" name="cellPhone" th:value="${cust.cellPhone}"/><br>
+		Address: <input type="text" name="address" th:value="${cust.address}"/><br>
+		City: <input type="text" name="city" th:value="${cust.city}"/><br>
+		Postal: <input type="text" name="postal" th:value="${cust.postal}"/><br>
+		Province: 
+		<select name="province">
+			<option value="AB" th:selected="${cust.province == 'Alberta'}">Alberta</option>
+		    <option value="BC" th:selected="${cust.province == 'British Columbia'}">British Columbia</option>
+		    <option value="MB" th:selected="${cust.province == 'Manitoba'}">Manitoba</option>
+		    <option value="NB" th:selected="${cust.province == 'New Brunswick'}">New Brunswick</option>
+		    <option value="NL" th:selected="${cust.province == 'Newfoundland and Labrador'}">Newfoundland and Labrador</option>
+		    <option value="NS" th:selected="${cust.province == 'Nova Scotia'}">Nova Scotia</option>
+		    <option value="ON" th:selected="${cust.province == 'Ontario'}">Ontario</option>
+		    <option value="PE" th:selected="${cust.province == 'Prince Edward Island'}">Prince Edward Island</option>
+		    <option value="QC" th:selected="${cust.province == 'Quebec'}">Quebec</option>
+		    <option value="SK" th:selected="${cust.province == 'Saskatchewan'}">Saskatchewan</option>
+		    <option value="NT" th:selected="${cust.province == 'Northwest Territories'}">Northwest Territories</option>
+		    <option value="NU" th:selected="${cust.province == 'Nunavut'}">Nunavut</option>
+		    <option value="YT" th:selected="${cust.province == 'Yukon'}">Yukon</option>
+		</select><br>
+		<input type="submit" value="EDIT CUSTOMER">
+	
+	</form>
+</body>
+</html>
