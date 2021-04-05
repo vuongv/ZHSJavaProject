@@ -25,11 +25,11 @@
 	        <li class="nav-item">
 	          <a class="nav-link" href="/viewOrder">Order</a>
 	        </li>
-	        <li class="nav-item">
-	          <a class="nav-link" href="/viewWorker">Worker</a>
+	         <li class="nav-item">
+	          <a class="nav-link active" aria-current="page" href="/viewService">Service</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link active" aria-current="page" href="/viewService">Service</a>
+	          <a class="nav-link" href="/viewWorker">Worker</a>
 	        </li>
 	        <li class="nav-item">
 	          <a class="nav-link" href="/viewCustomer">Customer</a>
@@ -71,23 +71,29 @@
 			<td>
 			
 			<div class="row">
-				<div class="col-md-1">
-					<form method="get" action="#" th:action="@{/deleteService/{serviceId}(serviceId=${s.serviceId})}">
-						<button class="noStyleBtn"><img th:src="@{/images/delete.png}"  alt="delete.png" /></button>
-					</form>
+				<div class="col-sm-1">
+					<div class="row">
+						<form method="get" action="#" th:action="@{/deleteService/{serviceId}(serviceId=${s.serviceId})}">
+							<button class="noStyleBtn"><img th:src="@{/images/delete.png}"  alt="delete.png" /></button>
+						</form>
+					</div>
+					<div class="row">
+						<div class="col-sm-1 smallText">Delete</div>
+					</div>
 				</div>
-				<div class="col-md-1"></div>
-				<div class="col-md-1">
-					<form method="get" action="#" th:action="@{/viewService}">
-						<button class="noStyleBtn"><img th:src="@{/images/pencil.png}"  alt="pencil.png" /></button>
-					</form>
+				<div class="col-sm-1"></div> <!-- empty for spacing -->
+				<div class="col-sm-1">
+					<div class="row">
+						<form method="get" action="#" th:action="@{/viewService}">
+							<button class="noStyleBtn"><img th:src="@{/images/pencil.png}"  alt="pencil.png" /></button>
+						</form>
+					</div>
+					<div class="row">
+						<div class="col-sm-1 smallText">Edit</div>
+					</div>
 				</div>
 			</div>
-			<div class="row">
-		    	<div class="col-md-1 smallText">Delete</div>
-				<div class="col-md-1"></div>
-				<div class="col-md-1 smallText">Edit</div>
-			</div>
+		
 			</td>
 		</tr>
 	</table>
