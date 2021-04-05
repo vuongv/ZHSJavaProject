@@ -2,22 +2,13 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Add Order</title>
-<script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
-<link rel="stylesheet" type="text/css" media="all"  href="../static/css/style.css" th:href="@{/css/style.css}" />
+<title>Insert title here</title>
+
 </head>
-<header>
-	<div class="topnav" id="myTopnav">
-		<a href="/" th:href="@{/}" >Home</a>
-		<a href="/addOrder" th:href="@{/addOrder}" class="active">Add Order</a>
-		<a href="/viewOrder" th:href="@{/viewOrder}">View Order</a>
-		<a href="javascript:void(0);" class="icon" onclick="myFunction()">
-		  <i class="fa fa-bars"></i>
-		</a>
-	</div>
-</header>
-<body>
-	<h1>Add a New Work Order</h1>
+<body th:data-dropdown="${serv.serviceName}" onload="setDrop(this.getAttribute('data-dropdown'))">
+
+	<h1>Edit Order</h1>
+	<h1 id="testtt"></h1>
 	
 	<form method="post">
 	<input type="hidden" name="id"/>
@@ -27,7 +18,7 @@
 				<table>
 					<tr>
 					<td style="min-width:150px;">Customer Name:</td>
-					<td ><input type="text" name="customerName" required width="48"/></td>
+					<td ><input type="text" name="customerName" required width="48" th:value="${cust.name}"/></td>
 					</tr>
 				</table>
 
@@ -36,7 +27,8 @@
 				<table>
 					<tr>
 					<td style="min-width:150px;">Email:</td>
-					<td ><input type="email" name="customerEmail" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}"/></td>
+					<td ><input type="email" name="customerEmail" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}" 
+					th:value=${cust.email}/></td>
 					</tr>
 				</table>
 			</td>
@@ -45,7 +37,8 @@
 				<table>
 					<tr>
 					<td >Home Phone:</td>
-					<td><input type="tel" name="customerHomePhone" required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="123-456-7890"/></td>
+					<td><input type="tel" name="customerHomePhone" required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" 
+					placeholder="123-456-7890" th:value="${cust.homePhone}"/></td>
 					</tr>
 				</table>
 
@@ -54,7 +47,8 @@
 				<table>
 					<tr>
 					<td>Cell Phone:</td>
-					<td><input type="tel" name="customerCellPhone" placeholder="123-456-7890"/></td>
+					<td><input type="tel" name="customerCellPhone" placeholder="123-456-7890"
+					th:value="${cust.cellPhone}"/></td>
 					</tr>
 				</table>
 			</td>
@@ -67,7 +61,7 @@
 				<table>
 					<tr>
 					<td >Address:</td>
-					<td><input type="text" name="customerAddress" required/></td>
+					<td><input type="text" name="customerAddress" required th:value="${cust.address}"/></td>
 					</tr>
 				</table>
 
@@ -76,7 +70,7 @@
 				<table>
 					<tr>
 					<td>City:</td>
-					<td><input type="text" name="customerCity" required/></td>
+					<td><input type="text" name="customerCity" required th:value="${cust.city}"/></td>
 					</tr>
 				</table>
 			</td>
@@ -84,7 +78,8 @@
 				<table>
 					<tr>
 					<td>Postal Code:</td>
-					<td><input type="text" name="customerPostal" required pattern="[A-Za-z][0-9][A-Za-z][0-9][A-Za-z][0-9]" placeholder="A1A1A1"/></td>
+					<td><input type="text" name="customerPostal" required pattern="[A-Za-z][0-9][A-Za-z][0-9][A-Za-z][0-9]" 
+					placeholder="A1A1A1" th:value="${cust.postal}"/></td>
 					</tr>
 				</table>
 
@@ -115,16 +110,19 @@
 		<tr>
 			<td>Service Type: </td>
 			<td>
-				<select name="orderServiceType" required >
+				<div>
+					<select name="orderServiceType" id="orderServiceType" required>
 					<option  disabled selected value=""> --Select an option--</option>
 					<option value="Chimney cleaning">Chimney Cleaning</option>
 				</select>
+				</div>
+				
 			</td>
 		</tr>
 		<tr>
 			<td>Worker: </td>
 			<td>
-				<select name="orderWorker" required>
+				<select name="orderWorker" required >
 					<option  disabled selected value=""> --Select an option--</option>
 					<option value="Kap3">Kap3</option>
 				</select>
@@ -145,7 +143,7 @@
 		<tr>
 			<td colspan="2"><input type="submit" value="ADD ORDER"></td>
 		<tr>
-	</table>
+	</table>	
 		
 	</form>
 </body>

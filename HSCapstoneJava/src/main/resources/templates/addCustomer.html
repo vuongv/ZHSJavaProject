@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>Add Customer</h1>
+	<form method="post" th:action="@{/addCustomer}">
+		<input type="hidden" name="id"/>
+		Name: <input type="text" name="name"/><br>
+		Email: <input type="email" name="email"/><br>
+		Home Phone: <input type="tel" name="homePhone"/><br>
+		Cell Phone: <input type="tel" name="cellPhone"/><br>
+		Address: <input type="text" name="address"/><br>
+		City: <input type="text" name="city"/><br>
+		Postal: <input type="text" name="postal"/><br>
+		Province: 
+		<select name="province">
+			<option value="AB">Alberta</option>
+		    <option value="BC">British Columbia</option>
+		    <option value="MB">Manitoba</option>
+		    <option value="NB">New Brunswick</option>
+		    <option value="NL">Newfoundland and Labrador</option>
+		    <option value="NS">Nova Scotia</option>
+		    <option value="ON">Ontario</option>
+		    <option value="PE">Prince Edward Island</option>
+		    <option value="QC">Quebec</option>
+		    <option value="SK">Saskatchewan</option>
+		    <option value="NT">Northwest Territories</option>
+		    <option value="NU">Nunavut</option>
+		    <option value="YT">Yukon</option>
+		</select><br>
+		<input type="submit" value="ADD CUSTOMER">
+	</form>
+</body>
+
+</html>
