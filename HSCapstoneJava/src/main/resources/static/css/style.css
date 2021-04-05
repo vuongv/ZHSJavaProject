@@ -66,3 +66,6 @@ body {
 .smallText{
 	font-size: 10px;
 }
+
+label {display:block;}
+textarea { display:block;}
