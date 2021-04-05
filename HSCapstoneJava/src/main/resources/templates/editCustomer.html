@@ -2,39 +2,124 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Edit Customer</title>
+<script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
+<link rel="stylesheet" type="text/css" media="all"  href="../static/css/style.css" th:href="@{/css/style.css}" />
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+
 </head>
+<header>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<!-- 	<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;"> -->
+	  <div class="container-fluid">
+	    <a class="navbar-brand" href="#">ZSH</a>
+	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
+	    <div class="collapse navbar-collapse" id="navbarNav">
+	      <ul class="navbar-nav">
+	        <li class="nav-item">
+	          <a class="nav-link"  href="/">Home</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link active" aria-current="page" href="/viewOrder">Order</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link" href="/viewService">Service</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link" href="/viewWorker">Worker</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link" href="/viewCustomer">Customer</a>
+	        </li>	        
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+</header>
 <body>
-	<h1>Edit Customer</h1>
+
+	
+	<h1 class="pageTitle">Edit Customer</h1>
+
+	<div class="card">
+	
+	<h3 class="card-header">Edit a Customer</h3>
 	
 	
-		<form method="post" th:action="@{/editCustomer}">
+	<form method="post" th:action="@{/editCustomer}" class="row g-3 addOrderStyle" >
+	
 		<input type="hidden" name="id" th:value="${cust.id}"/>
-		Name: <input type="text" name="name" th:value="${cust.name}"/><br>
-		Email: <input type="email" name="email" th:value="${cust.email}"/><br>
-		Home Phone: <input type="tel" name="homePhone" th:value="${cust.homePhone}"/><br>
-		Cell Phone: <input type="tel" name="cellPhone" th:value="${cust.cellPhone}"/><br>
-		Address: <input type="text" name="address" th:value="${cust.address}"/><br>
-		City: <input type="text" name="city" th:value="${cust.city}"/><br>
-		Postal: <input type="text" name="postal" th:value="${cust.postal}"/><br>
-		Province: 
-		<select name="province">
-			<option value="AB" th:selected="${cust.province == 'Alberta'}">Alberta</option>
-		    <option value="BC" th:selected="${cust.province == 'British Columbia'}">British Columbia</option>
-		    <option value="MB" th:selected="${cust.province == 'Manitoba'}">Manitoba</option>
-		    <option value="NB" th:selected="${cust.province == 'New Brunswick'}">New Brunswick</option>
-		    <option value="NL" th:selected="${cust.province == 'Newfoundland and Labrador'}">Newfoundland and Labrador</option>
-		    <option value="NS" th:selected="${cust.province == 'Nova Scotia'}">Nova Scotia</option>
-		    <option value="ON" th:selected="${cust.province == 'Ontario'}">Ontario</option>
-		    <option value="PE" th:selected="${cust.province == 'Prince Edward Island'}">Prince Edward Island</option>
-		    <option value="QC" th:selected="${cust.province == 'Quebec'}">Quebec</option>
-		    <option value="SK" th:selected="${cust.province == 'Saskatchewan'}">Saskatchewan</option>
-		    <option value="NT" th:selected="${cust.province == 'Northwest Territories'}">Northwest Territories</option>
-		    <option value="NU" th:selected="${cust.province == 'Nunavut'}">Nunavut</option>
-		    <option value="YT" th:selected="${cust.province == 'Yukon'}">Yukon</option>
-		</select><br>
-		<input type="submit" value="EDIT CUSTOMER">
-	
+		
+		<div class="col-md-6">
+		   <label for="nameInput" class="form-label" >Name</label>
+		   <input type="text" th:value="${cust.name}" name="name" id="nameInput" class="form-control" placeholder="First name" aria-label="First name" required>
+		</div>
+		 <br>
+		<div class="col-md-6">
+		 	<label for="emailInput" class="form-label">Email</label>
+		   <input type="text" th:value="${cust.email}" name="email" id="emailInput" class="form-control" placeholder="Email" aria-label="Email" required>
+		</div>
+		 <div></div>
+		<div class="col-md-6">
+		   <label for="homephoneInput" class="form-label" >Home Phone</label>
+		   <input type="tel" th:value="${cust.homePhone}" name="homePhone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="123-456-7890" id="homephoneInput" class="form-control" aria-label="Home Phone" required>
+		</div>
+		 
+		<div class="col-md-6">
+		 	<label for="cellphoneInput" class="form-label">Cell Phone</label>
+		   <input type="tel" th:value="${cust.cellPhone}" name="cellPhone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="123-456-7890" id="cellphoneInput" class="form-control" aria-label="Cell Phone">
+		</div>
+		<div></div>
+		<div class="col-md-4">
+		   <label for="inputAddress" class="form-label">Address</label>
+		   <input type="text" th:value="${cust.address}" name="address" class="form-control" id="inputAddress" placeholder="1234 Main St" required>
+		</div>
+		
+		<div class="col-md-3">
+		   <label for="inputCity" class="form-label">City</label>
+		   <input type="text" th:value="${cust.city}" name="city"  class="form-control" id="inputCity" placeholder="City" required>
+		</div>
+		 
+		<div class="col-md-3">
+		   <label for="inputState" class="form-label">Province</label>
+		   <select name="province" id="inputState" class="form-select" required>
+			<option value="AB" th:selected="${cust.province == 'Alberta' || cust.province == 'AB'}">Alberta</option>
+		    <option value="BC" th:selected="${cust.province == 'British Columbia'|| cust.province == 'BC'}">British Columbia</option>
+		    <option value="MB" th:selected="${cust.province == 'Manitoba'|| cust.province == 'MB'}">Manitoba</option>
+		    <option value="NB" th:selected="${cust.province == 'New Brunswick' || cust.province == 'NB'}">New Brunswick</option>
+		    <option value="NL" th:selected="${cust.province == 'Newfoundland and Labrador' || cust.province == 'NL'}">Newfoundland and Labrador</option>
+		    <option value="NS" th:selected="${cust.province == 'Nova Scotia' || cust.province == 'NS'}">Nova Scotia</option>
+		    <option value="ON" th:selected="${cust.province == 'Ontario' || cust.province == 'ON'}">Ontario</option>
+		    <option value="PE" th:selected="${cust.province == 'Prince Edward Island' || cust.province == 'PE'}">Prince Edward Island</option>
+		    <option value="QC" th:selected="${cust.province == 'Quebec' || cust.province == 'QC'}">Quebec</option>
+		    <option value="SK" th:selected="${cust.province == 'Saskatchewan' || cust.province == 'SK'}">Saskatchewan</option>
+		    <option value="NT" th:selected="${cust.province == 'Northwest Territories'  || cust.province == 'NT'}">Northwest Territories</option>
+		    <option value="NU" th:selected="${cust.province == 'Nunavut' || cust.province == 'NU'}">Nunavut</option>
+		    <option value="YT" th:selected="${cust.province == 'Yukon' || cust.province == 'YT'}">Yukon</option>
+		   </select>
+		</div>
+		 
+		<div class="col-md-2">
+		   <label  for="inputZip" class="form-label">Postal Code</label>
+		   <input type="text" th:value="${cust.postal}" name="postal" class="form-control" id="inputZip" pattern="[A-Za-z][0-9][A-Za-z][0-9][A-Za-z][0-9]" placeholder="A1A1A1" required>
+		</div>
+		 <div></div>
+		 
+		 <div class="col text-center">
+			<button type="submit" class="btn btn-warning">Edit Customer</button>
+		</div>
+			
 	</form>
+	
+	</div>
+		<br>
+	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+		<a href="/viewCustomer" th:href="@{/viewCustomer}" class="btn btn-info" role="button">View Customers</a>
+	</div>
+	
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -11,22 +11,7 @@
 <title>View Order</title>
 </head>
 
-
-
-<!-- 	
-	<header>
-		<div class="topnav" id="myTopnav">
-			<a href="/" th:href="@{/}" >Home</a>
-			<a href="/addOrder" th:href="@{/addOrder}">Add Order</a>
-			<a href="/viewOrder" th:href="@{/viewOrder}" class="active">View Order</a>
-			<a href="javascript:void(0);" class="icon" onclick="myFunction()">
-			  <i class="fa fa-bars"></i>
-			</a>
-		</div>
-	</header>
--->	
-<body> 
-
+<header>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 <!-- 	<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;"> -->
 	  <div class="container-fluid">
@@ -43,10 +28,10 @@
 	          <a class="nav-link active" aria-current="page" href="/viewOrder">Order</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="/viewWorker">Worker</a>
+	          <a class="nav-link" href="/viewService">Service</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="/viewService">Service</a>
+	          <a class="nav-link" href="/viewWorker">Worker</a>
 	        </li>
 	        <li class="nav-item">
 	          <a class="nav-link" href="/viewCustomer">Customer</a>
@@ -55,6 +40,10 @@
 	    </div>
 	  </div>
 	</nav>
+
+</header>
+
+<body> 
 
 <h1 class="pageTitle">Orders</h1>
 
@@ -99,38 +88,44 @@ Successfully deleted [[${deletedOrder.workOrderId}]]
 		<td>
       
 		<div class="row">
-	    	<div class="col-md-1">
-				<form method="get" action="#" th:action="@{/deleteOrder/{workOrderId}(workOrderId=${o.workOrderId})}" 
-            th:data-workOrderId="${o.workOrderId}"
-            th:data-custName="${customerList[i.index].name}"
-            onsubmit="return verifyDeleteOrder(this.getAttribute('data-workOrderId'), this.getAttribute('data-custName'))">
-            <button type="submit" class="noStyleBtn"><img th:src="@{/images/delete.png}"  alt="delete.png" /></button>
-				</form>
+	    	<div class="col-sm-1">
+		    	<div class="row">
+					<form method="get" action="#" th:action="@{/deleteOrder/{workOrderId}(workOrderId=${o.workOrderId})}" 
+			            th:data-workOrderId="${o.workOrderId}"
+			            th:data-custName="${customerList[i.index].name}"
+			            onsubmit="return verifyDeleteOrder(this.getAttribute('data-workOrderId'), this.getAttribute('data-custName'))">
+			            <button type="submit" class="noStyleBtn"><img th:src="@{/images/delete.png}"  alt="delete.png" /></button>
+					</form>
+				</div>
+				<div class="row">
+					<div class="col-sm-1 smallText">Delete</div>
+				</div>
 			</div>
-			<div class="col-md-1"></div>
-			<div class="col-md-1">
-				<form method="get" action="#" th:action="@{/editOrder/{workOrderId}/{customerId}/{workerId}/{serviceId}
-		          (workOrderId=${o.workOrderId},
-		          customerId=${customerList[i.index].id},
-		          workerId=${workerList[i.index].id},
-		          serviceId=${serviceList[i.index].serviceId})}" 
-		              th:data-workOrderId="${o.workOrderId}"
-		              th:data-custName="${customerList[i.index].name}">
-		              
-		              <button type="submit" class="noStyleBtn"><img th:src="@{/images/pencil.png}"  alt="pencil.png" /></button>
-		         </form>
+			<div class="col-sm-1"></div> <!-- empty for spacing -->
+			<div class="col-sm-1">
+				<div class="row">
+					<form method="get" action="#" th:action="@{/editOrder/{workOrderId}/{customerId}/{workerId}/{serviceId}
+			          (workOrderId=${o.workOrderId},
+			          customerId=${customerList[i.index].id},
+			          workerId=${workerList[i.index].id},
+			          serviceId=${serviceList[i.index].serviceId})}" 
+			          th:data-workOrderId="${o.workOrderId}"
+			          th:data-custName="${customerList[i.index].name}">
+			              
+			          <button type="submit" class="noStyleBtn"><img th:src="@{/images/pencil.png}"  alt="pencil.png" /></button>
+			        </form>
+				</div>
+			    <div class="row">
+					<div class="col-sm-1 smallText">Edit</div>
+				</div>
 			</div>
 		</div>
-		<div class="row">
-	    	<div class="col-md-1 smallText">Delete</div>
-			<div class="col-md-1"></div>
-			<div class="col-md-1 smallText">Edit</div>
-		</div>
+	
 		</td>
 	</tr>
 </table>
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 </body>
 </html>
