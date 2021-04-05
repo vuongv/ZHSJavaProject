@@ -9,16 +9,6 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 
 </head>
-<!-- <header>
-	<div class="topnav" id="myTopnav">
-		<a href="/" th:href="@{/}" >Home</a>
-		<a href="/addOrder" th:href="@{/addOrder}" class="active">Add Order</a>
-		<a href="/viewOrder" th:href="@{/viewOrder}">View Order</a>
-		<a href="javascript:void(0);" class="icon" onclick="myFunction()">
-		  <i class="fa fa-bars"></i>
-		</a>
-	</div>
-</header> -->
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 <!-- 	<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;"> -->
@@ -33,11 +23,17 @@
 	          <a class="nav-link"  href="/">Home</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="/viewOrder">View Order</a>
+	          <a class="nav-link active" aria-current="page" href="/viewOrder">Order</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link active" aria-current="page" href="/addOrder">Add Order</a>
+	          <a class="nav-link" href="/viewWorker">Worker</a>
 	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link" href="/viewService">Service</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link" href="/viewCustomer">Customer</a>
+	        </li>	        
 	      </ul>
 	    </div>
 	  </div>
@@ -145,141 +141,6 @@
 		</div>
 			
 	</form>
-	
-<!--
-	<form method="post">
-	<input type="hidden" name="id"/>
-	<table style="border-spacing: 10px;" class="center">
-		 <tr>
-			<td>
-				<table>
-					<tr>
-					<td style="min-width:150px;">Customer Name:</td>
-					<td ><input type="text" name="customerName" required width="48"/></td>
-					</tr>
-				</table>
-
-			</td>
-			<td>
-				<table>
-					<tr>
-					<td style="min-width:150px;">Email:</td>
-					<td ><input type="email" name="customerEmail" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}"/></td>
-					</tr>
-				</table>
-			</td>
-		<tr>
-			<td>
-				<table>
-					<tr>
-					<td >Home Phone:</td>
-					<td><input type="tel" name="customerHomePhone" required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="123-456-7890"/></td>
-					</tr>
-				</table>
-
-			</td>
-			<td>
-				<table>
-					<tr>
-					<td>Cell Phone:</td>
-					<td><input type="tel" name="customerCellPhone" placeholder="123-456-7890"/></td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-		<tr>
-			
-		</tr>
-		<tr>
-			<td>
-				<table>
-					<tr>
-					<td >Address:</td>
-					<td><input type="text" name="customerAddress" required/></td>
-					</tr>
-				</table>
-
-			</td>
-			<td>
-				<table>
-					<tr>
-					<td>City:</td>
-					<td><input type="text" name="customerCity" required/></td>
-					</tr>
-				</table>
-			</td>
-			<td>
-				<table>
-					<tr>
-					<td>Postal Code:</td>
-					<td><input type="text" name="customerPostal" required pattern="[A-Za-z][0-9][A-Za-z][0-9][A-Za-z][0-9]" placeholder="A1A1A1"/></td>
-					</tr>
-				</table>
-
-			</td>
-			<td>
-				<table>
-					<tr>
-					<td>Province:</td>
-					<td><select name="customerProvince" required>
-				    <option value="AB">Alberta</option>
-				    <option value="BC">British Columbia</option>
-				    <option value="MB">Manitoba</option>
-				    <option value="NB">New Brunswick</option>
-				    <option value="NL">Newfoundland and Labrador</option>
-				    <option value="NS">Nova Scotia</option>
-				    <option value="ON">Ontario</option>
-				    <option value="PE">Prince Edward Island</option>
-				    <option value="QC">Quebec</option>
-				    <option value="SK">Saskatchewan</option>
-				    <option value="NT">Northwest Territories</option>
-				    <option value="NU">Nunavut</option>
-				    <option value="YT">Yukon</option>
-				</select></td>
-					</tr>
-				</table>
-			</td>
-		</tr> 
-		<tr>
-			<td>Service Type: </td>
-			<td>
-				<select name="orderServiceType" required >
-					<option  disabled selected value=""> --Select an option--</option>
-					<option value="Chimney cleaning">Chimney Cleaning</option>
-				</select>
-			</td>
-		</tr>
-	
-		<tr>
-			<td>Worker: </td>
-			<td>
-				<select name="orderWorker" required>
-					<option  disabled selected value=""> --Select an option--</option>
-					<option value="Kap3">Kap3</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td>Invoice Total ($):</td>
-			<td><input type="number" name="orderTotal" required/></td>
-		</tr>
-		<tr>
-			<td>Appointment Date:</td>
-			<td><input type="date" name="orderAppointmentDate" required/></td>
-		</tr>
-		<tr>
-			<td>Appointment Time:</td>
-			<td><input type="time" name="orderAppointmentTime" required/></td>
-		</tr>
-		<tr>
-			<td colspan="2"><input type="submit" value="ADD ORDER"></td>
-		<tr>
-	</table>
-	
-		
-	</form>
-	
--->
 	
 	</div>
 	
