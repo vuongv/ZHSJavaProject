@@ -287,6 +287,7 @@ public class HSController {
 	public String addService_GET(Model model) {
 		return "addService";
 	}
+	
 	@PostMapping("/addService")
 	public String addService_POST(Model model,
 			@RequestParam String serviceName,
@@ -305,12 +306,14 @@ public class HSController {
 		model.addAttribute("service", service);
 		return "viewService";
 	}
+	
 	@GetMapping("/viewService")
 	public String viewService(Model model) {
 		List<WorkService> serviceList = serviceRepo.findAll();
 		model.addAttribute("serviceList", serviceList);
 		return "viewService";
 	}
+	
 	@GetMapping("/deleteService/{serviceId}")
 	public String deleteService (Model model, @PathVariable String serviceId, RedirectAttributes redirectAttributes ) {
 		RedirectView redirectView = new RedirectView("/viewService",true);
@@ -332,6 +335,22 @@ public class HSController {
 	public String addWorker(Model model) {
 
 		return "addWorker";
+	}
+	
+	@PostMapping("/addWorker")
+	public String addWorker_POST(Model model,
+			@RequestParam String name) {
+		
+		WorkWorker worker = WorkWorker
+				.builder()
+					.name(name)
+					.build();
+		workerRepo.save(worker);
+		model.addAttribute("worker", worker);
+		List<WorkWorker> workerList = workerRepo.findAll();
+		model.addAttribute("workerList", workerList);
+		
+		return "viewWorker";
 	}
 
 	@GetMapping("/deleteWorker/{workerId}")
