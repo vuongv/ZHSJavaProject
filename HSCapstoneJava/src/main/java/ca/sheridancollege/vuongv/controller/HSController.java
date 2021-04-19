@@ -36,11 +36,9 @@ public class HSController {
 	private CustomerRepository customerRepo;
 	private WorkerRepository workerRepo;
 	
-	
-	//Cannot create Junit test since we are unable to instantiate type Model. Spring boot handles this.
 	@GetMapping("/")
 	public String index(Model model) { 
-		return "index";
+		return "adminView";
 	}
 	
 	@GetMapping("/adminView")

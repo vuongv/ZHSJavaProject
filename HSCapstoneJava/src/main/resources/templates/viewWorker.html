@@ -2,7 +2,7 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Add Worker</title>
+<title>View Workers</title>
 <script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
 <link rel="stylesheet" type="text/css" media="all"  href="../static/css/style.css" th:href="@{/css/style.css}" />
 
@@ -41,7 +41,7 @@
 
 </header>
 <body>
-	<h1 class="pageTitle">View Workers</h1>
+	<h1 class="pageTitle">Workers</h1>
 	
 	<div th:if="${addSuccess} == true">
 		<p style="color:green;">Successfully added new Worker!</p>
@@ -70,32 +70,32 @@
             <td th:text="${worker.id}"></td>
             <td th:text="${worker.name}"></td>
             <td>
-            <div class="row">
-				<div class="col-sm-1">
-					<div class="row">	
-		                <form method="get" action="#" th:action="@{/deleteWorker/{workerId}(workerId=${worker.id})}" 
-		                    th:data-workerName="${worker.name}"
-		                    onsubmit="return verifyDeleteWorker(this.getAttribute('data-workerName'))">
-		                    <button type="submit" class="noStyleBtn"><img th:src="@{/images/delete.png}"  alt="delete.png" /></button>
-		                </form>
+	            <div class="row">
+					<div class="col-sm-1">
+						<div class="row">	
+			                <form method="get" action="#" th:action="@{/deleteWorker/{workerId}(workerId=${worker.id})}" 
+			                    th:data-workerName="${worker.name}"
+			                    onsubmit="return verifyDeleteWorker(this.getAttribute('data-workerName'))">
+			                    <button type="submit" class="noStyleBtn"><img th:src="@{/images/delete.png}"  alt="delete.png" /></button>
+			                </form>
+						</div>
+						<div class="row">
+							<div class="col-sm-1 smallText">Delete</div>
+						</div>
 					</div>
-					<div class="row">
-						<div class="col-sm-1 smallText">Delete</div>
+<!-- 					<div class="col-sm-1"></div> empty for spacing
+ -->					<div class="col-sm-1">
+						<div class="row">
+			                <form method="get" action="#" th:action="@{/editWorker/{workerId}
+			                  (workerId=${worker.id})}">
+			                  <button type="submit" class="noStyleBtn"><img th:src="@{/images/pencil.png}"  alt="pencil.png" /></button>
+			                </form>
+	               		</div>
+						<div class="row">
+							<div class="col-sm-1 smallText">Edit</div>
+						</div>
 					</div>
 				</div>
-				<div class="col-sm-1"></div> <!-- empty for spacing -->
-				<div class="col-sm-1">
-					<div class="row">
-		                <form method="get" action="#" th:action="@{/editWorker/{workerId}
-		                  (workerId=${worker.id})}">
-		                  <button type="submit" class="noStyleBtn"><img th:src="@{/images/pencil.png}"  alt="pencil.png" /></button>
-		                </form>
-               		</div>
-					<div class="row">
-						<div class="col-sm-1 smallText">Edit</div>
-					</div>
-				</div>
-			</div>
             </td>
         </tr>
     </table>

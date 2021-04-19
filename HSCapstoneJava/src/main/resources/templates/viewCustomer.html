@@ -2,7 +2,7 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>View Worker</title>
+<title>View Customers</title>
 <script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
 <link rel="stylesheet" type="text/css" media="all"  href="../static/css/style.css" th:href="@{/css/style.css}" />
 
@@ -41,7 +41,7 @@
 
 </header>
 <body>
-	<h1 class="pageTitle">View Customers</h1>
+	<h1 class="pageTitle">Customers</h1>
 	
 	<div th:if="${addSuccess} == true">
 		<p style="color:green;">Successfully added new Customer!</p>
@@ -71,7 +71,7 @@
 			<th>City</th>
 			<th>Postal</th>
 			<th>Province</th>
-			<th>WorkOrders</th>
+			<th>Action</th>
 		</tr>
 		<tr th:each="cust : ${customerList}">
 			<td th:text="${cust.id}"></td>
