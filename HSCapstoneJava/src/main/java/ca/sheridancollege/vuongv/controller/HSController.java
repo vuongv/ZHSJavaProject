@@ -104,7 +104,7 @@ public class HSController {
 			cust.getWorkOrders().add(workOrder);
 			orderRepo.save(workOrder); //line 85
 			customerRepo.save(cust);
-		return "adminView";
+		return "viewOrder";
 	}
 	// create a seperate saveWork method with parameters line 85
 	@GetMapping("/viewOrder")
