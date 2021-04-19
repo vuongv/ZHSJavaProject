@@ -26,7 +26,6 @@ import ca.sheridancollege.vuongv.repository.OrderRepository;
 import ca.sheridancollege.vuongv.repository.ServiceRepository;
 import ca.sheridancollege.vuongv.repository.WorkerRepository;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 @Controller
 @AllArgsConstructor
@@ -296,7 +295,7 @@ public class HSController {
 				.build();
 		serviceRepo.save(service);
 		model.addAttribute("service", service);
-		return "viewService";
+		return "redirect:/viewService";
 	}
 	@GetMapping("/viewService")
 	public String viewService(Model model) {
@@ -310,8 +309,33 @@ public class HSController {
 		serviceRepo.deleteById(Long.valueOf(serviceId));
 		
 		redirectAttributes.addFlashAttribute("deleteService");
-		return "redirect:/deleteService";
+		return "redirect:/viewService";
 	}
+	@GetMapping("/editService/{serviceId}")
+	public String editService(Model model, @PathVariable String serviceId) {
+		Optional<WorkService> serv = serviceRepo.findById(Long.valueOf(serviceId));
+		model.addAttribute("serv", serv.get());
+		return "editService";
+	}
+	@PostMapping("/editService")
+	public String editService(Model model,  
+		@RequestParam String serviceId,
+		@RequestParam String serviceName,
+		@RequestParam double serviceCost,
+		@RequestParam String serviceDescription, 
+		@RequestParam int serviceDuration ) {
+		Optional<WorkService> serv = serviceRepo.findById(Long.valueOf(serviceId));
+		WorkService service = WorkService.builder()
+				.serviceId(Long.valueOf(serviceId))
+				.serviceName(serviceName)
+				.serviceCost(serviceCost)
+				.serviceDuration(serviceDuration)
+				.serviceDescription(serviceDescription)
+				.build();
+		serviceRepo.save(service);
+		return "redirect:/viewService";
+	}
+	
 
 	@GetMapping("/viewWorker")
 	public String viewWorker(Model model) {
