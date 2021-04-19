@@ -321,29 +321,57 @@ public class HSController {
 		return "redirect:/deleteService";
 	}
 
-	//Failed Methods for testing
-//	
-//	public boolean addCustomer (Customer cust) {
-//		boolean result;
-//		
-//		Customer c = customerRepo.save(cust);
-//		if (c != null) {
-//			result = true;
-//		}else {
-//			result = false;
-//		}
-//		
-//		return result;
-//	}
+	@GetMapping("/viewWorker")
+	public String viewWorker(Model model) {
+		List<WorkWorker> workerList = workerRepo.findAll();
+		model.addAttribute("workerList", workerList);
+		return "viewWorker";
+	}
+
+	@GetMapping("/addWorker")
+	public String addWorker(Model model) {
+
+		return "addWorker";
+	}
+
+	@GetMapping("/deleteWorker/{workerId}")
+	public String deleteWorker(Model model, @PathVariable String workerId, RedirectAttributes redirectAttributes) {
+
+		Optional<WorkWorker> worker = workerRepo.findById(Long.valueOf(workerId));
+		boolean customerResultDelete;
+		redirectAttributes.addFlashAttribute("worker", worker.get());
+
+		/*
+		 * if (worker.get().getWorkOrders().isEmpty()) {
+		 * customerRepo.deleteById(Long.valueOf(customerId)); customerResultDelete =
+		 * true; } else { System.out.println("Cant delete"); customerResultDelete =
+		 * false;
+		 * 
+		 * }
+		 * 
+		 * redirectAttributes.addFlashAttribute("customerResultDelete",
+		 * customerResultDelete);
+		 */
+		return "redirect:/viewWorker";
+	}
 
 	
-//	public boolean getServiceOrderList(WorkService serv) {
-//		boolean result;
-//		if (serv.getOrderList() != null) {
-//			result = true;
-//		}else {
-//			result = false;
-//		}
-//		return result;
-//	}
+	@GetMapping("/editWorker/{workerId}")
+	public String editWorker(Model model, @PathVariable String workerId) {
+		Optional<WorkWorker> worker = workerRepo.findById(Long.valueOf(workerId));
+		
+		model.addAttribute("worker", worker.get());
+		
+		return "editWorker";
+	}
+
+	@PostMapping("/editWorker")
+	public String editCustomer(Model model, @RequestParam String id, @RequestParam String name) {
+		
+		Optional<WorkWorker> oldWorker = workerRepo.findById(Long.valueOf(id));
+		WorkWorker worker = WorkWorker.builder().id(Long.valueOf(id)).name(name).build();
+		workerRepo.save(worker);
+		
+		return "redirect:/viewWorker";
+	}
 }
