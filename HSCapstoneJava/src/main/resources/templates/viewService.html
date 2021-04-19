@@ -84,7 +84,7 @@
 				<div class="col-sm-1"></div> <!-- empty for spacing -->
 				<div class="col-sm-1">
 					<div class="row">
-						<form method="get" action="#" th:action="@{/viewService}">
+						<form method="get" action="#" th:action="@{/editService/{serviceId}(serviceId=${s.serviceId})}">
 							<button class="noStyleBtn"><img th:src="@{/images/pencil.png}"  alt="pencil.png" /></button>
 						</form>
 					</div>
