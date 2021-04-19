@@ -110,7 +110,7 @@
 		   <label for="inputService" class="form-label">Service Type</label>
 		   <select name="orderServiceType" id="inputService" class="form-select" required>
 		     	<option  disabled selected value=""> --Select an option--</option>
-			<option value="Chimney cleaning">Chimney Cleaning</option>
+			<option th:each="service : ${serviceList}" th:value="${service.serviceName}" th:text="${service.serviceName}">Chimney Cleaning</option>
 		   </select>
 		</div>
 		 
@@ -118,7 +118,7 @@
 		   <label for="inputWorker" class="form-label">Worker</label>
 		   <select name="orderWorker" id="inputWorker" class="form-select" required>
 		     	<option  disabled selected value=""> --Select an option--</option>
-			<option value="Kap3">Kap3</option>
+				<option  th:each="worker : ${workerList}" th:value="${worker.name}" th:text="${worker.name}">Kap3</option>
 		   </select>
 		</div>
 		

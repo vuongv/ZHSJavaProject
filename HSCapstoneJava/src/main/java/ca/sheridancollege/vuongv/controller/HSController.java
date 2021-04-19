@@ -50,6 +50,11 @@ public class HSController {
 
 	@GetMapping("/addOrder")
 	public String addOrder_GET(Model model) {
+		List<WorkWorker> workerList = workerRepo.findAll();
+		List<WorkService> serviceList = serviceRepo.findAll();
+		
+		model.addAttribute("workerList", workerList);
+		model.addAttribute("serviceList", serviceList);
 		return "addOrder";
 	}
 	
@@ -71,9 +76,7 @@ public class HSController {
 			@RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.TIME) LocalTime orderAppointmentTime
 			
 			) {
-			WorkService serv = serviceRepo.findByServiceName(orderServiceType);
 			
-			WorkWorker worker = workerRepo.findByName(orderWorker);
 			//Assuming we are always creating a new customer
 			//TODO: Take care of existing customers by checking if exist, if not, create new customer
 			Customer cust = Customer
@@ -94,15 +97,13 @@ public class HSController {
 					.appointmentDate(orderAppointmentDate)
 					.appointmentTime(orderAppointmentTime)
 					.orderCost(BigDecimal.valueOf(Long.valueOf(orderTotal)))
+					.worker(orderWorker)
+					.service(orderServiceType)
 					.build();
 			
-			serv.getOrderList().add(workOrder);
-			worker.getOrderList().add(workOrder);
 			cust.getWorkOrders().add(workOrder);
 			orderRepo.save(workOrder); //line 85
-			workerRepo.save(worker);
 			customerRepo.save(cust);
-			serviceRepo.save(serv);
 		return "adminView";
 	}
 	// create a seperate saveWork method with parameters line 85
@@ -115,18 +116,19 @@ public class HSController {
 		for (WorkOrder order : orderList) {
 			customerList.add(customerRepo.findByWorkOrders_WorkOrderId(order.getWorkOrderId()));
 		}
-		for (WorkOrder order : orderList) {
-			serviceList.add(serviceRepo.findByOrderList_WorkOrderId(order.getWorkOrderId()));
-		}
-		for (WorkOrder order : orderList) {
-			workerList.add(workerRepo.findByOrderList_WorkOrderId(order.getWorkOrderId()));
-		}
+//		for (WorkOrder order : orderList) {
+//			serviceList.add(serviceRepo.findByOrderList_WorkOrderId(order.getWorkOrderId()));
+//		}
+//		for (WorkOrder order : orderList) {
+//			workerList.add(workerRepo.findByOrderList_WorkOrderId(order.getWorkOrderId()));
+//		}
 		model.addAttribute("orderList", orderList);
 		model.addAttribute("customerList", customerList);
 		model.addAttribute("workerList", workerList);
 		model.addAttribute("serviceList", serviceList);
 		return "viewOrder";
 	}
+	
 	@GetMapping("/deleteOrder/{workOrderId}")
 	public String deleteOrder (Model model, @PathVariable String workOrderId, RedirectAttributes redirectAttributes) {
 		RedirectView redirectView= new RedirectView("/viewOrder",true);
@@ -135,11 +137,6 @@ public class HSController {
 		Customer customer = customerRepo.findByWorkOrders_WorkOrderId(Long.valueOf(workOrderId));
 		boolean customerResultDelete = customer.getWorkOrders().remove(order.get());
 		
-		WorkWorker worker = workerRepo.findByOrderList_WorkOrderId(Long.valueOf(workOrderId));
-		boolean workerResultDelete = worker.getOrderList().remove(order.get());
-		
-		WorkService service = serviceRepo.findByOrderList_WorkOrderId(Long.valueOf(workOrderId));
-		boolean serviceResultDelete = service.getOrderList().remove(order.get());
 		
 		orderRepo.deleteById(Long.valueOf(workOrderId));
 		//Optional<WorkOrder> deletedOrder = orderRepo.findById(order.get().getWorkOrderId());
@@ -183,21 +180,17 @@ public class HSController {
 		return "redirect:/viewCustomer";
 	}
 	
-	@GetMapping("/editOrder/{workOrderId}/{customerId}/{workerId}/{serviceId}")
-	public String editOrder(Model model, @PathVariable String workOrderId, 
-			@PathVariable String customerId,
-			@PathVariable String workerId,
-			@PathVariable String serviceId) {
+	@GetMapping("/editOrder/{customerId}/{workOrderId}")
+	public String editOrder(Model model, @PathVariable Long workOrderId, 
+			@PathVariable String customerId) {
 		Optional<WorkOrder> order = orderRepo.findById(Long.valueOf(workOrderId));
 		Optional<Customer> cust = customerRepo.findById(Long.valueOf(customerId));
-		Optional<WorkService> serv = serviceRepo.findById(Long.valueOf(serviceId));
-		Optional<WorkWorker> worker = workerRepo.findById(Long.valueOf(workerId));
+		List<WorkWorker> workerList = workerRepo.findAll();
 		List<WorkService> serviceList = serviceRepo.findAll();
 		
 		model.addAttribute("order", order.get());
 		model.addAttribute("cust", cust.get());
-		model.addAttribute("serv", serv.get());
-		model.addAttribute("worker", worker.get());
+		model.addAttribute("workerList", workerList);
 		model.addAttribute("serviceList", serviceList);
 		
 		return "editOrder";
@@ -314,7 +307,6 @@ public class HSController {
 	@GetMapping("/deleteService/{serviceId}")
 	public String deleteService (Model model, @PathVariable String serviceId, RedirectAttributes redirectAttributes ) {
 		RedirectView redirectView = new RedirectView("/viewService",true);
-//		List<WorkOrder> orderListServiceRemoved = orderRepo.find
 		serviceRepo.deleteById(Long.valueOf(serviceId));
 		
 		redirectAttributes.addFlashAttribute("deleteService");

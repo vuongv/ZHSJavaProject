@@ -41,7 +41,8 @@
 	  </div>
 	</nav>
 </header>
-<body th:data-dropdown="${serv.serviceName}" onload="setDrop(this.getAttribute('data-dropdown'))">
+<!-- <body th:data-dropdown="${serv.serviceName}" onload="setDrop(this.getAttribute('data-dropdown'))"> -->
+<body>
 	
 	<h1 class="pageTitle">Edit Order</h1>
 
@@ -112,17 +113,17 @@
 		 <div></div>
 		<div class="col-md-4">
 		   <label for="inputService" class="form-label">Service Type</label>
-		   <select name="orderServiceType" id="inputService" class="form-select" required>
-		     	<option  disabled selected value=""> --Select an option--</option>
-			<option value="Chimney cleaning">Chimney Cleaning</option>
-		   </select>
+		   	 <select name="orderServiceType" id="inputService" class="form-select" required>
+				<option th:each="service : ${serviceList}" th:value="${service.serviceName}" th:text="${service.serviceName}"
+				th:selected="${ order.service == service.serviceName}">Chimney Cleaning</option>
+		  	 </select>
 		</div>
 		 
 		<div class="col-md-4">
 		   <label for="inputWorker" class="form-label">Worker</label>
 		   <select name="orderWorker" id="inputWorker" class="form-select" required>
-		     	<option  disabled selected value=""> --Select an option--</option>
-			<option value="Kap3">Kap3</option>
+				<option  th:each="worker : ${workerList}" th:value="${worker.name}" th:text="${worker.name}"
+				th:selected="${ order.worker == worker.name}">Kap3</option>
 		   </select>
 		</div>
 		
