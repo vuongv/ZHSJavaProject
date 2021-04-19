@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+
+<script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
+<link rel="stylesheet" type="text/css" media="all"  href="../static/css/style.css" th:href="@{/css/style.css}" />
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+
+<title>Edit Order</title>
+</head>
+
+<header>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<!-- 	<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;"> -->
+	  <div class="container-fluid">
+	    <a class="navbar-brand" href="#">ZSH</a>
+	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
+	    <div class="collapse navbar-collapse" id="navbarNav">
+	      <ul class="navbar-nav">
+	        <li class="nav-item">
+	          <a class="nav-link"  href="/">Home</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link active" aria-current="page" href="/viewOrder">Order</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link" href="/viewService">Service</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link" href="/viewWorker">Worker</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link" href="/viewCustomer">Customer</a>
+	        </li>	        
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+</header>
+<!-- <body th:data-dropdown="${serv.serviceName}" onload="setDrop(this.getAttribute('data-dropdown'))"> -->
+<body>
+	
+	<h1 class="pageTitle">Edit Order</h1>
+
+	<h1 id="testtt"></h1>
+	
+	<div class="card">
+	
+	<h3 class="card-header">Edit a Work Order</h3>
+	
+	
+	<form method="post" class="row g-3 addOrderStyle" >
+	
+		<input type="hidden" name="id"/>
+		
+		<div class="col-md-6">
+		   <label for="nameInput" class="form-label" >Customer Name</label>
+		   <input type="text" th:value="${cust.name}" name="customerName" id="nameInput" class="form-control" placeholder="First name" aria-label="First name" required>
+		</div>
+		 <br>
+		<div class="col-md-6">
+		 	<label for="emailInput" class="form-label">Email</label>
+		   <input type="text" th:value="${cust.email}" name="customerEmail" id="emailInput" class="form-control" placeholder="Email" aria-label="Email" required>
+		</div>
+		 <div></div>
+		<div class="col-md-6">
+		   <label for="homephoneInput" class="form-label" >Home Phone</label>
+		   <input type="tel" th:value="${cust.homePhone}" name="customerHomePhone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="123-456-7890" id="homephoneInput" class="form-control" aria-label="Home Phone" required>
+		</div>
+		 
+		<div class="col-md-6">
+		 	<label for="cellphoneInput" class="form-label">Cell Phone</label>
+		   <input type="tel" th:value="${cust.cellPhone}" name="customerCellPhone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="123-456-7890" id="cellphoneInput" class="form-control" aria-label="Cell Phone">
+		</div>
+		<div></div>
+		<div class="col-md-4">
+		   <label for="inputAddress" class="form-label">Address</label>
+		   <input type="text" th:value="${cust.address}" name="customerAddress" class="form-control" id="inputAddress" placeholder="1234 Main St" required>
+		</div>
+		
+		<div class="col-md-3">
+		   <label for="inputCity" class="form-label">City</label>
+		   <input type="text" th:value="${cust.city}" name="customerCity"  class="form-control" id="inputCity" placeholder="City" required>
+		</div>
+		 
+		<div class="col-md-3">
+		   <label for="inputState" class="form-label">Province</label>
+		   <select name="customerProvince" id="inputState" class="form-select" required>
+		   				<option value="AB" th:selected="${cust.province == 'Alberta'}">Alberta</option>
+					    <option value="BC" th:selected="${cust.province == 'British Columbia'}">British Columbia</option>
+					    <option value="MB" th:selected="${cust.province == 'Manitoba'}">Manitoba</option>
+					    <option value="NB" th:selected="${cust.province == 'New Brunswick'}">New Brunswick</option>
+					    <option value="NL" th:selected="${cust.province == 'Newfoundland and Labrador'}">Newfoundland and Labrador</option>
+					    <option value="NS" th:selected="${cust.province == 'Nova Scotia'}">Nova Scotia</option>
+					    <option value="ON" th:selected="${cust.province == 'Ontario'}">Ontario</option>
+					    <option value="PE" th:selected="${cust.province == 'Prince Edward Island'}">Prince Edward Island</option>
+					    <option value="QC" th:selected="${cust.province == 'Quebec'}">Quebec</option>
+					    <option value="SK" th:selected="${cust.province == 'Saskatchewan'}">Saskatchewan</option>
+					    <option value="NT" th:selected="${cust.province == 'Northwest Territories'}">Northwest Territories</option>
+					    <option value="NU" th:selected="${cust.province == 'Nunavut'}">Nunavut</option>
+					    <option value="YT" th:selected="${cust.province == 'Yukon'}">Yukon</option>
+		   </select>
+		</div>
+		 
+		<div class="col-md-2">
+		   <label  for="inputZip" class="form-label">Postal Code</label>
+		   <input type="text" th:value="${cust.postal}" name="customerPostal" class="form-control" id="inputZip" pattern="[A-Za-z][0-9][A-Za-z][0-9][A-Za-z][0-9]" placeholder="A1A1A1" required>
+		</div>
+		 <div></div>
+		<div class="col-md-4">
+		   <label for="inputService" class="form-label">Service Type</label>
+		   	 <select name="orderServiceType" id="inputService" class="form-select" required>
+				<option th:each="service : ${serviceList}" th:value="${service.serviceName}" th:text="${service.serviceName}"
+				th:selected="${ order.service == service.serviceName}">Chimney Cleaning</option>
+		  	 </select>
+		</div>
+		 
+		<div class="col-md-4">
+		   <label for="inputWorker" class="form-label">Worker</label>
+		   <select name="orderWorker" id="inputWorker" class="form-select" required>
+				<option  th:each="worker : ${workerList}" th:value="${worker.name}" th:text="${worker.name}"
+				th:selected="${ order.worker == worker.name}">Kap3</option>
+		   </select>
+		</div>
+		
+		<div class="col-md-4">
+		   <label  for="inputTotal" class="form-label">Invoice Total ($)</label>
+		   <input type="number" name="orderTotal" class="form-control" id="inputTotal" required>
+		</div>
+		 <div></div>
+		<div class="col-md-6">
+		   <label  for="inputDate" class="form-label">Appointment Date</label>
+		   <input type="date" name="orderAppointmentDate" class="form-control" id="inputDate" required>
+		</div>
+		
+		<div class="col-md-6">
+		   <label  for="inputTime" class="form-label">Appointment Time</label>
+		   <input type="time" name="orderAppointmentTime" class="form-control" id="inputTime" required>
+		</div>
+		
+		<div class="col text-center">
+			<button type="submit" class="btn btn-warning">Edit Order</button>
+		</div>
+			
+	</form>
+	
+	</div>
+		<br>
+	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+		<a href="/viewOrder" th:href="@{/viewOrder}" class="btn btn-info" role="button">View Orders</a>
+	</div>
+	
+	
+	
+	<!-- <form method="post">
+	<input type="hidden" name="id"/>
+	<table style="border-spacing: 10px;" class="center">
+		<tr>
+			<td>
+				<table>
+					<tr>
+					<td style="min-width:150px;">Customer Name:</td>
+					<td ><input type="text" name="customerName" required width="48" th:value="${cust.name}"/></td>
+					</tr>
+				</table>
+
+			</td>
+			<td>
+				<table>
+					<tr>
+					<td style="min-width:150px;">Email:</td>
+					<td ><input type="email" name="customerEmail" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}" 
+					th:value=${cust.email}/></td>
+					</tr>
+				</table>
+			</td>
+		<tr>
+			<td>
+				<table>
+					<tr>
+					<td >Home Phone:</td>
+					<td><input type="tel" name="customerHomePhone" required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" 
+					placeholder="123-456-7890" th:value="${cust.homePhone}"/></td>
+					</tr>
+				</table>
+
+			</td>
+			<td>
+				<table>
+					<tr>
+					<td>Cell Phone:</td>
+					<td><input type="tel" name="customerCellPhone" placeholder="123-456-7890"
+					th:value="${cust.cellPhone}"/></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			
+		</tr>
+		<tr>
+			<td>
+				<table>
+					<tr>
+					<td >Address:</td>
+					<td><input type="text" name="customerAddress" required th:value="${cust.address}"/></td>
+					</tr>
+				</table>
+
+			</td>
+			<td>
+				<table>
+					<tr>
+					<td>City:</td>
+					<td><input type="text" name="customerCity" required th:value="${cust.city}"/></td>
+					</tr>
+				</table>
+			</td>
+			<td>
+				<table>
+					<tr>
+					<td>Postal Code:</td>
+					<td><input type="text" name="customerPostal" required pattern="[A-Za-z][0-9][A-Za-z][0-9][A-Za-z][0-9]" 
+					placeholder="A1A1A1" th:value="${cust.postal}"/></td>
+					</tr>
+				</table>
+
+			</td>
+			<td>
+				<table>
+					<tr>
+					<td>Province:</td>
+					<td><select name="customerProvince" required>
+					    <option value="AB" th:selected="${cust.province == 'Alberta'}">Alberta</option>
+					    <option value="BC" th:selected="${cust.province == 'British Columbia'}">British Columbia</option>
+					    <option value="MB" th:selected="${cust.province == 'Manitoba'}">Manitoba</option>
+					    <option value="NB" th:selected="${cust.province == 'New Brunswick'}">New Brunswick</option>
+					    <option value="NL" th:selected="${cust.province == 'Newfoundland and Labrador'}">Newfoundland and Labrador</option>
+					    <option value="NS" th:selected="${cust.province == 'Nova Scotia'}">Nova Scotia</option>
+					    <option value="ON" th:selected="${cust.province == 'Ontario'}">Ontario</option>
+					    <option value="PE" th:selected="${cust.province == 'Prince Edward Island'}">Prince Edward Island</option>
+					    <option value="QC" th:selected="${cust.province == 'Quebec'}">Quebec</option>
+					    <option value="SK" th:selected="${cust.province == 'Saskatchewan'}">Saskatchewan</option>
+					    <option value="NT" th:selected="${cust.province == 'Northwest Territories'}">Northwest Territories</option>
+					    <option value="NU" th:selected="${cust.province == 'Nunavut'}">Nunavut</option>
+					    <option value="YT" th:selected="${cust.province == 'Yukon'}">Yukon</option>
+					</select></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td>Service Type: </td>
+			<td>
+				<div>
+					<select name="orderServiceType" id="orderServiceType" required>
+					<option  disabled selected value=""> --Select an option--</option>
+					<option value="Chimney cleaning">Chimney Cleaning</option>
+				</select>
+				</div>
+				
+			</td>
+		</tr>
+		<tr>
+			<td>Worker: </td>
+			<td>
+				<select name="orderWorker" required >
+					<option  disabled selected value=""> --Select an option--</option>
+					<option value="Kap3">Kap3</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Invoice Total ($):</td>
+			<td><input type="number" name="orderTotal" required/></td>
+		</tr>
+		<tr>
+			<td>Appointment Date:</td>
+			<td><input type="date" name="orderAppointmentDate" required/></td>
+		</tr>
+		<tr>
+			<td>Appointment Time:</td>
+			<td><input type="time" name="orderAppointmentTime" required/></td>
+		</tr>
+		<tr>
+			<td colspan="2"><input type="submit" value="ADD ORDER"></td>
+		<tr>
+	</table>	
+		
+	</form> -->
+	
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+</body>
+</html>

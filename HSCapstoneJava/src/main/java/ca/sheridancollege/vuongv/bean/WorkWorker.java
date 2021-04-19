@@ -25,6 +25,4 @@ public class WorkWorker {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
-	@OneToMany (cascade = CascadeType.ALL)
-	private List<WorkOrder> orderList = new ArrayList<WorkOrder>();
 }

@@ -2,7 +2,7 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Add Service</title>
+<title>Edit Worker</title>
 <script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
 <link rel="stylesheet" type="text/css" media="all"  href="../static/css/style.css" th:href="@{/css/style.css}" />
 
@@ -25,11 +25,11 @@
 	        <li class="nav-item">
 	          <a class="nav-link" href="/viewOrder">Order</a>
 	        </li>
-	         <li class="nav-item">
-	          <a class="nav-link active" aria-current="page" href="/viewService">Service</a>
+	        <li class="nav-item">
+	          <a class="nav-link" href="/viewService">Service</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="/viewWorker">Worker</a>
+	          <a class="nav-link active" aria-current="page" href="/viewWorker">Worker</a>
 	        </li>
 	        <li class="nav-item">
 	          <a class="nav-link" href="/viewCustomer">Customer</a>
@@ -38,62 +38,43 @@
 	    </div>
 	  </div>
 	</nav>
+
 </header>
 <body>
-<div th:if="${service == true}">
-Successfully added [[${service.serviceName}]]
-</div>
 
-<br>
+	
+	<h1 class="pageTitle">Edit Worker</h1>
+
 	<div class="card">
 	
-	<h3 class="card-header">Add a new Service</h3>
+	<h3 class="card-header">Edit a Worker</h3>
 	
 	
-	<form method="post" class="row g-3 addOrderStyle" >
+	<form method="post" th:action="@{/editWorker}" class="row g-3 addOrderStyle" >
 	
-		<input type="hidden" name="id"/>
+		<input type="hidden" name="id" th:value="${worker.id}"/>
 		
-		
-		<div class="col-md-6">
-		   <label for="serviceInput" class="form-label" >Service Name</label>
-		   <input type="text" name="serviceName" id="serviceInput" class="form-control" placeholder="Service name" aria-label="First name" required>
+		<div class="col-md-12">
+		   <label for="nameInput" class="form-label" >Name</label>
+		   <input type="text" th:value="${worker.name}" name="name" id="nameInput" class="form-control" placeholder="Full name" aria-label="Full name" required>
 		</div>
-		
-		<div class="col-md-6">
-		   <label  for="costInput" class="form-label">Service Cost ($)</label>
-		   <input type="number" name="serviceCost" class="form-control" id="costInput" required>
-		</div>
-		
+		 <br>
+			
 		<div></div>
 		 
-		<div class="form-floating">
-			<p>Service Description</p>
-		  <textarea class="form-control" name="serviceDescription" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-<!-- 		  <label for="floatingTextarea2">Service Description</label> -->		
+		 <div class="col text-center">
+			<button type="submit" class="btn btn-warning">Edit Customer</button>
 		</div>
-
-		<div class="col-md-12">
-		 	<label for="durationInput" class="form-label">Service Duration</label>
-		   <input type="number" name="serviceDuration" id="durationInput" class="form-control" placeholder="Duration" required>
-		</div>
-		
-		 <div></div>
-
-		
-		<div class="col text-center">
-			<button type="submit" class="btn btn-info">Add Service</button>
-		</div>
-			
 	</form>
 	
 	</div>
-	
-	<br>
+		<br>
 	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-		<a href="/viewOrder" th:href="@{/viewService}" class="btn btn-info" role="button">View Services</a>
+		<a href="/viewCustomer" th:href="@{/viewCustomer}" class="btn btn-info" role="button">View Workers</a>
 	</div>
-	
+
+			
+			
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 </body>
 </html>

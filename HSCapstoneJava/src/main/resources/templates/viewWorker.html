@@ -2,7 +2,7 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>View Service</title>
+<title>Add Worker</title>
 <script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
 <link rel="stylesheet" type="text/css" media="all"  href="../static/css/style.css" th:href="@{/css/style.css}" />
 
@@ -25,11 +25,11 @@
 	        <li class="nav-item">
 	          <a class="nav-link" href="/viewOrder">Order</a>
 	        </li>
-	         <li class="nav-item">
-	          <a class="nav-link active" aria-current="page" href="/viewService">Service</a>
+	        <li class="nav-item">
+	          <a class="nav-link" href="/viewService">Service</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="/viewWorker">Worker</a>
+	          <a class="nav-link active" aria-current="page" href="/viewWorker">Worker</a>
 	        </li>
 	        <li class="nav-item">
 	          <a class="nav-link" href="/viewCustomer">Customer</a>
@@ -38,44 +38,46 @@
 	    </div>
 	  </div>
 	</nav>
+
 </header>
 <body>
-
-	<h1 class="pageTitle">Service</h1>
+	<h1 class="pageTitle">View Workers</h1>
 	
-	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-		<a href="/addOrder" th:href="@{/addService}" class="btn btn-info" role="button">Add Service</a>
+	<div th:if="${addSuccess} == true">
+		<p style="color:green;">Successfully added new Worker!</p>
+	</div>
+	<div th:if ="${customerResultDelete == true}">
+		<p style="color:green;">Successfully deleted [[${cust.name}]]</p>
+	</div>
+	<div th:if ="${customerResultDelete == false}">
+		<p style="color:red;">Couldn't delete [[${cust.name}]], You must delete his work orders first!</p>
+	</div>
+
+    
+   	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+	<a href="#" th:href="@{/addWorker}" class="btn btn-info" role="button">Add Worker</a>
 	</div>
 	
 	<br>
-	
-	<div th:if="${service == true}">
-		Successfully added [[${service.serviceName}]]
-	</div>
-
-	<table th:if="${serviceList != null and !serviceList.empty}" class="table table-striped">
-		<tr class="table-info">
-			<th>Service Id</th>
-			<th>Name</th>
-			<th>Cost</th>
-			<th>Description</th>
-			<th>Duration</th>
-			<th>Action</th>
-		</tr>
-		<tr th:each="s : ${serviceList}">
-			<td th:text="${s.serviceId}"></td>
-			<td th:text="${s.serviceName}"></td>
-			<td th:text="'$'+${s.serviceCost}"></td>
-			<td th:text="${s.serviceDescription}"></td>
-			<td th:text="${s.serviceDuration}"></td>
-			<td>
-			
-			<div class="row">
+    
+    <table class="table table-striped">
+        <tr class="table-info">
+            <th>Id</th>
+            <th>Name</th>
+            <th>Action</th>
+        </tr>
+        <tr th:each="worker : ${workerList}">
+            <td th:text="${worker.id}"></td>
+            <td th:text="${worker.name}"></td>
+            <td>
+            <div class="row">
 				<div class="col-sm-1">
-					<div class="row">
-						<form method="get" action="#" th:action="@{/deleteService/{serviceId}(serviceId=${s.serviceId})}">
-							<button class="noStyleBtn"><img th:src="@{/images/delete.png}"  alt="delete.png" /></button>
-						</form>
+					<div class="row">	
+		                <form method="get" action="#" th:action="@{/deleteWorker/{workerId}(workerId=${worker.id})}" 
+		                    th:data-workerName="${worker.name}"
+		                    onsubmit="return verifyDeleteWorker(this.getAttribute('data-workerName'))">
+		                    <button type="submit" class="noStyleBtn"><img th:src="@{/images/delete.png}"  alt="delete.png" /></button>
+		                </form>
 					</div>
 					<div class="row">
 						<div class="col-sm-1 smallText">Delete</div>
@@ -84,20 +86,19 @@
 				<div class="col-sm-1"></div> <!-- empty for spacing -->
 				<div class="col-sm-1">
 					<div class="row">
-						<form method="get" action="#" th:action="@{/viewService}">
-							<button class="noStyleBtn"><img th:src="@{/images/pencil.png}"  alt="pencil.png" /></button>
-						</form>
-					</div>
+		                <form method="get" action="#" th:action="@{/editWorker/{workerId}
+		                  (workerId=${worker.id})}">
+		                  <button type="submit" class="noStyleBtn"><img th:src="@{/images/pencil.png}"  alt="pencil.png" /></button>
+		                </form>
+               		</div>
 					<div class="row">
 						<div class="col-sm-1 smallText">Edit</div>
 					</div>
 				</div>
 			</div>
-		
-			</td>
-		</tr>
-	</table>
-	
+            </td>
+        </tr>
+    </table>
 	
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 </body>
