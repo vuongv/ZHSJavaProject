@@ -21,6 +21,7 @@ function verifyDeleteCust(x) {
 		return false;
 	}
 }
+
 function verifyDeleteService(x){
 	var x = confirm("Are you sure you would like to delete service: " + x);
 	if (x == true){

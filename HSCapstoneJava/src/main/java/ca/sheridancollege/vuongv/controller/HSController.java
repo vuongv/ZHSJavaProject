@@ -390,7 +390,7 @@ public class HSController {
 				.build();
 
 		for(WorkOrder w : relatedWorkOrder) {
-			w.setWorker(serviceName);
+			w.setService(serviceName);
 			orderRepo.save(w);
 		}
 		
