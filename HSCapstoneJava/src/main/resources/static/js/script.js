@@ -21,6 +21,15 @@ function verifyDeleteCust(x) {
 	}
 
 }
+function verifyDeleteService(x){
+	var x = confirm("Are you sure you would like to delete service: " + x);
+	if (x == true){
+		return true;	
+	}else{
+		return false;
+	}
+}
+
 
 /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
 function myFunction() {
