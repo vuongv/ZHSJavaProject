@@ -26,7 +26,6 @@ import ca.sheridancollege.vuongv.repository.OrderRepository;
 import ca.sheridancollege.vuongv.repository.ServiceRepository;
 import ca.sheridancollege.vuongv.repository.WorkerRepository;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 @Controller
 @AllArgsConstructor
@@ -36,10 +35,9 @@ public class HSController {
 	private CustomerRepository customerRepo;
 	private WorkerRepository workerRepo;
 	
-	//Cannot create Junit test since we are unable to instantiate type Model. Spring boot handles this.
 	@GetMapping("/")
 	public String index(Model model) { 
-		return "index";
+		return "adminView";
 	}
 	
 	@GetMapping("/adminView")
@@ -49,6 +47,11 @@ public class HSController {
 
 	@GetMapping("/addOrder")
 	public String addOrder_GET(Model model) {
+		List<WorkWorker> workerList = workerRepo.findAll();
+		List<WorkService> serviceList = serviceRepo.findAll();
+		
+		model.addAttribute("workerList", workerList);
+		model.addAttribute("serviceList", serviceList);
 		return "addOrder";
 	}
 	
@@ -70,9 +73,7 @@ public class HSController {
 			@RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.TIME) LocalTime orderAppointmentTime
 			
 			) {
-			WorkService serv = serviceRepo.findByServiceName(orderServiceType);
 			
-			WorkWorker worker = workerRepo.findByName(orderWorker);
 			//Assuming we are always creating a new customer
 			//TODO: Take care of existing customers by checking if exist, if not, create new customer
 			Customer cust = Customer
@@ -93,16 +94,14 @@ public class HSController {
 					.appointmentDate(orderAppointmentDate)
 					.appointmentTime(orderAppointmentTime)
 					.orderCost(BigDecimal.valueOf(Long.valueOf(orderTotal)))
+					.worker(orderWorker)
+					.service(orderServiceType)
 					.build();
 			
-			serv.getOrderList().add(workOrder);
-			worker.getOrderList().add(workOrder);
 			cust.getWorkOrders().add(workOrder);
 			orderRepo.save(workOrder); //line 85
-			workerRepo.save(worker);
 			customerRepo.save(cust);
-			serviceRepo.save(serv);
-		return "adminView";
+		return "viewOrder";
 	}
 	// create a seperate saveWork method with parameters line 85
 	@GetMapping("/viewOrder")
@@ -114,18 +113,19 @@ public class HSController {
 		for (WorkOrder order : orderList) {
 			customerList.add(customerRepo.findByWorkOrders_WorkOrderId(order.getWorkOrderId()));
 		}
-		for (WorkOrder order : orderList) {
-			serviceList.add(serviceRepo.findByOrderList_WorkOrderId(order.getWorkOrderId()));
-		}
-		for (WorkOrder order : orderList) {
-			workerList.add(workerRepo.findByOrderList_WorkOrderId(order.getWorkOrderId()));
-		}
+//		for (WorkOrder order : orderList) {
+//			serviceList.add(serviceRepo.findByOrderList_WorkOrderId(order.getWorkOrderId()));
+//		}
+//		for (WorkOrder order : orderList) {
+//			workerList.add(workerRepo.findByOrderList_WorkOrderId(order.getWorkOrderId()));
+//		}
 		model.addAttribute("orderList", orderList);
 		model.addAttribute("customerList", customerList);
 		model.addAttribute("workerList", workerList);
 		model.addAttribute("serviceList", serviceList);
 		return "viewOrder";
 	}
+	
 	@GetMapping("/deleteOrder/{workOrderId}")
 	public String deleteOrder (Model model, @PathVariable String workOrderId, RedirectAttributes redirectAttributes) {
 		RedirectView redirectView= new RedirectView("/viewOrder",true);
@@ -134,11 +134,6 @@ public class HSController {
 		Customer customer = customerRepo.findByWorkOrders_WorkOrderId(Long.valueOf(workOrderId));
 		boolean customerResultDelete = customer.getWorkOrders().remove(order.get());
 		
-		WorkWorker worker = workerRepo.findByOrderList_WorkOrderId(Long.valueOf(workOrderId));
-		boolean workerResultDelete = worker.getOrderList().remove(order.get());
-		
-		WorkService service = serviceRepo.findByOrderList_WorkOrderId(Long.valueOf(workOrderId));
-		boolean serviceResultDelete = service.getOrderList().remove(order.get());
 		
 		orderRepo.deleteById(Long.valueOf(workOrderId));
 		//Optional<WorkOrder> deletedOrder = orderRepo.findById(order.get().getWorkOrderId());
@@ -154,34 +149,327 @@ public class HSController {
 		}
 		redirectAttributes.addFlashAttribute("deletedOrder", order.get());
 		//model.addAttribute("deletedOrder",order.get());
-	
+		
 		
 		return "redirect:/viewOrder";
 	}
 	
-	//Failed Methods for testing
-//	
-//	public boolean addCustomer (Customer cust) {
-//		boolean result;
-//		
-//		Customer c = customerRepo.save(cust);
-//		if (c != null) {
-//			result = true;
-//		}else {
-//			result = false;
-//		}
-//		
-//		return result;
-//	}
+	@GetMapping("/deleteCustomer/{customerId}")
+	public String deleteCustomer(Model model, @PathVariable String customerId, RedirectAttributes redirectAttributes) {
+		Optional<Customer> cust = customerRepo.findById(Long.valueOf(customerId));
+		boolean customerResultDelete;
+		redirectAttributes.addFlashAttribute("cust", cust.get());
 
+		
+		if (cust.get().getWorkOrders().isEmpty()) {
+			customerRepo.deleteById(Long.valueOf(customerId));
+			customerResultDelete = true;
+		}
+		else {
+			System.out.println("Cant delete");
+			customerResultDelete = false;
+
+		}
+		
+		redirectAttributes.addFlashAttribute("customerResultDelete", customerResultDelete);
+		
+		
+		return "redirect:/viewCustomer";
+	}
 	
-//	public boolean getServiceOrderList(WorkService serv) {
-//		boolean result;
-//		if (serv.getOrderList() != null) {
-//			result = true;
-//		}else {
-//			result = false;
-//		}
-//		return result;
-//	}
+	@GetMapping("/editOrder/{customerId}/{workOrderId}")
+	public String editOrder(Model model, @PathVariable Long workOrderId, 
+			@PathVariable String customerId) {
+		Optional<WorkOrder> order = orderRepo.findById(Long.valueOf(workOrderId));
+		Optional<Customer> cust = customerRepo.findById(Long.valueOf(customerId));
+		List<WorkWorker> workerList = workerRepo.findAll();
+		List<WorkService> serviceList = serviceRepo.findAll();
+		
+		model.addAttribute("order", order.get());
+		model.addAttribute("cust", cust.get());
+		model.addAttribute("workerList", workerList);
+		model.addAttribute("serviceList", serviceList);
+		
+		return "editOrder";
+	}
+	
+	@PostMapping("/editOrder/{customerId}/{workOrderId}")
+	public String editOrder(Model model, @PathVariable Long workOrderId, 
+			@PathVariable String customerId,
+			@RequestParam String customerName,
+			@RequestParam String customerEmail,
+			@RequestParam String customerHomePhone,
+			@RequestParam String customerCellPhone,
+			@RequestParam String customerAddress,
+			@RequestParam String customerCity,
+			@RequestParam String customerPostal,
+			@RequestParam String customerProvince,
+			@RequestParam String orderServiceType,
+			@RequestParam String orderWorker,
+			@RequestParam String orderTotal,
+			@RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate orderAppointmentDate,
+			@RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.TIME) LocalTime orderAppointmentTime) {
+		Optional<WorkOrder> oldOrder = orderRepo.findById(Long.valueOf(workOrderId));
+		Optional<Customer> oldCust = customerRepo.findById(Long.valueOf(customerId));
+		WorkOrder order = WorkOrder.builder().workOrderId(workOrderId)
+				.appointmentDate(orderAppointmentDate)
+				.appointmentTime(orderAppointmentTime)
+				.orderCost(new BigDecimal(orderTotal))
+				.worker(orderWorker)
+				.service(orderServiceType).build();
+		Customer cust = Customer.builder().id(Long.valueOf(customerId))
+				.name(customerName)
+				.email(customerEmail)
+				.homePhone(customerHomePhone)
+				.cellPhone(customerCellPhone)
+				.address(customerAddress)
+				.city(customerCity)
+				.postal(customerPostal)
+				.province(customerProvince)
+				.workOrders(oldCust.get().getWorkOrders())
+				.build();
+		
+		customerRepo.save(cust);
+		orderRepo.save(order);
+		
+		return "redirect:/viewOrder";
+	}
+	
+	@GetMapping("/editCustomer/{customerId}")
+	public String editCustomer(Model model, @PathVariable String customerId) {
+		Optional<Customer> cust = customerRepo.findById(Long.valueOf(customerId));
+		
+		model.addAttribute("cust", cust.get());
+		
+		return "editCustomer";
+	}
+	
+	@PostMapping("/editCustomer")
+	public String editCustomer(Model model, @RequestParam String id,
+			@RequestParam String name,
+			@RequestParam String email,
+			@RequestParam String homePhone,
+			@RequestParam String cellPhone,
+			@RequestParam String address,
+			@RequestParam String city,
+			@RequestParam String postal,
+			@RequestParam String province) {
+		Optional<Customer> oldCust = customerRepo.findById(Long.valueOf(id));
+		Customer cust = Customer.builder().id(Long.valueOf(id)).name(name).email(email)
+				.homePhone(homePhone).cellPhone(cellPhone).address(address).city(city)
+				.postal(postal).province(province).workOrders(oldCust.get().getWorkOrders()).build();
+		customerRepo.save(cust);
+		
+		return "redirect:/viewCustomer";
+	}
+	
+	@GetMapping("/viewCustomer")
+	public String viewCustomer(Model model) {
+		List<Customer> customerList = customerRepo.findAll();
+		
+		model.addAttribute("customerList", customerList);
+		
+		return "viewCustomer";
+	}
+	@GetMapping("/addCustomer")
+	public String addCustomer(Model model){
+		
+		return "addCustomer";
+	}
+	
+	@PostMapping("/addCustomer")
+	public String addCustomer(Model model, 
+			@RequestParam String name,
+			@RequestParam String email,
+			@RequestParam String homePhone,
+			@RequestParam String cellPhone,
+			@RequestParam String address,
+			@RequestParam String city,
+			@RequestParam String postal,
+			@RequestParam String province,
+			RedirectAttributes redirectAttributes) {
+		Boolean addSuccess;
+		
+		Customer cust = Customer
+				.builder()
+				.name(name)
+				.email(email)
+				.homePhone(homePhone)
+				.cellPhone(cellPhone)
+				.address(address)
+				.city(city)
+				.postal(postal)
+				.province(province)
+				.workOrders(new ArrayList<WorkOrder>())
+				.build();
+		
+		Customer addedCust = customerRepo.save(cust);
+		
+		if (addedCust != null) {
+			addSuccess = true;
+		}
+		else {
+			addSuccess = false;
+		}
+		redirectAttributes.addFlashAttribute("addSuccess", addSuccess);
+		
+		return "redirect:/viewCustomer";
+	}
+	
+	@GetMapping("/addService")
+	public String addService_GET(Model model) {
+		return "addService";
+	}
+	
+	@PostMapping("/addService")
+	public String addService_POST(Model model,
+			@RequestParam String serviceName,
+			@RequestParam double serviceCost,
+			@RequestParam String serviceDescription,
+			@RequestParam int serviceDuration) {
+		
+		if(serviceRepo.existsByServiceName(serviceName)) {
+			
+			model.addAttribute("duplicate", "Sorry, this Service already exists, please enter a new service");
+			return "addService";
+	    }
+		
+		WorkService service = WorkService
+				.builder()
+				.serviceName(serviceName)
+				.serviceCost(serviceCost)
+				.serviceDescription(serviceDescription)
+				.serviceDuration(serviceDuration)
+				.build();
+		serviceRepo.save(service);
+		model.addAttribute("service", service);
+		return "redirect:/viewService";
+	}
+	
+	@GetMapping("/viewService")
+	public String viewService(Model model) {
+		List<WorkService> serviceList = serviceRepo.findAll();
+		model.addAttribute("serviceList", serviceList);
+		return "viewService";
+	}
+	
+	@GetMapping("/deleteService/{serviceId}")
+	public String deleteService (Model model, @PathVariable String serviceId, RedirectAttributes redirectAttributes ) {
+		RedirectView redirectView = new RedirectView("/viewService",true);
+		serviceRepo.deleteById(Long.valueOf(serviceId));
+		
+		redirectAttributes.addFlashAttribute("deleteService");
+		return "redirect:/viewService";
+	}
+	
+	@GetMapping("/editService/{serviceId}")
+	public String editService(Model model, @PathVariable String serviceId) {
+		Optional<WorkService> serv = serviceRepo.findById(Long.valueOf(serviceId));
+		model.addAttribute("serv", serv.get());
+		return "editService";
+	}
+	
+	@PostMapping("/editService")
+	public String editService(Model model,  
+		@RequestParam String serviceId,
+		@RequestParam String serviceName,
+		@RequestParam double serviceCost,
+		@RequestParam String serviceDescription, 
+		@RequestParam int serviceDuration ) {
+		
+		Optional<WorkService> serv = serviceRepo.findById(Long.valueOf(serviceId));
+		
+		List<WorkOrder> relatedWorkOrder = orderRepo.findByService(serv.get().getServiceName()) ;
+
+		WorkService service = WorkService.builder()
+				.serviceId(Long.valueOf(serviceId))
+				.serviceName(serviceName)
+				.serviceCost(serviceCost)
+				.serviceDuration(serviceDuration)
+				.serviceDescription(serviceDescription)
+				.build();
+
+		for(WorkOrder w : relatedWorkOrder) {
+			w.setService(serviceName);
+			orderRepo.save(w);
+		}
+		
+		serviceRepo.save(service);
+		return "redirect:/viewService";
+	}
+
+	@GetMapping("/viewWorker")
+	public String viewWorker(Model model) {
+		List<WorkWorker> workerList = workerRepo.findAll();
+		model.addAttribute("workerList", workerList);
+		return "viewWorker";
+	}
+
+	@GetMapping("/addWorker")
+	public String addWorker(Model model) {
+
+		return "addWorker";
+	}
+	
+	@PostMapping("/addWorker")
+	public String addWorker_POST(Model model,
+			@RequestParam String name) {
+		
+		if(workerRepo.existsByName(name)) {
+			
+			model.addAttribute("duplicate", "Sorry, this worker already exists, please enter a new user");
+			return "addWorker";
+	    }
+		
+		WorkWorker worker = WorkWorker
+				.builder()
+					.name(name)
+					.build();
+		workerRepo.save(worker);
+		model.addAttribute("worker", worker);
+		List<WorkWorker> workerList = workerRepo.findAll();
+		model.addAttribute("workerList", workerList);
+		
+		return "viewWorker";
+	}
+
+	@GetMapping("/deleteWorker/{workerId}")
+	public String deleteWorker(Model model, @PathVariable String workerId, RedirectAttributes redirectAttributes) {
+		
+		RedirectView redirectView = new RedirectView("/viewWorker", true);
+		
+		workerRepo.deleteById(Long.valueOf(workerId));
+
+		redirectAttributes.addFlashAttribute("deleteWorker");
+		
+		return "redirect:/viewWorker";
+	}
+	
+	@GetMapping("/editWorker/{workerId}")
+	public String editWorker(Model model, @PathVariable String workerId) {
+		
+		Optional<WorkWorker> worker = workerRepo.findById(Long.valueOf(workerId));
+		
+		model.addAttribute("worker", worker.get());
+		
+		return "editWorker";
+	}
+
+	@PostMapping("/editWorker")
+	public String editCustomer(Model model, @RequestParam String id, @RequestParam String name) {
+		
+		Optional<WorkWorker> oldWorker = workerRepo.findById(Long.valueOf(id));
+		List<WorkOrder> relatedWorkOrder = orderRepo.findByWorker(oldWorker.get().getName()) ;
+		
+		WorkWorker worker = WorkWorker.builder().id(Long.valueOf(id)).name(name).build();
+		
+		for(WorkOrder w : relatedWorkOrder) {
+			w.setWorker(name);
+			orderRepo.save(w);
+		}
+		
+		workerRepo.save(worker);
+		
+		return "redirect:/viewWorker";
+	}
 }

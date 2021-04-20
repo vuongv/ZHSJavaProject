@@ -34,6 +34,8 @@ public class WorkOrder {
 	private LocalDate appointmentDate;
 	private LocalTime appointmentTime;
 	private BigDecimal orderCost;
+	private String worker;
+	private String service;
 //	@OneToOne (cascade=CascadeType.REMOVE, optional=true)
 //	@JoinTable (name="WORK_ORDER_WORKER", joinColumns = @JoinColumn(name="WORK_ORDER_ID"), inverseJoinColumns=@JoinColumn(name="WORKER_ID"))
 //	private WorkWorker worker;
