@@ -285,6 +285,12 @@ public class HSController {
 			@RequestParam String serviceDescription,
 			@RequestParam int serviceDuration) {
 		
+		if(serviceRepo.existsByServiceName(serviceName)) {
+			
+			model.addAttribute("duplicate", "Sorry, this Service already exists, please enter a new service");
+			return "addService";
+	    }
+		
 		WorkService service = WorkService
 				.builder()
 				.serviceName(serviceName)
@@ -312,12 +318,14 @@ public class HSController {
 		redirectAttributes.addFlashAttribute("deleteService");
 		return "redirect:/viewService";
 	}
+	
 	@GetMapping("/editService/{serviceId}")
 	public String editService(Model model, @PathVariable String serviceId) {
 		Optional<WorkService> serv = serviceRepo.findById(Long.valueOf(serviceId));
 		model.addAttribute("serv", serv.get());
 		return "editService";
 	}
+	
 	@PostMapping("/editService")
 	public String editService(Model model,  
 		@RequestParam String serviceId,
@@ -325,7 +333,11 @@ public class HSController {
 		@RequestParam double serviceCost,
 		@RequestParam String serviceDescription, 
 		@RequestParam int serviceDuration ) {
+		
 		Optional<WorkService> serv = serviceRepo.findById(Long.valueOf(serviceId));
+		
+		List<WorkOrder> relatedWorkOrder = orderRepo.findByService(serv.get().getServiceName()) ;
+
 		WorkService service = WorkService.builder()
 				.serviceId(Long.valueOf(serviceId))
 				.serviceName(serviceName)
@@ -333,10 +345,15 @@ public class HSController {
 				.serviceDuration(serviceDuration)
 				.serviceDescription(serviceDescription)
 				.build();
+
+		for(WorkOrder w : relatedWorkOrder) {
+			w.setWorker(serviceName);
+			orderRepo.save(w);
+		}
+		
 		serviceRepo.save(service);
 		return "redirect:/viewService";
 	}
-	
 
 	@GetMapping("/viewWorker")
 	public String viewWorker(Model model) {
@@ -355,6 +372,12 @@ public class HSController {
 	public String addWorker_POST(Model model,
 			@RequestParam String name) {
 		
+		if(workerRepo.existsByName(name)) {
+			
+			model.addAttribute("duplicate", "Sorry, this worker already exists, please enter a new user");
+			return "addWorker";
+	    }
+		
 		WorkWorker worker = WorkWorker
 				.builder()
 					.name(name)
@@ -369,28 +392,19 @@ public class HSController {
 
 	@GetMapping("/deleteWorker/{workerId}")
 	public String deleteWorker(Model model, @PathVariable String workerId, RedirectAttributes redirectAttributes) {
+		
+		RedirectView redirectView = new RedirectView("/viewWorker", true);
+		
+		workerRepo.deleteById(Long.valueOf(workerId));
 
-		Optional<WorkWorker> worker = workerRepo.findById(Long.valueOf(workerId));
-		boolean customerResultDelete;
-		redirectAttributes.addFlashAttribute("worker", worker.get());
-
-		/*
-		 * if (worker.get().getWorkOrders().isEmpty()) {
-		 * customerRepo.deleteById(Long.valueOf(customerId)); customerResultDelete =
-		 * true; } else { System.out.println("Cant delete"); customerResultDelete =
-		 * false;
-		 * 
-		 * }
-		 * 
-		 * redirectAttributes.addFlashAttribute("customerResultDelete",
-		 * customerResultDelete);
-		 */
+		redirectAttributes.addFlashAttribute("deleteWorker");
+		
 		return "redirect:/viewWorker";
 	}
-
 	
 	@GetMapping("/editWorker/{workerId}")
 	public String editWorker(Model model, @PathVariable String workerId) {
+		
 		Optional<WorkWorker> worker = workerRepo.findById(Long.valueOf(workerId));
 		
 		model.addAttribute("worker", worker.get());
@@ -402,7 +416,15 @@ public class HSController {
 	public String editCustomer(Model model, @RequestParam String id, @RequestParam String name) {
 		
 		Optional<WorkWorker> oldWorker = workerRepo.findById(Long.valueOf(id));
+		List<WorkOrder> relatedWorkOrder = orderRepo.findByWorker(oldWorker.get().getName()) ;
+		
 		WorkWorker worker = WorkWorker.builder().id(Long.valueOf(id)).name(name).build();
+		
+		for(WorkOrder w : relatedWorkOrder) {
+			w.setWorker(name);
+			orderRepo.save(w);
+		}
+		
 		workerRepo.save(worker);
 		
 		return "redirect:/viewWorker";

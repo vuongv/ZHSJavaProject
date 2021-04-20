@@ -54,6 +54,7 @@ Successfully added [[${service.serviceName}]]
 	
 		<input type="hidden" name="id"/>
 		
+		<span class="error" th:if="duplicate != null" th:text="${duplicate}"></span> <br>
 		
 		<div class="col-md-6">
 		   <label for="serviceInput" class="form-label" >Service Name</label>

@@ -6,5 +6,8 @@ import ca.sheridancollege.vuongv.bean.Customer;
 import ca.sheridancollege.vuongv.bean.WorkService;
 
 public interface ServiceRepository extends JpaRepository<WorkService, Long> {
+	
 	public WorkService findByServiceName(String serviceName);
+
+	public Boolean existsByServiceName(String serviceName);
 }
