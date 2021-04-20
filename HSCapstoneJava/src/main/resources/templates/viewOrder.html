@@ -53,7 +53,7 @@
 
 <br>
 
-<div th:if ="${deleteStatus == true}">
+<div th:if ="${deleteStatus == true}" style="color:green">
 Successfully deleted [[${deletedOrder.workOrderId}]]
 </div>
 
@@ -63,10 +63,8 @@ Successfully deleted [[${deletedOrder.workOrderId}]]
 		<th>Order ID</th>
 		<th>Customer Name</th>
 		<th>Customer ID</th>
-		<th>Service Name</th>
-		<th>Service ID</th>
 		<th>Worker Name</th>
-		<th>Worker ID</th>
+		<th>Service Name</th>
 		<th>Date Created</th>
 		<th>Invoice Cost</th>
 		<th>Next Appointment Date</th>
@@ -77,10 +75,8 @@ Successfully deleted [[${deletedOrder.workOrderId}]]
 		<td th:text="${o.workOrderId}"></td>
 		<td th:text="${customerList[i.index].name}"></td> 
 		<td th:text="${customerList[i.index].id}"></td>
-		<td th:text="${serviceList[i.index].serviceName}"></td>
-		<td th:text="${serviceList[i.index].serviceId}"></td>
-		<td th:text="${workerList[i.index].name}"></td>
-		<td th:text="${workerList[i.index].id}"></td>
+		<td th:text="${o.worker}"></td>
+		<td th:text="${o.service}"></td>
 		<td th:text="${o.orderDate}"></td>
 		<td th:text="${o.orderCost}"></td>
 		<td th:text="${o.appointmentDate}"></td>
@@ -104,11 +100,10 @@ Successfully deleted [[${deletedOrder.workOrderId}]]
 			<div class="col-sm-1"></div> <!-- empty for spacing -->
 			<div class="col-sm-1">
 				<div class="row">
-					<form method="get" action="#" th:action="@{/editOrder/{workOrderId}/{customerId}/{workerId}/{serviceId}
+					<form method="get" action="#" th:action="@{/editOrder/{customerId}/{workOrderId}
 			          (workOrderId=${o.workOrderId},
-			          customerId=${customerList[i.index].id},
-			          workerId=${workerList[i.index].id},
-			          serviceId=${serviceList[i.index].serviceId})}" 
+			          customerId=${customerList[i.index].id}
+			          )}" 
 			          th:data-workOrderId="${o.workOrderId}"
 			          th:data-custName="${customerList[i.index].name}">
 			              

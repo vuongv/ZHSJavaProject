@@ -55,6 +55,7 @@
 		<input type="hidden" name="id" th:value="${worker.id}"/>
 		
 		<div class="col-md-12">
+		   <span class="error" th:if="duplicate != null" th:text="${duplicate}"></span> <br>
 		   <label for="nameInput" class="form-label" >Name</label>
 		   <input type="text" th:value="${worker.name}" name="name" id="nameInput" class="form-control" placeholder="Full name" aria-label="Full name" required>
 		</div>

@@ -20,5 +20,26 @@ function verifyDeleteCust(x) {
 	else{
 		return false;
 	}
+}
+
+function verifyDeleteService(x){
+	var x = confirm("Are you sure you would like to delete service: " + x);
+	if (x == true){
+		return true;	
+	}else{
+		return false;
+	}
+}
+
+
+
+function verifyDeleteWorker(x) {
+    var x = confirm("Are you sure you would like to delete worker: " + x);
+	if(x == true){
+		return true;
+	}
+	else{
+		return false;
+	}
 
 }

@@ -41,7 +41,8 @@
 	  </div>
 	</nav>
 </header>
-<body th:data-dropdown="${serv.serviceName}" onload="setDrop(this.getAttribute('data-dropdown'))">
+<!-- <body th:data-dropdown="${serv.serviceName}" onload="setDrop(this.getAttribute('data-dropdown'))"> -->
+<body>
 	
 	<h1 class="pageTitle">Edit Order</h1>
 
@@ -52,7 +53,10 @@
 	<h3 class="card-header">Edit a Work Order</h3>
 	
 	
-	<form method="post" class="row g-3 addOrderStyle" >
+	<form method="post" class="row g-3 addOrderStyle" th:action="@{/editOrder/{customerId}/{workOrderId}
+			          (workOrderId=${order.workOrderId},
+			          customerId=${cust.id}
+			          )}" >
 	
 		<input type="hidden" name="id"/>
 		
@@ -112,33 +116,33 @@
 		 <div></div>
 		<div class="col-md-4">
 		   <label for="inputService" class="form-label">Service Type</label>
-		   <select name="orderServiceType" id="inputService" class="form-select" required>
-		     	<option  disabled selected value=""> --Select an option--</option>
-			<option value="Chimney cleaning">Chimney Cleaning</option>
-		   </select>
+		   	 <select name="orderServiceType" id="inputService" class="form-select" required>
+				<option th:each="service : ${serviceList}" th:value="${service.serviceName}" th:text="${service.serviceName}"
+				th:selected="${ order.service == service.serviceName}">Chimney Cleaning</option>
+		  	 </select>
 		</div>
 		 
 		<div class="col-md-4">
 		   <label for="inputWorker" class="form-label">Worker</label>
 		   <select name="orderWorker" id="inputWorker" class="form-select" required>
-		     	<option  disabled selected value=""> --Select an option--</option>
-			<option value="Kap3">Kap3</option>
+				<option  th:each="worker : ${workerList}" th:value="${worker.name}" th:text="${worker.name}"
+				th:selected="${order.worker == worker.name}">Kap3</option>
 		   </select>
 		</div>
 		
 		<div class="col-md-4">
 		   <label  for="inputTotal" class="form-label">Invoice Total ($)</label>
-		   <input type="number" name="orderTotal" class="form-control" id="inputTotal" required>
+		   <input type="number" name="orderTotal" class="form-control" id="inputTotal" th:value="${order.orderCost}" required>
 		</div>
 		 <div></div>
 		<div class="col-md-6">
 		   <label  for="inputDate" class="form-label">Appointment Date</label>
-		   <input type="date" name="orderAppointmentDate" class="form-control" id="inputDate" required>
+		   <input type="date" name="orderAppointmentDate" class="form-control" id="inputDate" th:value="${order.appointmentDate}" required>
 		</div>
 		
 		<div class="col-md-6">
 		   <label  for="inputTime" class="form-label">Appointment Time</label>
-		   <input type="time" name="orderAppointmentTime" class="form-control" id="inputTime" required>
+		   <input type="time" name="orderAppointmentTime" class="form-control" id="inputTime" th:value="${order.appointmentTime}" required>
 		</div>
 		
 		<div class="col text-center">

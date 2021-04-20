@@ -28,6 +28,5 @@ public class WorkService {
 	private double serviceCost;
 	private String serviceDescription;
 	private int serviceDuration;
-	@OneToMany (cascade = CascadeType.ALL)
-	private List<WorkOrder> orderList = new ArrayList<WorkOrder>();
+	
 }

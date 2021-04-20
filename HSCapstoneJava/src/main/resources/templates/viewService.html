@@ -73,7 +73,9 @@
 			<div class="row">
 				<div class="col-sm-1">
 					<div class="row">
-						<form method="get" action="#" th:action="@{/deleteService/{serviceId}(serviceId=${s.serviceId})}">
+						<form method="get" action="#" th:action="@{/deleteService/{serviceId}(serviceId=${s.serviceId})}"
+						th:data-workServiceName="${s.serviceName}"
+						onsubmit="return verifyDeleteService(this.getAttribute('data-workServiceName'))">
 							<button class="noStyleBtn"><img th:src="@{/images/delete.png}"  alt="delete.png" /></button>
 						</form>
 					</div>
@@ -84,7 +86,7 @@
 				<div class="col-sm-1"></div> <!-- empty for spacing -->
 				<div class="col-sm-1">
 					<div class="row">
-						<form method="get" action="#" th:action="@{/viewService}">
+						<form method="get" action="#" th:action="@{/editService/{serviceId}(serviceId=${s.serviceId})}">
 							<button class="noStyleBtn"><img th:src="@{/images/pencil.png}"  alt="pencil.png" /></button>
 						</form>
 					</div>
