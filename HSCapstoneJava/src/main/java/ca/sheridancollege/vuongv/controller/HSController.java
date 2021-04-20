@@ -101,7 +101,7 @@ public class HSController {
 			cust.getWorkOrders().add(workOrder);
 			orderRepo.save(workOrder); //line 85
 			customerRepo.save(cust);
-		return "adminView";
+		return "viewOrder";
 	}
 	// create a seperate saveWork method with parameters line 85
 	@GetMapping("/viewOrder")
@@ -192,6 +192,49 @@ public class HSController {
 		
 		return "editOrder";
 	}
+	
+	@PostMapping("/editOrder/{customerId}/{workOrderId}")
+	public String editOrder(Model model, @PathVariable Long workOrderId, 
+			@PathVariable String customerId,
+			@RequestParam String customerName,
+			@RequestParam String customerEmail,
+			@RequestParam String customerHomePhone,
+			@RequestParam String customerCellPhone,
+			@RequestParam String customerAddress,
+			@RequestParam String customerCity,
+			@RequestParam String customerPostal,
+			@RequestParam String customerProvince,
+			@RequestParam String orderServiceType,
+			@RequestParam String orderWorker,
+			@RequestParam String orderTotal,
+			@RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate orderAppointmentDate,
+			@RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.TIME) LocalTime orderAppointmentTime) {
+		Optional<WorkOrder> oldOrder = orderRepo.findById(Long.valueOf(workOrderId));
+		Optional<Customer> oldCust = customerRepo.findById(Long.valueOf(customerId));
+		WorkOrder order = WorkOrder.builder().workOrderId(workOrderId)
+				.appointmentDate(orderAppointmentDate)
+				.appointmentTime(orderAppointmentTime)
+				.orderCost(new BigDecimal(orderTotal))
+				.worker(orderWorker)
+				.service(orderServiceType).build();
+		Customer cust = Customer.builder().id(Long.valueOf(customerId))
+				.name(customerName)
+				.email(customerEmail)
+				.homePhone(customerHomePhone)
+				.cellPhone(customerCellPhone)
+				.address(customerAddress)
+				.city(customerCity)
+				.postal(customerPostal)
+				.province(customerProvince)
+				.workOrders(oldCust.get().getWorkOrders())
+				.build();
+		
+		customerRepo.save(cust);
+		orderRepo.save(order);
+		
+		return "redirect:/viewOrder";
+	}
+	
 	@GetMapping("/editCustomer/{customerId}")
 	public String editCustomer(Model model, @PathVariable String customerId) {
 		Optional<Customer> cust = customerRepo.findById(Long.valueOf(customerId));
