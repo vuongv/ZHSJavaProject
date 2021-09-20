@@ -2,24 +2,43 @@ package ca.sheridancollege.vuongv.controller;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.util.ArrayList;
 
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
 
 import ca.sheridancollege.vuongv.bean.Customer;
 import ca.sheridancollege.vuongv.bean.WorkOrder;
 
-@SpringBootTest
+@SpringBootTest 
+@AutoConfigureMockMvc
 public class HSControllerTest {
-
+	
+	@Autowired
+	private MockMvc mockMvc;
+	
+	@Test
+	public void testGettingToIndex() throws Exception{
+		this.mockMvc.perform(get("/")).andExpect(status().isOk()).andExpect(view().name("adminView"));
+	}
+	
 	@Test
 	public void testTest() {
 		boolean result = true;
 //		assertTrue("", result);
 		fail("failed");
 	}
+	
+	
+	
+	
 	
 //	@Test
 //	public void testCustomerCreationRegular() {
