@@ -60,17 +60,17 @@
 		 <br>
 		<div class="col-md-6">
 		 	<label for="emailInput" class="form-label">Email</label>
-		   <input type="text" name="customerEmail" id="emailInput" maxlength="255" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$" onfocusout="emailLowerCase('emailInput')" class="form-control" placeholder="Email" aria-label="Email" required>
+		   <input type="text" name="customerEmail" id="emailInput" class="form-control" placeholder="Email" aria-label="Email" required>
 		</div>
 		 <div></div>
 		<div class="col-md-6">
 		   <label for="homephoneInput" class="form-label" >Home Phone</label>
-		   <input type="tel" name="customerHomePhone" pattern="[(][0-9]{3}[)][ ][0-9]{3}-[0-9]{4}" placeholder="123-456-7890" id="homephoneInput" class="form-control" aria-label="Home Phone" required onfocus="onFocusFormat('homephoneInput')" onfocusout="onFocusOutFormat('homephoneInput')" onkeypress="return isNumberKey(event)">
+		   <input type="tel" name="customerHomePhone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="123-456-7890" id="homephoneInput" class="form-control" aria-label="Home Phone" required>
 		</div>
 		 
 		<div class="col-md-6">
 		 	<label for="cellphoneInput" class="form-label">Cell Phone</label>
-		   <input type="tel" name="customerCellPhone" pattern="[(][0-9]{3}[)][ ][0-9]{3}-[0-9]{4}" placeholder="123-456-7890" id="cellphoneInput" class="form-control" aria-label="Cell Phone" onfocus="onFocusFormat('cellphoneInput')" onfocusout="onFocusOutFormat('cellphoneInput')" onkeypress="return isNumberKey(event)">
+		   <input type="tel" name="customerCellPhone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="123-456-7890" id="cellphoneInput" class="form-control" aria-label="Cell Phone">
 		</div>
 		<div></div>
 		<div class="col-md-4">
