@@ -149,8 +149,8 @@ class CapstoneApplicationTests {
 		requestParams.add("orderAppointmentTime", LocalTime.now().toString());
 		
 		this.mockMvc.perform(post("/addOrder").params(requestParams))
-				.andExpect(status().isOk())
-				.andExpect(view().name("viewOrder"));
+			.andExpect(redirectedUrl("/viewOrder"))
+			.andExpect(status().isFound());	
 		
 	}
 	
