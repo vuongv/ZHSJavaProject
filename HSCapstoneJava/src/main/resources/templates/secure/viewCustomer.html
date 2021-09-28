@@ -23,17 +23,20 @@
 	          <a class="nav-link"  href="/">Home</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="/viewOrder">Order</a>
+	          <a class="nav-link " aria-current="page" href="/adminView/viewOrder">Order</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="/viewService">Service</a>
+	          <a class="nav-link" href="/adminView/viewService">Service</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="/viewWorker">Worker</a>
+	          <a class="nav-link" href="/adminView/viewWorker">Worker</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link active" aria-current="page" href="/viewCustomer">Customer</a>
-	        </li>	        
+	          <a class="nav-link active" href="/adminView/viewCustomer">Customer</a>
+	        </li>
+	         <li class="nav-item" >
+	        	<a class="nav-link" id="btn-danger" href="#" th:href="@{/logout}">Logout</a>	 
+	        </li>       
 	      </ul>
 	    </div>
 	  </div>
@@ -55,7 +58,7 @@
 	
 	
 	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-		<a href="#" th:href="@{/addCustomer}" class="btn btn-info" role="button">Add Customer</a>
+		<a href="#" th:href="@{/adminView/addCustomer}" class="btn btn-info" role="button">Add Customer</a>
 	</div>
 	
 	<br>
@@ -89,7 +92,7 @@
 			<div class="row">
 				<div class="col-sm-1">
 					<div class="row">
-						<form method="get" action="#" th:action="@{/deleteCustomer/{customerId}(customerId=${cust.id})}"
+						<form method="get" action="#" th:action="@{/adminView/deleteCustomer/{customerId}(customerId=${cust.id})}"
 							th:data-customerName="${cust.name}"
 							onsubmit="return verifyDeleteCust(this.getAttribute('data-customerName'))">
 							<button type="submit" class="noStyleBtn"><img th:src="@{/images/delete.png}"  alt="delete.png" /></button>
@@ -103,7 +106,7 @@
 				<div class="col-sm-1"></div> <!-- empty for spacing -->
 				<div class="col-sm-1">
 					<div class="row">
-						<form method="get" action="#" th:action="@{/editCustomer/{customerId}(customerId=${cust.id})}">
+						<form method="get" action="#" th:action="@{/adminView/editCustomer/{customerId}(customerId=${cust.id})}">
 							<button class="noStyleBtn"><img th:src="@{/images/pencil.png}"  alt="pencil.png" /></button>
 						</form>
 					</div>

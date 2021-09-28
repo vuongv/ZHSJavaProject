@@ -25,17 +25,20 @@
 	          <a class="nav-link"  href="/">Home</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link active" aria-current="page" href="/viewOrder">Order</a>
+	          <a class="nav-link active" aria-current="page" href="/adminView/viewOrder">Order</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="/viewService">Service</a>
+	          <a class="nav-link" href="/adminView/viewService">Service</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="/viewWorker">Worker</a>
+	          <a class="nav-link" href="/adminView/viewWorker">Worker</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="/viewCustomer">Customer</a>
-	        </li>	        
+	          <a class="nav-link" href="/adminView/viewCustomer">Customer</a>
+	        </li>
+	         <li class="nav-item" >
+	        	<a class="nav-link" id="btn-danger" href="#" th:href="@{/logout}">Logout</a>	 
+	        </li>       
 	      </ul>
 	    </div>
 	  </div>
@@ -48,7 +51,7 @@
 <h1 class="pageTitle">Orders</h1>
 
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-	<a href="/addOrder" th:href="@{/addOrder}" class="btn btn-info" role="button">Add Order</a>
+	<a href="/adminView/addOrder" th:href="@{/adminView/addOrder}" class="btn btn-info" role="button">Add Order</a>
 </div>
 
 <br>
@@ -86,7 +89,7 @@ Successfully deleted [[${deletedOrder.workOrderId}]]
 		<div class="row">
 	    	<div class="col-sm-1">
 		    	<div class="row">
-					<form method="get" action="#" th:action="@{/deleteOrder/{workOrderId}(workOrderId=${o.workOrderId})}" 
+					<form method="get" action="#" th:action="@{/adminView/deleteOrder/{workOrderId}(workOrderId=${o.workOrderId})}" 
 			            th:data-workOrderId="${o.workOrderId}"
 			            th:data-custName="${customerList[i.index].name}"
 			            onsubmit="return verifyDeleteOrder(this.getAttribute('data-workOrderId'), this.getAttribute('data-custName'))">
@@ -100,7 +103,7 @@ Successfully deleted [[${deletedOrder.workOrderId}]]
 			<div class="col-sm-1"></div> <!-- empty for spacing -->
 			<div class="col-sm-1">
 				<div class="row">
-					<form method="get" action="#" th:action="@{/editOrder/{customerId}/{workOrderId}
+					<form method="get" action="#" th:action="@{/adminView/editOrder/{customerId}/{workOrderId}
 			          (workOrderId=${o.workOrderId},
 			          customerId=${customerList[i.index].id}
 			          )}" 

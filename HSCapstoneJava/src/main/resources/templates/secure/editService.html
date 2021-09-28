@@ -23,17 +23,20 @@
 	          <a class="nav-link"  href="/">Home</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="/viewOrder">Order</a>
+	          <a class="nav-link " aria-current="page" href="/adminView/viewOrder">Order</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="/viewService">Service</a>
+	          <a class="nav-link active" href="/adminView/viewService">Service</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="/viewWorker">Worker</a>
+	          <a class="nav-link" href="/adminView/viewWorker">Worker</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link active" aria-current="page" href="/viewCustomer">Customer</a>
-	        </li>	        
+	          <a class="nav-link" href="/adminView/viewCustomer">Customer</a>
+	        </li>
+	        <li class="nav-item" >
+	        	<a class="nav-link" id="btn-danger" href="#" th:href="@{/logout}">Logout</a>	 
+	        </li>       
 	      </ul>
 	    </div>
 	  </div>
@@ -50,7 +53,7 @@
 	<h3 class="card-header">Edit a Service</h3>
 	
 	
-	<form method="post" th:action="@{/editService}" class="row g-3 addOrderStyle" >
+	<form method="post" th:action="@{/adminView/editService}" class="row g-3 addOrderStyle" >
 	
 		<input type="hidden" name="serviceId" th:value="${serv.serviceId}"/>
 		
@@ -81,7 +84,7 @@
 	</div>
 		<br>
 	 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-		<a href="/viewService" th:href="@{/viewService}" class="btn btn-info" role="button">View Service</a>
+		<a href="/adminView/viewService" th:href="@{/adminView/viewService}" class="btn btn-info" role="button">View Service</a>
 	</div>
 	
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>

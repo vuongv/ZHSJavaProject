@@ -25,21 +25,25 @@
 	          <a class="nav-link"  href="/">Home</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link active" aria-current="page" href="/viewOrder">Order</a>
+	          <a class="nav-link active" aria-current="page" href="/adminView/viewOrder">Order</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="/viewService">Service</a>
+	          <a class="nav-link" href="/adminView/viewService">Service</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="/viewWorker">Worker</a>
+	          <a class="nav-link" href="/adminView/viewWorker">Worker</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="/viewCustomer">Customer</a>
-	        </li>	        
+	          <a class="nav-link" href="/adminView/viewCustomer">Customer</a>
+	        </li>
+	         <li class="nav-item" >
+	        	<a class="nav-link" id="btn-danger" href="#" th:href="@{/logout}">Logout</a>	 
+	        </li>       
 	      </ul>
 	    </div>
 	  </div>
 	</nav>
+
 </header>
 <!-- <body th:data-dropdown="${serv.serviceName}" onload="setDrop(this.getAttribute('data-dropdown'))"> -->
 <body>
@@ -53,7 +57,7 @@
 	<h3 class="card-header">Edit a Work Order</h3>
 	
 	
-	<form method="post" class="row g-3 addOrderStyle" th:action="@{/editOrder/{customerId}/{workOrderId}
+	<form method="post" class="row g-3 addOrderStyle" th:action="@{/adminView/editOrder/{customerId}/{workOrderId}
 			          (workOrderId=${order.workOrderId},
 			          customerId=${cust.id}
 			          )}" >
@@ -155,7 +159,7 @@
 	</div>
 		<br>
 	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-		<a href="/viewOrder" th:href="@{/viewOrder}" class="btn btn-info" role="button">View Orders</a>
+		<a href="/adminView/viewOrder" th:href="@{/adminView/viewOrder}" class="btn btn-info" role="button">View Orders</a>
 	</div>
 	
 	

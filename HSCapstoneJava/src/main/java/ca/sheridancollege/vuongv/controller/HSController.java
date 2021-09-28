@@ -37,25 +37,40 @@ public class HSController {
 	
 	@GetMapping("/")
 	public String index(Model model) { 
-		return "adminView";
+		return "index";
+	}
+	
+	@GetMapping("/login") 
+	public String login() {
+		return "login"; 
+	}
+	
+	@PostMapping("/login")
+	public String adminView() {
+		return "/secure/adminView";
+	}
+	
+	@GetMapping("/permission-denied") 
+	public String permissionDenied() {
+		return "/error/permission-denied"; 
 	}
 	
 	@GetMapping("/adminView")
 	public String adminView_GET(Model model) {
-		return "adminView";
+		return "/secure/adminView";
 	}
 
-	@GetMapping("/addOrder")
+	@GetMapping("/adminView/addOrder")
 	public String addOrder_GET(Model model) {
 		List<WorkWorker> workerList = workerRepo.findAll();
 		List<WorkService> serviceList = serviceRepo.findAll();
 		
 		model.addAttribute("workerList", workerList);
 		model.addAttribute("serviceList", serviceList);
-		return "addOrder";
+		return "/secure/addOrder";
 	}
 	
-	@PostMapping("/addOrder")
+	@PostMapping("/adminView/addOrder")
 	public String addOrder_POST(Model model,
 
 			@RequestParam String customerName,
@@ -101,10 +116,10 @@ public class HSController {
 			cust.getWorkOrders().add(workOrder);
 			orderRepo.save(workOrder); //line 85
 			customerRepo.save(cust);
-		return "redirect:/viewOrder";
+		return "redirect:/adminView/viewOrder";
 	}
 	// create a seperate saveWork method with parameters line 85
-	@GetMapping("/viewOrder")
+	@GetMapping("/adminView/viewOrder")
 	public String viewOrder(Model model) {
 		List<WorkOrder> orderList = orderRepo.findAll();
 		List<WorkService> serviceList = new ArrayList<WorkService>();
@@ -123,10 +138,10 @@ public class HSController {
 		model.addAttribute("customerList", customerList);
 		model.addAttribute("workerList", workerList);
 		model.addAttribute("serviceList", serviceList);
-		return "viewOrder";
+		return "/secure/viewOrder";
 	}
 	
-	@GetMapping("/deleteOrder/{workOrderId}")
+	@GetMapping("/adminView/deleteOrder/{workOrderId}")
 	public String deleteOrder (Model model, @PathVariable String workOrderId, RedirectAttributes redirectAttributes) {
 		RedirectView redirectView= new RedirectView("/viewOrder",true);
 		Optional<WorkOrder> order = orderRepo.findById(Long.valueOf(workOrderId));
@@ -151,10 +166,10 @@ public class HSController {
 		//model.addAttribute("deletedOrder",order.get());
 		
 		
-		return "redirect:/viewOrder";
+		return "redirect:/adminView/viewOrder";
 	}
 	
-	@GetMapping("/deleteCustomer/{customerId}")
+	@GetMapping("/adminView/deleteCustomer/{customerId}")
 	public String deleteCustomer(Model model, @PathVariable String customerId, RedirectAttributes redirectAttributes) {
 		Optional<Customer> cust = customerRepo.findById(Long.valueOf(customerId));
 		boolean customerResultDelete;
@@ -174,10 +189,10 @@ public class HSController {
 		redirectAttributes.addFlashAttribute("customerResultDelete", customerResultDelete);
 		
 		
-		return "redirect:/viewCustomer";
+		return "redirect:/adminView/viewCustomer";
 	}
 	
-	@GetMapping("/editOrder/{customerId}/{workOrderId}")
+	@GetMapping("/adminView/editOrder/{customerId}/{workOrderId}")
 	public String editOrder(Model model, @PathVariable Long workOrderId, 
 			@PathVariable String customerId) {
 		Optional<WorkOrder> order = orderRepo.findById(Long.valueOf(workOrderId));
@@ -190,10 +205,10 @@ public class HSController {
 		model.addAttribute("workerList", workerList);
 		model.addAttribute("serviceList", serviceList);
 		
-		return "editOrder";
+		return "/secure/editOrder";
 	}
 	
-	@PostMapping("/editOrder/{customerId}/{workOrderId}")
+	@PostMapping("/adminView/editOrder/{customerId}/{workOrderId}")
 	public String editOrder(Model model, @PathVariable Long workOrderId, 
 			@PathVariable String customerId,
 			@RequestParam String customerName,
@@ -232,19 +247,19 @@ public class HSController {
 		customerRepo.save(cust);
 		orderRepo.save(order);
 		
-		return "redirect:/viewOrder";
+		return "redirect:/adminView/viewOrder";
 	}
 	
-	@GetMapping("/editCustomer/{customerId}")
+	@GetMapping("/adminView/editCustomer/{customerId}")
 	public String editCustomer(Model model, @PathVariable String customerId) {
 		Optional<Customer> cust = customerRepo.findById(Long.valueOf(customerId));
 		
 		model.addAttribute("cust", cust.get());
 		
-		return "editCustomer";
+		return "/secure/editCustomer";
 	}
 	
-	@PostMapping("/editCustomer")
+	@PostMapping("/adminView/editCustomer")
 	public String editCustomer(Model model, @RequestParam String id,
 			@RequestParam String name,
 			@RequestParam String email,
@@ -260,24 +275,24 @@ public class HSController {
 				.postal(postal).province(province).workOrders(oldCust.get().getWorkOrders()).build();
 		customerRepo.save(cust);
 		
-		return "redirect:/viewCustomer";
+		return "redirect:/adminView/viewCustomer";
 	}
 	
-	@GetMapping("/viewCustomer")
+	@GetMapping("/adminView/viewCustomer")
 	public String viewCustomer(Model model) {
 		List<Customer> customerList = customerRepo.findAll();
 		
 		model.addAttribute("customerList", customerList);
 		
-		return "viewCustomer";
+		return "/secure/viewCustomer";
 	}
-	@GetMapping("/addCustomer")
+	@GetMapping("/adminView/addCustomer")
 	public String addCustomer(Model model){
 		
-		return "addCustomer";
+		return "/secure/addCustomer";
 	}
 	
-	@PostMapping("/addCustomer")
+	@PostMapping("/adminView/addCustomer")
 	public String addCustomer(Model model, 
 			@RequestParam String name,
 			@RequestParam String email,
@@ -313,15 +328,15 @@ public class HSController {
 		}
 		redirectAttributes.addFlashAttribute("addSuccess", addSuccess);
 		
-		return "redirect:/viewCustomer";
+		return "redirect:/adminView/viewCustomer";
 	}
 	
-	@GetMapping("/addService")
+	@GetMapping("/adminView/addService")
 	public String addService_GET(Model model) {
-		return "addService";
+		return "/secure/addService";
 	}
 	
-	@PostMapping("/addService")
+	@PostMapping("/adminView/addService")
 	public String addService_POST(Model model,
 			@RequestParam String serviceName,
 			@RequestParam double serviceCost,
@@ -343,33 +358,33 @@ public class HSController {
 				.build();
 		serviceRepo.save(service);
 		model.addAttribute("service", service);
-		return "redirect:/viewService";
+		return "redirect:/adminView/viewService";
 	}
 	
-	@GetMapping("/viewService")
+	@GetMapping("/adminView/viewService")
 	public String viewService(Model model) {
 		List<WorkService> serviceList = serviceRepo.findAll();
 		model.addAttribute("serviceList", serviceList);
-		return "viewService";
+		return "/secure/viewService";
 	}
 	
-	@GetMapping("/deleteService/{serviceId}")
+	@GetMapping("/adminView/deleteService/{serviceId}")
 	public String deleteService (Model model, @PathVariable String serviceId, RedirectAttributes redirectAttributes ) {
 		RedirectView redirectView = new RedirectView("/viewService",true);
 		serviceRepo.deleteById(Long.valueOf(serviceId));
 		
 		redirectAttributes.addFlashAttribute("deleteService");
-		return "redirect:/viewService";
+		return "redirect:/adminView/viewService";
 	}
 	
-	@GetMapping("/editService/{serviceId}")
+	@GetMapping("/adminView/editService/{serviceId}")
 	public String editService(Model model, @PathVariable String serviceId) {
 		Optional<WorkService> serv = serviceRepo.findById(Long.valueOf(serviceId));
 		model.addAttribute("serv", serv.get());
-		return "editService";
+		return "/secure/editService";
 	}
 	
-	@PostMapping("/editService")
+	@PostMapping("/adminView/editService")
 	public String editService(Model model,  
 		@RequestParam String serviceId,
 		@RequestParam String serviceName,
@@ -395,23 +410,23 @@ public class HSController {
 		}
 		
 		serviceRepo.save(service);
-		return "redirect:/viewService";
+		return "redirect:/adminView/viewService";
 	}
 
-	@GetMapping("/viewWorker")
+	@GetMapping("/adminView/viewWorker")
 	public String viewWorker(Model model) {
 		List<WorkWorker> workerList = workerRepo.findAll();
 		model.addAttribute("workerList", workerList);
-		return "viewWorker";
+		return "/secure/viewWorker";
 	}
 
-	@GetMapping("/addWorker")
+	@GetMapping("/adminView/addWorker")
 	public String addWorker(Model model) {
 
-		return "addWorker";
+		return "/secure/addWorker";
 	}
 	
-	@PostMapping("/addWorker")
+	@PostMapping("/adminView/addWorker")
 	public String addWorker_POST(Model model,
 			@RequestParam String name) {
 		
@@ -430,10 +445,10 @@ public class HSController {
 		List<WorkWorker> workerList = workerRepo.findAll();
 		model.addAttribute("workerList", workerList);
 		
-		return "viewWorker";
+		return "/secure/viewWorker";
 	}
 
-	@GetMapping("/deleteWorker/{workerId}")
+	@GetMapping("/adminView/deleteWorker/{workerId}")
 	public String deleteWorker(Model model, @PathVariable String workerId, RedirectAttributes redirectAttributes) {
 		
 		RedirectView redirectView = new RedirectView("/viewWorker", true);
@@ -442,20 +457,20 @@ public class HSController {
 
 		redirectAttributes.addFlashAttribute("deleteWorker");
 		
-		return "redirect:/viewWorker";
+		return "redirect:/adminView/viewWorker";
 	}
 	
-	@GetMapping("/editWorker/{workerId}")
+	@GetMapping("/adminView/editWorker/{workerId}")
 	public String editWorker(Model model, @PathVariable String workerId) {
 		
 		Optional<WorkWorker> worker = workerRepo.findById(Long.valueOf(workerId));
 		
 		model.addAttribute("worker", worker.get());
 		
-		return "editWorker";
+		return "/secure/editWorker";
 	}
 
-	@PostMapping("/editWorker")
+	@PostMapping("/adminView/editWorker")
 	public String editCustomer(Model model, @RequestParam String id, @RequestParam String name) {
 		
 		Optional<WorkWorker> oldWorker = workerRepo.findById(Long.valueOf(id));
@@ -470,6 +485,6 @@ public class HSController {
 		
 		workerRepo.save(worker);
 		
-		return "redirect:/viewWorker";
+		return "redirect:/adminView/viewWorker";
 	}
 }

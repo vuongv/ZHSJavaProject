@@ -16,3 +16,11 @@ VALUES (50,'Chimney cleaning',1,'Chimney cleaning');
 INSERT INTO WORK_SERVICE(SERVICE_COST,SERVICE_DESCRIPTION, SERVICE_DURATION, SERVICE_NAME) 
 VALUES (2000,'Chimney Installation',4,'Chimney Installation');
 
+INSERT INTO User (email, encrypted_Password, enabled) VALUES
+('simon.hood@sheridancollege.ca', '$2a$10$1ltibqiyyBJMJQ4hqM7f0OusP6np/IHshkYc4TjedwHnwwNChQZCy', 1),
+('jonathan.penava@sheridancollege.ca', '$2a$10$PrI5Gk9L.tSZiW9FXhTS8O8Mz9E97k2FZbFvGFFaSsiTUIl.TCrFu', 1);
+
+INSERT INTO Role (rolename) VALUES ('ROLE_USER'),
+('ROLE_GUEST');
+INSERT INTO User_Roles VALUES (1, 1),
+(1, 2), (2, 2);
