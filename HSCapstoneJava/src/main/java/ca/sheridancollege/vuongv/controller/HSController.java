@@ -59,7 +59,8 @@ public class HSController {
 	public String adminView_GET(Model model) {
 		return "/secure/adminView";
 	}
-
+	
+	//ORDER
 	@GetMapping("/adminView/addOrder")
 	public String addOrder_GET(Model model) {
 		List<WorkWorker> workerList = workerRepo.findAll();
@@ -140,6 +141,53 @@ public class HSController {
 		model.addAttribute("serviceList", serviceList);
 		return "/secure/viewOrder";
 	}
+	@PostMapping("/adminView/viewOrder")
+	public String filterOrder(Model model, @RequestParam String searchInput, @RequestParam String filterOption) {
+		System.out.println("this is "+searchInput);
+		List<WorkOrder> orderList = new ArrayList<WorkOrder>();
+		List<WorkService> serviceList = new ArrayList<WorkService>();
+		List<WorkWorker> workerList = new ArrayList<WorkWorker>();		
+		List<Customer> customerList = new ArrayList<Customer>();
+		switch(filterOption) {
+		case "1":
+			orderList = orderRepo.findByServiceIgnoreCaseContaining(searchInput);
+			break;
+		case "2":
+			orderList = orderRepo.findByWorkerIgnoreCaseContaining(searchInput);
+			break;
+		case "3":
+			customerList = customerRepo.findByNameContaining(searchInput);
+			for (Customer c : customerList) {
+				for(WorkOrder w : c.getWorkOrders()) {
+					orderList.add(orderRepo.findById(w.getWorkOrderId()).get());
+				}
+			}
+			break;
+		}
+		
+		if(!orderList.isEmpty()) {
+			for (WorkOrder order : orderList) {
+				customerList.add(customerRepo.findByWorkOrders_WorkOrderId(order.getWorkOrderId()));
+			}
+		}else {
+			System.out.println("Order List is empty");
+		}
+		
+//		for (WorkOrder order : orderList) {
+//			serviceList.add(serviceRepo.findByOrderList_WorkOrderId(order.getWorkOrderId()));
+//		}
+//		for (WorkOrder order : orderList) {
+//			workerList.add(workerRepo.findByOrderList_WorkOrderId(order.getWorkOrderId()));
+//		}
+		for (WorkOrder o : orderList) {
+			System.out.println(o.getWorkOrderId());
+		}
+		model.addAttribute("orderList", orderList);
+		model.addAttribute("customerList", customerList);
+		model.addAttribute("workerList", workerList);
+		model.addAttribute("serviceList", serviceList);
+		return "/secure/viewOrder";
+	}
 	
 	@GetMapping("/adminView/deleteOrder/{workOrderId}")
 	public String deleteOrder (Model model, @PathVariable String workOrderId, RedirectAttributes redirectAttributes) {
@@ -169,28 +217,6 @@ public class HSController {
 		return "redirect:/adminView/viewOrder";
 	}
 	
-	@GetMapping("/adminView/deleteCustomer/{customerId}")
-	public String deleteCustomer(Model model, @PathVariable String customerId, RedirectAttributes redirectAttributes) {
-		Optional<Customer> cust = customerRepo.findById(Long.valueOf(customerId));
-		boolean customerResultDelete;
-		redirectAttributes.addFlashAttribute("cust", cust.get());
-
-		
-		if (cust.get().getWorkOrders().isEmpty()) {
-			customerRepo.deleteById(Long.valueOf(customerId));
-			customerResultDelete = true;
-		}
-		else {
-			System.out.println("Cant delete");
-			customerResultDelete = false;
-
-		}
-		
-		redirectAttributes.addFlashAttribute("customerResultDelete", customerResultDelete);
-		
-		
-		return "redirect:/adminView/viewCustomer";
-	}
 	
 	@GetMapping("/adminView/editOrder/{customerId}/{workOrderId}")
 	public String editOrder(Model model, @PathVariable Long workOrderId, 
@@ -250,6 +276,9 @@ public class HSController {
 		return "redirect:/adminView/viewOrder";
 	}
 	
+	
+	
+	//CUSTOMER
 	@GetMapping("/adminView/editCustomer/{customerId}")
 	public String editCustomer(Model model, @PathVariable String customerId) {
 		Optional<Customer> cust = customerRepo.findById(Long.valueOf(customerId));
@@ -277,6 +306,29 @@ public class HSController {
 		
 		return "redirect:/adminView/viewCustomer";
 	}
+	
+	@GetMapping("/adminView/deleteCustomer/{customerId}")
+	public String deleteCustomer(Model model, @PathVariable String customerId, RedirectAttributes redirectAttributes) {
+		Optional<Customer> cust = customerRepo.findById(Long.valueOf(customerId));
+		boolean customerResultDelete;
+		redirectAttributes.addFlashAttribute("cust", cust.get());
+
+		
+		if (cust.get().getWorkOrders().isEmpty()) {
+			customerRepo.deleteById(Long.valueOf(customerId));
+			customerResultDelete = true;
+		}
+		else {
+			System.out.println("Cant delete");
+			customerResultDelete = false;
+
+		}
+		
+		redirectAttributes.addFlashAttribute("customerResultDelete", customerResultDelete);
+		
+		
+		return "redirect:/adminView/viewCustomer";
+		}
 	
 	@GetMapping("/adminView/viewCustomer")
 	public String viewCustomer(Model model) {
@@ -330,6 +382,8 @@ public class HSController {
 		
 		return "redirect:/adminView/viewCustomer";
 	}
+	
+	//SERVICE
 	
 	@GetMapping("/adminView/addService")
 	public String addService_GET(Model model) {
@@ -413,6 +467,8 @@ public class HSController {
 		return "redirect:/adminView/viewService";
 	}
 
+	//WORKER
+	
 	@GetMapping("/adminView/viewWorker")
 	public String viewWorker(Model model) {
 		List<WorkWorker> workerList = workerRepo.findAll();
