@@ -64,13 +64,13 @@
 	</form>
 
 </div>
-	<table th:if="${serviceList != null and !serviceList.empty}" class="table table-striped">
+	<table th:if="${serviceList != null and !serviceList.empty}" class="table table-striped" id="serviceTable">
 		<tr class="table-info">
-			<th>Service Id</th>
-			<th>Name</th>
-			<th>Cost</th>
-			<th>Description</th>
-			<th>Duration</th>
+			<th><a href="#" onclick="return sortServiceTableById();">Service Id</a></th>
+			<th><a href="#" onclick="return sortServiceTableByName();">Name</a></th>
+			<th><a href="#" onclick="return sortServiceTableByCost();">Cost</a></th>
+			<th><a href="#" onclick="return sortServiceTableByDescription();">Description</a></th>
+			<th><a href="#" onclick="return sortServiceTableByDuration();">Duration</a></th>
 			<th>Action</th>
 		</tr>
 		<tr th:each="s : ${serviceList}">
