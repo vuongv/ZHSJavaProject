@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.lang.String;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,7 @@ public class HSController {
 	private ServiceRepository serviceRepo;
 	private CustomerRepository customerRepo;
 	private WorkerRepository workerRepo;
+	private List<String> searchList = new ArrayList<String>();
 	
 	@GetMapping("/")
 	public String index(Model model) { 
@@ -338,6 +340,36 @@ public class HSController {
 		
 		return "/secure/viewCustomer";
 	}
+	@PostMapping("/adminView/viewCustomer")
+	public String filterCustomer(Model model, @RequestParam String searchInput, @RequestParam String filterOption) {
+		List<Customer> customerList = new ArrayList<Customer>();
+		
+		switch(filterOption) {
+		case "1":
+			customerList = customerRepo.findByNameIgnoreCaseContaining(searchInput);
+			break;
+		case "2":
+			customerList = customerRepo.findByEmailIgnoreCaseContaining(searchInput);
+			break;
+		case "3":
+			customerList = customerRepo.findByHomePhoneIgnoreCaseContaining(searchInput);
+			break;
+		case "4":
+			customerList = customerRepo.findByAddressIgnoreCaseContaining(searchInput);
+			break;
+		case "5":
+			customerList = customerRepo.findByCityIgnoreCaseContaining(searchInput);
+			break;
+		case "6":
+			customerList = customerRepo.findByPostalIgnoreCaseContaining(searchInput);
+			break;
+		
+		}
+		model.addAttribute("customerList", customerList);
+
+		return "/secure/viewCustomer";
+	}
+	
 	@GetMapping("/adminView/addCustomer")
 	public String addCustomer(Model model){
 		
@@ -422,6 +454,12 @@ public class HSController {
 		return "/secure/viewService";
 	}
 	
+	@PostMapping("/adminView/viewService")
+	public String filterService(Model model, @RequestParam String searchInput) {
+		List<WorkService> serviceList = serviceRepo.findByServiceNameIgnoreCaseContaining(searchInput);
+		model.addAttribute("serviceList", serviceList);
+		return "/secure/viewService";
+	}
 	@GetMapping("/adminView/deleteService/{serviceId}")
 	public String deleteService (Model model, @PathVariable String serviceId, RedirectAttributes redirectAttributes ) {
 		RedirectView redirectView = new RedirectView("/viewService",true);
@@ -471,11 +509,34 @@ public class HSController {
 	
 	@GetMapping("/adminView/viewWorker")
 	public String viewWorker(Model model) {
+		searchList.clear();
 		List<WorkWorker> workerList = workerRepo.findAll();
 		model.addAttribute("workerList", workerList);
 		return "/secure/viewWorker";
 	}
+	@PostMapping("/adminView/viewWorker")
+	public String filterWorker(Model model, @RequestParam String searchInput) {
+		List<WorkWorker> workerList = workerRepo.findByNameIgnoreCaseContaining(searchInput);
+		searchList.add(searchInput);
+		model.addAttribute("workerList", workerList);
+		return "/secure/viewWorker";
+	}
 
+	@GetMapping("/adminView/viewWorker/nameSort")
+	public String nameSort(Model model) {
+		List<WorkWorker> workerList = new ArrayList<WorkWorker>();
+		
+//		if (searchList.isEmpty()) {
+//		workerList = workerRepo.findByOrderByName();
+//			System.out.println("Worker Search is blank");
+//		}
+//		else {
+//		workerList = workerRepo.findByNameOrderByNameContaining(searchList.get(0));
+//		}
+		model.addAttribute("workerList", workerList);
+		return "/secure/viewWorker";
+	}
+	
 	@GetMapping("/adminView/addWorker")
 	public String addWorker(Model model) {
 
@@ -525,6 +586,8 @@ public class HSController {
 		
 		return "/secure/editWorker";
 	}
+	
+	
 
 	@PostMapping("/adminView/editWorker")
 	public String editCustomer(Model model, @RequestParam String id, @RequestParam String name) {

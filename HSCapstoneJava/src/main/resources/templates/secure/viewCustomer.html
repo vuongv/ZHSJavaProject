@@ -62,7 +62,23 @@
 	</div>
 	
 	<br>
+	<div   style="margin-bottom:1%" >
+	<form method="post" action="#" th:action="@{/adminView/viewCustomer}" >
+	<select name="filterOption" class="searchDrop" required>
+		    <option value="1">Name</option>
+		    <option value="2">Email</option>
+		    <option value="3">Home Phone</option>
+		    <option value="4">Address</option>
+		    <option value="5">City</option>
+		    <option value="6">Postal</option>
 	
+		   </select>
+		<input type="text" name="searchInput" style="padding-right:10% ">
+		<input type="submit" value="Search" >
+		
+	</form>
+
+</div>
 	<table class="table table-striped">
 		<tr class="table-info">
 			<th>Id</th>

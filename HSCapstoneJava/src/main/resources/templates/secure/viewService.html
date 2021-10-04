@@ -56,7 +56,14 @@
 	<div th:if="${service == true}">
 		Successfully added [[${service.serviceName}]]
 	</div>
+<div   style="margin-bottom:1%" >
+	<form method="post" action="#" th:action="@{/adminView/viewService}" >
+		<input type="text" name="searchInput" style="padding-right:10% ">
+		<input type="submit" value="Search" >
+		
+	</form>
 
+</div>
 	<table th:if="${serviceList != null and !serviceList.empty}" class="table table-striped">
 		<tr class="table-info">
 			<th>Service Id</th>

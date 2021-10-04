@@ -59,16 +59,18 @@
 <div th:if ="${deleteStatus == true}" style="color:green">
 Successfully deleted [[${deletedOrder.workOrderId}]]
 </div>
-<div class="d-grid gap-2 d-md-flex justify-content-md-end" style="margin-bottom:1%" >
+<div   style="margin-bottom:1%" >
 	<form method="post" action="#" th:action="@{/adminView/viewOrder}" >
-		<input type="text" name="searchInput">
-		<input type="submit" value="Search" class="btn btn-info" >
-		<select name="filterOption" class="form-select" required>
+	<select name="filterOption" class="searchDrop" required>
 		    <option value="1">Service</option>
 		    <option value="2">Worker</option>
 		    <option value="3">Customer</option>
 		   </select>
+		<input type="text" name="searchInput" style="padding-right:10% ">
+		<input type="submit" value="Search" >
+		
 	</form>
+
 </div>
 <table th:if="${orderList != null and !orderList.empty}" class="table table-striped">
 	<tr class="table-info">

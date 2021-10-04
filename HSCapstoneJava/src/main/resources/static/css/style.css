@@ -54,3 +54,8 @@ textarea {
     border-radius: .25rem;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
  }
+.searchDrop{
+	padding-top: 0.35%;
+	padding-bottom: 0.35%;
+	
+}
