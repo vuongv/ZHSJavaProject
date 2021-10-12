@@ -35,7 +35,7 @@ public class HSController {
 	private ServiceRepository serviceRepo;
 	private CustomerRepository customerRepo;
 	private WorkerRepository workerRepo;
-	private List<String> searchList = new ArrayList<String>();
+
 	
 	@GetMapping("/")
 	public String index(Model model) { 
@@ -509,7 +509,6 @@ public class HSController {
 	
 	@GetMapping("/adminView/viewWorker")
 	public String viewWorker(Model model) {
-		searchList.clear();
 		List<WorkWorker> workerList = workerRepo.findAll();
 		model.addAttribute("workerList", workerList);
 		return "/secure/viewWorker";
@@ -517,25 +516,10 @@ public class HSController {
 	@PostMapping("/adminView/viewWorker")
 	public String filterWorker(Model model, @RequestParam String searchInput) {
 		List<WorkWorker> workerList = workerRepo.findByNameIgnoreCaseContaining(searchInput);
-		searchList.add(searchInput);
 		model.addAttribute("workerList", workerList);
 		return "/secure/viewWorker";
 	}
 
-	@GetMapping("/adminView/viewWorker/nameSort")
-	public String nameSort(Model model) {
-		List<WorkWorker> workerList = new ArrayList<WorkWorker>();
-		
-//		if (searchList.isEmpty()) {
-//		workerList = workerRepo.findByOrderByName();
-//			System.out.println("Worker Search is blank");
-//		}
-//		else {
-//		workerList = workerRepo.findByNameOrderByNameContaining(searchList.get(0));
-//		}
-		model.addAttribute("workerList", workerList);
-		return "/secure/viewWorker";
-	}
 	
 	@GetMapping("/adminView/addWorker")
 	public String addWorker(Model model) {

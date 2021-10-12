@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Login Page</title>
+<link rel="stylesheet" media="all" type="text/css" href="../static/css/Login.css" th:href="@{/css/Login.css}">
 </head>
-<body>
+<!-- <body>
 	<h1>Login Page</h1>
 	
 	<form method="post" th:action="@{/login}"> 
@@ -25,5 +26,39 @@
 	</form>
 	
 	<p><a href="/" th:href="@{/}">Back to home page</a></p>
-</body>
+</body> -->
+<body>
+    
+    <section style="margin-top: 15%;">
+      <div>
+        <h2 class="ltext">HS Fireplace Admin Panel</h2>
+        <div >
+		  <form th:action="@{/login}" method="post" style="padding: 10px;">
+			<div class="center" th:if="${param.error}">
+			<div style="color:red;">
+				Invalid username or password.
+			</div>
+			</div>
+		<div class="center" th:if="${param.logout}">
+			<div style="color:red;">
+				You have been logged out.
+			</div>
+		</div>
+            <div class="center" style="padding-top: 5px;">
+              <input size="37" class="ifield" type="email" placeholder="Email" name="username" required="required">
+            </div>
+            <div class="center" style="padding-top: 5px;">
+              <input size="37" class="ifield" type="password" placeholder="Password" name="password" required="required">
+            </div>
+            <div class="center" style="padding-top: 5px;">
+              <input class="button" type="submit" value="Sign In">
+			</div>
+			<p><a href="/" class="center" th:href="@{/}">Back to home page</a></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </body>
+
+  
 </html>

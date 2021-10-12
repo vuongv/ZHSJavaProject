@@ -24,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		ca.sheridancollege.vuongv.bean.User user = userRepository.findByEmail(username);
 		if (user == null) {
-			System.out.println("User not found: " + username );
+			System.out.println("User not foUund: " + username );
 			throw new UsernameNotFoundException("User " + username + "was not found in the database");
 		}
 		List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
