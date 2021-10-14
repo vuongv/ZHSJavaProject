@@ -30,6 +30,7 @@ import lombok.AllArgsConstructor;
 
 @Controller
 @AllArgsConstructor
+
 public class HSController {
 	private OrderRepository orderRepo;
 	private ServiceRepository serviceRepo;
@@ -49,17 +50,17 @@ public class HSController {
 	
 	@PostMapping("/login")
 	public String adminView() {
-		return "/secure/adminView";
+		return "secure/adminView";
 	}
 	
 	@GetMapping("/permission-denied") 
 	public String permissionDenied() {
-		return "/error/permission-denied"; 
+		return "error/permission-denied"; 
 	}
 	
 	@GetMapping("/adminView")
 	public String adminView_GET(Model model) {
-		return "/secure/adminView";
+		return "secure/adminView";
 	}
 	
 	//ORDER
@@ -70,7 +71,7 @@ public class HSController {
 		
 		model.addAttribute("workerList", workerList);
 		model.addAttribute("serviceList", serviceList);
-		return "/secure/addOrder";
+		return "secure/addOrder";
 	}
 	
 	@PostMapping("/adminView/addOrder")
@@ -141,7 +142,7 @@ public class HSController {
 		model.addAttribute("customerList", customerList);
 		model.addAttribute("workerList", workerList);
 		model.addAttribute("serviceList", serviceList);
-		return "/secure/viewOrder";
+		return "secure/viewOrder";
 	}
 	@PostMapping("/adminView/viewOrder")
 	public String filterOrder(Model model, @RequestParam String searchInput, @RequestParam String filterOption) {
@@ -158,7 +159,7 @@ public class HSController {
 			orderList = orderRepo.findByWorkerIgnoreCaseContaining(searchInput);
 			break;
 		case "3":
-			customerList = customerRepo.findByNameContaining(searchInput);
+			customerList = customerRepo.findByNameIgnoreCaseContaining(searchInput);
 			for (Customer c : customerList) {
 				for(WorkOrder w : c.getWorkOrders()) {
 					orderList.add(orderRepo.findById(w.getWorkOrderId()).get());
@@ -188,7 +189,7 @@ public class HSController {
 		model.addAttribute("customerList", customerList);
 		model.addAttribute("workerList", workerList);
 		model.addAttribute("serviceList", serviceList);
-		return "/secure/viewOrder";
+		return "secure/viewOrder";
 	}
 	
 	@GetMapping("/adminView/deleteOrder/{workOrderId}")
@@ -233,7 +234,7 @@ public class HSController {
 		model.addAttribute("workerList", workerList);
 		model.addAttribute("serviceList", serviceList);
 		
-		return "/secure/editOrder";
+		return "secure/editOrder";
 	}
 	
 	@PostMapping("/adminView/editOrder/{customerId}/{workOrderId}")
@@ -287,7 +288,7 @@ public class HSController {
 		
 		model.addAttribute("cust", cust.get());
 		
-		return "/secure/editCustomer";
+		return "secure/editCustomer";
 	}
 	
 	@PostMapping("/adminView/editCustomer")
@@ -338,7 +339,7 @@ public class HSController {
 		
 		model.addAttribute("customerList", customerList);
 		
-		return "/secure/viewCustomer";
+		return "secure/viewCustomer";
 	}
 	@PostMapping("/adminView/viewCustomer")
 	public String filterCustomer(Model model, @RequestParam String searchInput, @RequestParam String filterOption) {
@@ -367,13 +368,13 @@ public class HSController {
 		}
 		model.addAttribute("customerList", customerList);
 
-		return "/secure/viewCustomer";
+		return "secure/viewCustomer";
 	}
 	
 	@GetMapping("/adminView/addCustomer")
 	public String addCustomer(Model model){
 		
-		return "/secure/addCustomer";
+		return "secure/addCustomer";
 	}
 	
 	@PostMapping("/adminView/addCustomer")
@@ -419,7 +420,7 @@ public class HSController {
 	
 	@GetMapping("/adminView/addService")
 	public String addService_GET(Model model) {
-		return "/secure/addService";
+		return "secure/addService";
 	}
 	
 	@PostMapping("/adminView/addService")
@@ -451,14 +452,14 @@ public class HSController {
 	public String viewService(Model model) {
 		List<WorkService> serviceList = serviceRepo.findAll();
 		model.addAttribute("serviceList", serviceList);
-		return "/secure/viewService";
+		return "secure/viewService";
 	}
 	
 	@PostMapping("/adminView/viewService")
 	public String filterService(Model model, @RequestParam String searchInput) {
 		List<WorkService> serviceList = serviceRepo.findByServiceNameIgnoreCaseContaining(searchInput);
 		model.addAttribute("serviceList", serviceList);
-		return "/secure/viewService";
+		return "secure/viewService";
 	}
 	@GetMapping("/adminView/deleteService/{serviceId}")
 	public String deleteService (Model model, @PathVariable String serviceId, RedirectAttributes redirectAttributes ) {
@@ -473,7 +474,7 @@ public class HSController {
 	public String editService(Model model, @PathVariable String serviceId) {
 		Optional<WorkService> serv = serviceRepo.findById(Long.valueOf(serviceId));
 		model.addAttribute("serv", serv.get());
-		return "/secure/editService";
+		return "secure/editService";
 	}
 	
 	@PostMapping("/adminView/editService")
@@ -511,20 +512,20 @@ public class HSController {
 	public String viewWorker(Model model) {
 		List<WorkWorker> workerList = workerRepo.findAll();
 		model.addAttribute("workerList", workerList);
-		return "/secure/viewWorker";
+		return "secure/viewWorker";
 	}
 	@PostMapping("/adminView/viewWorker")
 	public String filterWorker(Model model, @RequestParam String searchInput) {
 		List<WorkWorker> workerList = workerRepo.findByNameIgnoreCaseContaining(searchInput);
 		model.addAttribute("workerList", workerList);
-		return "/secure/viewWorker";
+		return "secure/viewWorker";
 	}
 
 	
 	@GetMapping("/adminView/addWorker")
 	public String addWorker(Model model) {
 
-		return "/secure/addWorker";
+		return "secure/addWorker";
 	}
 	
 	@PostMapping("/adminView/addWorker")
@@ -546,7 +547,7 @@ public class HSController {
 		List<WorkWorker> workerList = workerRepo.findAll();
 		model.addAttribute("workerList", workerList);
 		
-		return "/secure/viewWorker";
+		return "secure/viewWorker";
 	}
 
 	@GetMapping("/adminView/deleteWorker/{workerId}")
@@ -568,7 +569,7 @@ public class HSController {
 		
 		model.addAttribute("worker", worker.get());
 		
-		return "/secure/editWorker";
+		return "secure/editWorker";
 	}
 	
 	
