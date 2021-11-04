@@ -24,6 +24,27 @@ function display(t) {
         testimonialNum = 1;
     }
     
-    setTimeout(display, 4000);
+    setTimeout(displayNext, 10);
+
+}
+function displayNext(t) {
+    var i;
+    console.log(t);
+    var testimonial; 
+    testimonial = document.getElementsByClassName("currentTestimonial");
+    
+    for (i = 0; i < testimonial.length; i++) {
+        testimonial[testimonialNum-1].style.display = "block";
+        testimonial[i].style.display = "none";
+        testimonial[testimonialNum-1].style.display = "block";
+        
+    }
+    
+    testimonialNum++;
+    if (testimonialNum > testimonial.length) {
+        testimonialNum = 1;
+    }
+    
+    setTimeout(displayNext, 4000);
 
 }

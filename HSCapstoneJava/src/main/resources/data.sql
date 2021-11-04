@@ -25,10 +25,9 @@ INSERT INTO User (username, encrypted_Password, enabled) VALUES
 ('HSFEmployee', '$2a$10$VLX9U74XZYCfx3e.zcDZVO7AmGovsupE8blEAC9ySYrnbHK7vm4GW', 1),
 ('HSFDevRoot', '$2a$10$ujmJaR0wI9nbB0/1sIygp.b3pR4.hfGbE/uY5j2cZP4xyF3Dk821O', 1);
 
-INSERT INTO Role (rolename) VALUES ('ROLE_HARRY'),
-('ROLE_EMPLOYEE'), ('ROLE_DEV');
-INSERT INTO User_Roles VALUES (1, 1),
-(1, 2), (2, 2), (3,1), (3,2), (3,3);
+INSERT INTO Role (rolename) VALUES ('ROLE_ADMIN'),
+('ROLE_EMPLOYEE');
+INSERT INTO User_Roles VALUES (1, 1), (1, 2), (2, 2), (3,1), (3,2);
 
 INSERT INTO Testimonial (SERVICE_NAME, USER_EMAIL, USER_NAME, USER_TESTIMONIAL, TO_DISPLAY) VALUES ('Chimney Installation', 'seby_97@yahoo.ca', 'Sebastian Koehler','i love cookies and fireplaces!', TRUE);
 INSERT INTO Testimonial (SERVICE_NAME, USER_EMAIL, USER_NAME, USER_TESTIMONIAL, TO_DISPLAY) VALUES ('Chimney cleaning', 'TEST_97@yahoo.ca', 'TEST Koehler','I LOVE FIREPLACES!', FALSE);

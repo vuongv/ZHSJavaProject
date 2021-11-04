@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -738,6 +739,18 @@ public class HSController {
 		List<Testimonial> tList = tRepo.findByServiceNameIgnoreCaseContaining(searchInput);
 		model.addAttribute("testList", tList);
 		return "secure/viewTestimonial";
+	}
+	
+	@GetMapping("/adminView/addImage")
+	public String addImage_GET(Model model) {
+		
+		return "secure/addImage";
+	}
+	
+	@PostMapping("/adminView/addImage")
+	public String addImage_POST(Model model, @RequestParam MultipartFile multipartFile) {
+		
+		return "secure/addImage";
 	}
 	
 	
