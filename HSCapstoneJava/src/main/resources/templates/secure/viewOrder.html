@@ -36,6 +36,9 @@
 	        <li class="nav-item">
 	          <a class="nav-link" href="/adminView/viewCustomer">Customer</a>
 	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link" href="/adminView/viewTestimonial">Testimonial</a>
+	        </li>
 	         <li class="nav-item" >
 	        	<a class="nav-link" id="btn-danger" href="#" th:href="@{/logout}">Logout</a>	 
 	        </li>       
@@ -50,15 +53,19 @@
 
 <h1 class="pageTitle">Orders</h1>
 
+<div th:if ="${addStatus == true}" style="color:green">
+Successfully added Order for [[${customer.name}]]
+</div>
+<div th:if ="${deleteStatus == true}" style="color:green">
+Successfully deleted [[${deletedOrder.workOrderId}]]
+</div>
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
 	<a href="/adminView/addOrder" th:href="@{/adminView/addOrder}" class="btn btn-info" role="button">Add Order</a>
 </div>
 
 <br>
 
-<div th:if ="${deleteStatus == true}" style="color:green">
-Successfully deleted [[${deletedOrder.workOrderId}]]
-</div>
+
 <div   style="margin-bottom:1%" >
 	<form method="post" action="#" th:action="@{/adminView/viewOrder}" >
 	<select name="filterOption" class="searchDrop" required>

@@ -34,6 +34,9 @@
 	        <li class="nav-item">
 	          <a class="nav-link" href="/adminView/viewCustomer">Customer</a>
 	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link" href="/adminView/viewTestimonial">Testimonial</a>
+	        </li>
 	        <li class="nav-item" >
 	        	<a class="nav-link" id="btn-danger" href="#" th:href="@{/logout}">Logout</a>	 
 	        </li>       
@@ -47,15 +50,18 @@
 
 	<h1 class="pageTitle">Services</h1>
 	
+	<div th:if ="${addStatus == true}" style="color:green">
+		Successfully added [[${service.serviceName}]]
+	</div>
+	
 	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
 		<a href="/adminView/addOrder" th:href="@{/adminView/addService}" class="btn btn-info" role="button">Add Service</a>
 	</div>
 	
 	<br>
 	
-	<div th:if="${service == true}">
-		Successfully added [[${service.serviceName}]]
-	</div>
+	
+	
 <div   style="margin-bottom:1%" >
 	<form method="post" action="#" th:action="@{/adminView/viewService}" >
 		<input type="text" name="searchInput" style="padding-right:10% ">

@@ -1,0 +1,77 @@
+.gallery-slideshow {
+    max-width: 750px;
+    position: relative;
+    margin: auto;
+  }
+  
+  .text {
+    color: black;
+    position: absolute;
+    bottom: 8px;
+    width: 100%;
+    text-align: center;
+  }
+  .currentImage{
+      display: none;
+  }
+  .slide {
+    -webkit-animation-name: fade;
+    -webkit-animation-duration: 1.5s;
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .1}
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .1}
+  to {opacity: 1}
+}
+.licenter {
+    float: center ;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+li a:hover {
+    background-color: rgba(75, 71, 47, 0.644);
+  }
+  
+.nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+.w3-animate-left{
+    position:relative;
+    animation:animateleft 0.4s}
+
+    @keyframes animateleft{
+        from{left:-300px;opacity:0} 
+        to{left:0;opacity:1}}
+
+        .row {
+          display: flex;
+          flex-wrap: wrap;
+          padding: 0 4px;
+        }
+        
+      
+        .column {
+          flex: 30%;
+          max-width: 30%;
+          padding: 0 4px;
+        }
+        
+        .column img {
+          margin-top: 8px;
+          vertical-align: middle;
+          width: 100%;
+        }        

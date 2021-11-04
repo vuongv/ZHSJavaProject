@@ -35,12 +35,6 @@ function verifyDeleteService(x){
 	}
 }
 
-function emailLowerCase(id) {
-  var x = document.getElementById(id);
-  x.value = x.value.toLowerCase();
-}
-
-
 function verifyDeleteWorker(x) {
     var x = confirm("Are you sure you would like to delete worker: " + x);
 	if(x == true){
@@ -49,7 +43,21 @@ function verifyDeleteWorker(x) {
 	else{
 		return false;
 	}
+}
 
+function verifyDeleteTestimonial(y){
+	var x = confirm("Are you sure you would like to delete the testimonial from: " + y);
+	if(x == true){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+function emailLowerCase(id) {
+  var x = document.getElementById(id);
+  x.value = x.value.toLowerCase();
 }
 
 function isNumberKey(evt) {

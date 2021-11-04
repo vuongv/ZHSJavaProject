@@ -28,3 +28,6 @@ INSERT INTO Role (rolename) VALUES ('ROLE_USER'),
 ('ROLE_GUEST');
 INSERT INTO User_Roles VALUES (1, 1),
 (1, 2), (2, 2);
+
+INSERT INTO Testimonial (SERVICE_NAME, USER_EMAIL, USER_NAME, USER_TESTIMONIAL, TO_DISPLAY) VALUES ('Chimney Installation', 'seby_97@yahoo.ca', 'Sebastian Koehler','i love cookies and fireplaces!', TRUE);
+INSERT INTO Testimonial (SERVICE_NAME, USER_EMAIL, USER_NAME, USER_TESTIMONIAL, TO_DISPLAY) VALUES ('Chimney cleaning', 'TEST_97@yahoo.ca', 'TEST Koehler','I LOVE FIREPLACES!', FALSE);

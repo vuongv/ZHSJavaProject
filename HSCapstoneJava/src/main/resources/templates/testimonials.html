@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html style="font-size: 16px;" xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <title>Testimonials</title>
+    <link rel="stylesheet" href="../static/css/Testimonials1.css" th:href="@{/css/Testimonials1.css}">
+<script src="../static/js/Testimonials.js" th:src="@{/js/Testimonials.js}"></script>
+    
+  </head>
+  <header >
+    <div style="height: 200px; background-color:rgb(223, 179, 135); margin: 0; padding: 0;">
+
+    </div>
+    <div>
+      <ul class="nav" style="background-color:rgb(223, 179, 135);">
+        <li style="float: left; background-color:rgb(223, 179, 135);"><a style="display: block; padding: 14px 16px; text-align: center; text-decoration: none;" href="Home.html">Home</a></li>
+        <li style="float: left; background-color:rgb(223, 179, 135);"><a style="display: block; padding: 14px 16px; text-align: center; text-decoration: none;" href="Gallery.html">Gallery</a></li>
+        <li style="float: left; background-color:rgb(223, 179, 135);"><a style="display: block; padding: 14px 16px; text-align: center; text-decoration: none;" href="Testimonials.html">Testimonials</a></li>
+      </ul>
+    </div>
+    
+  </header>
+ <body>
+   <section>
+   <div class="testimonial-slideshow">
+      <!-- <div class="currentTestimonial slide">
+        <img src="quote.png" th:src="@{/images/quote.png}" style="width:100%">
+        <div class="text" style="height: 75%; font-size: x-large;">
+          <strong><p>Chimney Installation</p></strong>
+        </div>
+        <div class="text" style="height: 50%; font-size: large;">
+          "it was Ok."
+        </div>
+        <div class="text" style="height: 35%; font-size: large;">
+          <strong><p>-Rich Smith</p></strong>
+        </div>
+      </div>
+
+      <div class="currentTestimonial slide">
+        <img src="quote.png" th:src="@{/images/quote.png}" style="width:100%">
+        <div class="text" style="height: 75%; font-size: x-large;">
+          <strong><p>Chimney Sweep</p></strong>
+        </div>
+        <div class="text" style="height: 50%; font-size: large;">
+          "They even gave me a free cookie"
+        </div>
+        <div class="text" style="height: 35%; font-size: large;">
+          <strong><p>-Rich Smith</p></strong>
+        </div>
+      </div>
+
+      <div class="currentTestimonial slide">
+        <img src="quote.png" th:src="@{/images/quote.png}" style="width:100%">
+        <div class="text" style="height: 75%; font-size: x-large;">
+          <strong><p>Chimney Refitting</p></strong>
+        </div>
+        <div class="text" style="height: 50%; font-size: large;">
+          "Fit for Santa Claus"
+        </div>
+        <div class="text" style="height: 35%; font-size: large;">
+          <strong><p>-Simon Hood</p></strong>
+        </div>
+      </div> -->
+      
+      <div th:each="t : ${tList}" class="currentTestimonial slide">
+        <img src="quote.png" th:src="@{/images/quote.png}" style="width:100%">
+        <div class="text" style="height: 75%; font-size: x-large;">
+          <strong><p>[[${t.serviceName}]]</p></strong>
+        </div>
+        <div class="text" style="height: 50%; font-size: large;">
+          [[${t.userTestimonial}]]
+        </div>
+        <div class="text" style="height: 35%; font-size: large;">
+          <strong><p>[[${t.userName}]]</p></strong>
+        </div>
+      </div>
+      
+   </div>
+  </section>
+  <section>
+    <form method="post">
+    <div style="text-align: center;" class="testimonial-box">
+      <h2 style="text-align: center;">Share Your Experience</h2>
+        <!-- <p>Service</p>
+        <select name="Service" required="required" style="width: 80%; margin-top: 2%; padding: 2% 2% 2% 2%;" >
+          <option value="Chimney Sweep">Chimney Sweep</option>
+          <option value="Chimney Inspection">Chimney Inspection</option>
+          <option value="Fireplace Build">Fireplace Build</option>
+        </select> <br> -->
+        <label for="inputService" >Service Type</label><br>
+		   <select name="orderServiceType" id="inputService" style="width: 80%; margin-top: 2%; padding: 2% 2% 2% 2%" required>
+		     	<option  disabled selected value=""> --Select a Service--</option>
+			<option th:each="service : ${serviceList}" th:value="${service.serviceName}" th:text="${service.serviceName}">Chimney Cleaning</option>
+		   </select>
+        <input type="email" placeholder="Enter a valid email address" name="email" required="required" style="width: 75%; margin-top: 2%; padding: 2% 2% 2% 2%;"> <br>
+        <input type="text" placeholder="Enter your Name" name="name" required="required" style="width: 75%; margin-top: 2%; padding: 2% 2% 2% 2%;"> <br>
+        <textarea placeholder="Enter your testimonial" rows="4" cols="50" name="message" required="required" style="width: 76%; margin-top: 2%; padding: 2% 2% 2% 2%;"></textarea> <br>
+        <input type="submit" value="Submit" style="float: left; margin-left: 10%;" class="button">
+    </div>
+  
+    </form>
+  </section>
+ 
+ </body> 
+ <footer>
+
+ </footer>
+ </html>

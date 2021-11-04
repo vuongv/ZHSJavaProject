@@ -2,7 +2,7 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>View Customers</title>
+<title>View Testimonial</title>
 <script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
 <link rel="stylesheet" type="text/css" media="all"  href="../static/css/style.css" th:href="@{/css/style.css}" />
 
@@ -32,12 +32,12 @@
 	          <a class="nav-link" href="/adminView/viewWorker">Worker</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link active" href="/adminView/viewCustomer">Customer</a>
+	          <a class="nav-link" href="/adminView/viewCustomer">Customer</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="/adminView/viewTestimonial">Testimonial</a>
+	          <a class="nav-link active" href="/adminView/viewTestimonial">Testimonial</a>
 	        </li>
-	         <li class="nav-item" >
+	        <li class="nav-item" >
 	        	<a class="nav-link" id="btn-danger" href="#" th:href="@{/logout}">Logout</a>	 
 	        </li>       
 	      </ul>
@@ -47,77 +47,58 @@
 
 </header>
 <body>
-	<h1 class="pageTitle">Customers</h1>
-	
-	<div th:if="${addSuccess} == true">
-		<p style="color:green;">Successfully added new Customer!</p>
+
+	<h1 class="pageTitle">Testimonials</h1>
+	<div th:if="${editStatus == true}" style="color:green">
+		Successfully editted [[${t.userName}]]'s Testimonial
 	</div>
-	<div th:if ="${customerResultDelete == true}">
-		<p style="color:green;">Successfully deleted [[${cust.name}]]</p>
+	<div th:if="${addStatus == true}" style="color:green">
+		Successfully added [[${t.userName}]]'s Testimonial
 	</div>
-	<div th:if ="${customerResultDelete == false}">
-		<p style="color:red;">Couldn't delete [[${cust.name}]], You must delete his work orders first!</p>
+	<div th:if="${deleteTestimonial == true}" style="color:green">
+		Successfully deleted [[${deletedTest.userName}]]'s Testimonial
 	</div>
-	
-	
 	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-		<a href="#" th:href="@{/adminView/addCustomer}" class="btn btn-info" role="button">Add Customer</a>
+		<a href="/adminView/addTestimonial" th:href="@{/adminView/addTestimonial}" class="btn btn-info" role="button">Add Testimonial</a>
 	</div>
 	
 	<br>
-	<div   style="margin-bottom:1%" >
-	<form method="post" action="#" th:action="@{/adminView/viewCustomer}" >
-	<select name="filterOption" class="searchDrop" required>
-		    <option value="1">Name</option>
-		    <option value="2">Email</option>
-		    <option value="3">Home Phone</option>
-		    <option value="4">Address</option>
-		    <option value="5">City</option>
-		    <option value="6">Postal</option>
 	
-		   </select>
+
+<div style="margin-bottom:1%" >
+	<form method="post" action="#" th:action="@{/adminView/viewTestimonial}" >
 		<input type="text" name="searchInput" style="padding-right:10% ">
 		<input type="submit" value="Search" >
 		
 	</form>
 
 </div>
-	<table class="table table-striped" id="customerTable">
+	<table th:if="${testList != null and !testList.empty}" class="table table-striped" id="serviceTable">
 		<tr class="table-info">
-			<th><a href="#" onclick="return sortCustomerTableById();">Id</a></th>
-			<th><a href="#" onclick="return sortCustomerTableByName();">Name</a></th>
-			<th><a href="#" onclick="return sortCustomerTableByEmail();">Email</a></th>
-			<th><a href="#" onclick="return sortCustomerTableByHomePhone();">Home Phone</a></th>
-			<th><a href="#" onclick="return sortCustomerTableByCellPhone();">Cell Phone</a></th>
-			<th><a href="#" onclick="return sortCustomerTableByAddress();">Address</a></th>
-			<th><a href="#" onclick="return sortCustomerTableByCity();">City</a></th>
-			<th><a href="#" onclick="return sortCustomerTableByPostal();">Postal</a></th>
-			<th><a href="#" onclick="return sortCustomerTableByProvince();">Province</a></th>
+			<th><a href="#" onclick="return sortServiceTableById();">Testimonial Id</a></th>
+			<th><a href="#" onclick="return sortServiceTableByName();">Service Name</a></th>
+			<th><a href="#" onclick="return sortServiceTableByCost();">User Name</a></th>
+			<th><a href="#" onclick="return sortServiceTableByDescription();">Testimonial</a></th>
+			<th><a href="#" onclick="return sortServiceTableByDuration();">To Display</a></th>
 			<th>Action</th>
 		</tr>
-		<tr th:each="cust : ${customerList}">
-			<td th:text="${cust.id}"></td>
-			<td th:text="${cust.name}"></td>
-			<td th:text="${cust.email}"></td>
-			<td th:text="${cust.homePhone}"></td>
-			<td th:text="${cust.cellPhone}"></td>
-			<td th:text="${cust.address}"></td>
-			<td th:text="${cust.city}"></td>
-			<td th:text="${cust.postal}"></td>
-			<td th:text="${cust.province}"></td>
-			<td th:each="order : ${workOrders}" th:text="${order.workOrderId}"></td>
+		<tr th:each="t : ${testList}">
+			<td th:text="${t.testimonialId}"></td>
+			<td th:text="${t.serviceName}"></td>
+			<td th:text="${t.userName}"></td>
+			<td th:text="${t.userTestimonial}"></td>
+			<td th:text="${t.toDisplay}"></td>
 			<td>
 			
 			<div class="row">
 				<div class="col-sm-1">
 					<div class="row">
-						<form method="get" action="#" th:action="@{/adminView/deleteCustomer/{customerId}(customerId=${cust.id})}"
-							th:data-customerName="${cust.name}"
-							onsubmit="return verifyDeleteCust(this.getAttribute('data-customerName'))">
-							<button type="submit" class="noStyleBtn"><img th:src="@{/images/delete.png}"  alt="delete.png" /></button>
+						<form method="get" action="#" th:action="@{/adminView/deleteTestimonial/{testimonialId}(testimonialId=${t.testimonialId})}"
+						th:data-userName="${t.userName}"
+						onsubmit="return verifyDeleteTestimonial(this.getAttribute('data-userName'))">
+							<button class="noStyleBtn"><img th:src="@{/images/delete.png}"  alt="delete.png" /></button>
 						</form>
 					</div>
-						
 					<div class="row">
 						<div class="col-sm-1 smallText">Delete</div>
 					</div>
@@ -125,7 +106,7 @@
 				<div class="col-sm-1"></div> <!-- empty for spacing -->
 				<div class="col-sm-1">
 					<div class="row">
-						<form method="get" action="#" th:action="@{/adminView/editCustomer/{customerId}(customerId=${cust.id})}">
+						<form method="get" action="#" th:action="@{/adminView/editTestimonial/{testimonialId}(testimonialId=${t.testimonialId})}">
 							<button class="noStyleBtn"><img th:src="@{/images/pencil.png}"  alt="pencil.png" /></button>
 						</form>
 					</div>
@@ -134,10 +115,11 @@
 					</div>
 				</div>
 			</div>
-			
+		
 			</td>
 		</tr>
 	</table>
+	
 	
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 </body>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html style="font-size: 16px;" xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <title>Gallery</title>
+    <link rel="stylesheet" href="../static/css/Gallery1.css" th:href="@{/css/Gallery1.css}">
+    <script src="../static/js/Gallery.js" th:src="@{/js/Gallery.js}"></script>
+    
+  </head>
+  <header >
+    <div style="height: 200px; background-color:rgb(223, 179, 135); margin: 0; padding: 0;">
+
+    </div>
+    <div>
+      <ul class="nav" style="background-color:rgb(223, 179, 135);">
+        <li style="float: left; background-color:rgb(223, 179, 135);"><a style="display: block; padding: 14px 16px; text-align: center; text-decoration: none;" href="Home.html">Home</a></li>
+        <li style="float: left; background-color:rgb(223, 179, 135);"><a style="display: block; padding: 14px 16px; text-align: center; text-decoration: none;" href="Gallery.html">Gallery</a></li>
+        <li style="float: left; background-color:rgb(223, 179, 135);"><a style="display: block; padding: 14px 16px; text-align: center; text-decoration: none;" href="Testimonials.html">Testimonials</a></li>
+      </ul>
+    </div>
+    
+  </header>
+ <body>
+   <section>
+   <div class="gallery-slideshow">
+      <div class="currentImage slide">
+        <img src="quote.png" th:src="@{/images/quote.png}" style="width:100%">
+      </div>
+
+      <div class="currentImage slide">
+        <img src="quote.png" th:src="@{/images/quote.png}" style="width:100%">
+      </div>
+
+      <div class="currentImage slide">
+        <img src="quote.png" th:src="@{/images/quote.png}" style="width:100%">
+      </div>
+      
+   </div>
+  </section>
+  <section>
+    <!--Needs to be dynamically generated-->
+    <div class="row">
+      <div class="column">
+        <img src="quote.png" th:src="@{/images/quote.png}">
+        <img src="quote.png" th:src="@{/images/quote.png}">
+        <img src="quote.png" th:src="@{/images/quote.png}">
+        <img src="quote.png" th:src="@{/images/quote.png}">
+        <img src="quote.png" th:src="@{/images/quote.png}">
+        <img src="quote.png" th:src="@{/images/quote.png}">
+        <img src="quote.png" th:src="@{/images/quote.png}">
+        <img src="quote.png" th:src="@{/images/quote.png}">
+      </div>
+      <div class="column">
+        <img src="quote.png" th:src="@{/images/quote.png}">
+        <img src="quote.png" th:src="@{/images/quote.png}">
+        <img src="quote.png" th:src="@{/images/quote.png}">
+        <img src="quote.png" th:src="@{/images/quote.png}">
+        <img src="quote.png" th:src="@{/images/quote.png}">
+        <img src="quote.png" th:src="@{/images/quote.png}">
+        <img src="quote.png" th:src="@{/images/quote.png}">
+        <img src="quote.png" th:src="@{/images/quote.png}">
+      </div>
+      <div class="column">
+        <img src="quote.png" th:src="@{/images/quote.png}">
+        <img src="quote.png" th:src="@{/images/quote.png}">
+        <img src="quote.png" th:src="@{/images/quote.png}">
+        <img src="quote.png" th:src="@{/images/quote.png}">
+        <img src="quote.png" th:src="@{/images/quote.png}">
+        <img src="quote.png" th:src="@{/images/quote.png}">
+        <img src="quote.png" th:src="@{/images/quote.png}">
+        <img src="quote.png" th:src="@{/images/quote.png}">
+      </div>
+
+    </div>
+  </section>
+ 
+ </body> 
+ <footer>
+
+ </footer>
+ </html>

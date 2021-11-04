@@ -6,7 +6,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.lang.String;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -19,12 +18,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import ca.sheridancollege.vuongv.bean.Customer;
+import ca.sheridancollege.vuongv.bean.Testimonial;
 import ca.sheridancollege.vuongv.bean.WorkOrder;
 import ca.sheridancollege.vuongv.bean.WorkService;
 import ca.sheridancollege.vuongv.bean.WorkWorker;
 import ca.sheridancollege.vuongv.repository.CustomerRepository;
 import ca.sheridancollege.vuongv.repository.OrderRepository;
 import ca.sheridancollege.vuongv.repository.ServiceRepository;
+import ca.sheridancollege.vuongv.repository.TestimonialRepository;
 import ca.sheridancollege.vuongv.repository.WorkerRepository;
 import lombok.AllArgsConstructor;
 
@@ -36,6 +37,7 @@ public class HSController {
 	private ServiceRepository serviceRepo;
 	private CustomerRepository customerRepo;
 	private WorkerRepository workerRepo;
+	private TestimonialRepository tRepo;
 
 	
 	@GetMapping("/")
@@ -89,9 +91,8 @@ public class HSController {
 			@RequestParam String orderWorker,
 			@RequestParam String orderTotal,
 			@RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate orderAppointmentDate,
-			@RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.TIME) LocalTime orderAppointmentTime
-			
-			) {
+			@RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.TIME) LocalTime orderAppointmentTime,
+			RedirectAttributes redirectAttributes) {
 			
 			//Assuming we are always creating a new customer
 			//TODO: Take care of existing customers by checking if exist, if not, create new customer
@@ -118,8 +119,12 @@ public class HSController {
 					.build();
 			
 			cust.getWorkOrders().add(workOrder);
-			orderRepo.save(workOrder); //line 85
-			customerRepo.save(cust);
+			WorkOrder w = orderRepo.save(workOrder); //line 85
+			Customer c = customerRepo.save(cust);
+			if (c != null && w != null) {
+				redirectAttributes.addFlashAttribute("addStatus", true);
+				redirectAttributes.addFlashAttribute("customer", c);
+			}
 		return "redirect:/adminView/viewOrder";
 	}
 	// create a seperate saveWork method with parameters line 85
@@ -428,7 +433,8 @@ public class HSController {
 			@RequestParam String serviceName,
 			@RequestParam double serviceCost,
 			@RequestParam String serviceDescription,
-			@RequestParam int serviceDuration) {
+			@RequestParam int serviceDuration,
+			RedirectAttributes redirectAttributes) {
 		
 		if(serviceRepo.existsByServiceName(serviceName)) {
 			
@@ -443,8 +449,12 @@ public class HSController {
 				.serviceDescription(serviceDescription)
 				.serviceDuration(serviceDuration)
 				.build();
-		serviceRepo.save(service);
-		model.addAttribute("service", service);
+		WorkService s = serviceRepo.save(service);
+		if (s != null) {
+			redirectAttributes.addFlashAttribute("addStatus", true);
+			redirectAttributes.addFlashAttribute("service", s);
+			
+		}
 		return "redirect:/adminView/viewService";
 	}
 	
@@ -542,10 +552,15 @@ public class HSController {
 				.builder()
 					.name(name)
 					.build();
-		workerRepo.save(worker);
+		WorkWorker w = workerRepo.save(worker);
 		model.addAttribute("worker", worker);
 		List<WorkWorker> workerList = workerRepo.findAll();
 		model.addAttribute("workerList", workerList);
+		if (w != null) {
+			model.addAttribute("addStatus", true);
+			model.addAttribute("worker", w);
+			
+		}
 		
 		return "secure/viewWorker";
 	}
@@ -573,9 +588,9 @@ public class HSController {
 	}
 	
 	
-
+	//Used to be editCustomer, pretty sure it had to be Worker, if anything breaks, check this
 	@PostMapping("/adminView/editWorker")
-	public String editCustomer(Model model, @RequestParam String id, @RequestParam String name) {
+	public String editWorker(Model model, @RequestParam String id, @RequestParam String name) {
 		
 		Optional<WorkWorker> oldWorker = workerRepo.findById(Long.valueOf(id));
 		List<WorkOrder> relatedWorkOrder = orderRepo.findByWorker(oldWorker.get().getName()) ;
@@ -591,4 +606,152 @@ public class HSController {
 		
 		return "redirect:/adminView/viewWorker";
 	}
+	
+	@GetMapping("/testimonials")
+	public String testimonials(Model model) {
+		List<WorkService> serviceList = serviceRepo.findAll();
+		List<Testimonial> tList = tRepo.findByToDisplay(true);
+		
+		model.addAttribute("serviceList", serviceList);
+		model.addAttribute("tList", tList);
+		return "testimonials";
+	}
+	
+	@PostMapping("/testimonials")
+	public String addTestimonial(Model model, @RequestParam String orderServiceType,
+			@RequestParam String email,
+			@RequestParam String name,
+			@RequestParam String message) {
+		
+		Testimonial t = Testimonial.builder().serviceName(orderServiceType)
+				.userEmail(email)
+				.userName(name)
+				.userTestimonial(message)
+				.build();
+		
+		tRepo.save(t);
+		
+		
+		return "redirect:/testimonials";
+	}
+	
+	@GetMapping("/adminView/viewTestimonial")
+	public String viewTestimonial(Model model) {
+		List<Testimonial> testList = tRepo.findAll();
+		model.addAttribute("testList", testList);
+		return "secure/viewTestimonial";
+	}
+	
+	@GetMapping("/adminView/addTestimonial")
+	public String addTestimonial_GET(Model model) {
+		List<WorkService> serviceList = serviceRepo.findAll();
+		
+		model.addAttribute("serviceList", serviceList);
+		return "secure/addTestimonial";
+	}
+	
+	@PostMapping("/adminView/addTestimonial")
+	public String addTestimonial_POST(Model model,
+			@RequestParam String orderServiceType,
+			@RequestParam String userEmail,
+			@RequestParam String userName,
+			@RequestParam String testimonial,
+			RedirectAttributes redirectAttributes) {
+		
+		Testimonial t = Testimonial.builder().userName(userName)
+				.serviceName(orderServiceType)
+				.userEmail(userEmail)
+				.userTestimonial(testimonial)
+				.build();
+		
+		Testimonial test = tRepo.save(t);
+		
+		if (test != null) {
+			redirectAttributes.addFlashAttribute("addStatus", true);
+			redirectAttributes.addFlashAttribute("t", test);
+		}
+		return "redirect:/adminView/viewTestimonial";
+	}
+	
+	@GetMapping("/adminView/deleteTestimonial/{testimonialId}")
+	public String deleteTestimonial (Model model, @PathVariable String testimonialId,
+			RedirectAttributes redirectAttributes ) {
+		RedirectView redirectView = new RedirectView("/viewTestimonial",true);
+		Optional<Testimonial> t = tRepo.findById(Long.valueOf(testimonialId));
+		tRepo.deleteById(Long.valueOf(testimonialId));
+		System.out.println("inside delete mapper");
+		redirectAttributes.addFlashAttribute("deleteTestimonial", true);
+		redirectAttributes.addFlashAttribute("deletedTest", t.get());
+		return "redirect:/adminView/viewTestimonial";
+	}
+	
+	@GetMapping("/adminView/editTestimonial/{testimonialId}")
+	public String editTestimonial (Model model, @PathVariable String testimonialId,
+			RedirectAttributes redirectAttributes) {
+		List<WorkService> serviceList = serviceRepo.findAll();
+		model.addAttribute("serviceList", serviceList);
+		Optional<Testimonial> test = tRepo.findById(Long.valueOf(testimonialId));
+		model.addAttribute("test", test.get());
+		List<Boolean> toDisplay = new ArrayList<Boolean>();
+		toDisplay.add(true);
+		toDisplay.add(false);
+		model.addAttribute("toDisplay", toDisplay);
+		return "secure/editTestimonial";
+		
+	}
+	
+	@PostMapping("/adminView/editTestimonial/{testimonialId}")
+	public String editTestimonial (Model model,
+			@PathVariable String testimonialId,
+			@RequestParam String orderServiceType,
+			@RequestParam String userEmail,
+			@RequestParam String userName,
+			@RequestParam String testimonial,
+			@RequestParam String toDisplay,
+			RedirectAttributes redirectAttributes) {
+		Testimonial test = Testimonial.builder().testimonialId(Long.valueOf(testimonialId))
+				.userName(userName)
+				.serviceName(orderServiceType)
+				.userEmail(userEmail)
+				.userTestimonial(testimonial)
+				.toDisplay(Boolean.valueOf(toDisplay))
+				.build();
+		Testimonial holder = tRepo.save(test);
+		
+		
+		if (holder != null) {
+			redirectAttributes.addFlashAttribute("editStatus", true);
+			redirectAttributes.addFlashAttribute("t", holder);
+		}
+		
+		return "redirect:/adminView/viewTestimonial";
+	}
+	
+	@GetMapping("/gallery")
+	public String gallery (Model model) {
+		
+		return "gallery";
+	}
+	
+	@PostMapping("/adminView/viewTestimonial")
+	public String filterTestimonial(Model model, @RequestParam String searchInput) {
+		List<Testimonial> tList = tRepo.findByServiceNameIgnoreCaseContaining(searchInput);
+		model.addAttribute("testList", tList);
+		return "secure/viewTestimonial";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
