@@ -1,5 +1,6 @@
 package ca.sheridancollege.vuongv.controller;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -10,6 +11,7 @@ import java.util.Optional;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import ca.sheridancollege.vuongv.bean.Customer;
+import ca.sheridancollege.vuongv.bean.FileUploadUtil;
 import ca.sheridancollege.vuongv.bean.Testimonial;
 import ca.sheridancollege.vuongv.bean.WorkOrder;
 import ca.sheridancollege.vuongv.bean.WorkService;
@@ -748,8 +751,10 @@ public class HSController {
 	}
 	
 	@PostMapping("/adminView/addImage")
-	public String addImage_POST(Model model, @RequestParam MultipartFile multipartFile) {
-		
+	public String addImage_POST(Model model, @RequestParam("image") MultipartFile multipartFile) throws IOException {
+		//
+		FileUploadUtil.saveFile("src/main/resources/static/images/gallery", StringUtils.cleanPath(multipartFile.getOriginalFilename()), multipartFile);
+		System.out.print("We have saved!");
 		return "secure/addImage";
 	}
 	

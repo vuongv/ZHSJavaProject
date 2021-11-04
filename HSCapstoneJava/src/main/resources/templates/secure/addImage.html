@@ -5,7 +5,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form th:action="@{/adminView/addImage" method="post">
+<form th:action="@{/adminView/addImage}" method="post" enctype="multipart/form-data">
 	<input type="file" name="image" accept="image/png, image/jpeg"/>
 	<div class="col text-center">
 			<button type="submit" class="btn btn-info">Add Image</button>
