@@ -6,6 +6,6 @@ import ca.sheridancollege.vuongv.bean.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-	public User findByEmail(String username);
+	public User findByUsername(String username);
 
 }

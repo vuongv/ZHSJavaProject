@@ -22,7 +22,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		ca.sheridancollege.vuongv.bean.User user = userRepository.findByEmail(username);
+		ca.sheridancollege.vuongv.bean.User user = userRepository.findByUsername(username);
 		if (user == null) {
 			System.out.println("User not found: " + username );
 			throw new UsernameNotFoundException("User " + username + "was not found in the database");
@@ -31,7 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		for (Role role : user.getRoles()) {
 			grantList.add(new SimpleGrantedAuthority(role.getRolename()));
 		}
-		UserDetails userDetails = (UserDetails) new org.springframework.security.core.userdetails.User(user.getEmail(), user.getEncryptedPassword(), grantList);
+		UserDetails userDetails = (UserDetails) new org.springframework.security.core.userdetails.User(user.getUsername(), user.getEncryptedPassword(), grantList);
 		return userDetails;
 	}
 
