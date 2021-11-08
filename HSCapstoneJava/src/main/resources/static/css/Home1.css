@@ -1,0 +1,59 @@
+
+.licenter {
+    float: center ;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+li a:hover {
+    background-color: rgba(75, 71, 47, 0.644);
+  }
+  
+.nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+.main-image {
+  padding-top: 5%;
+  max-width: 900px;
+  position: relative;
+  margin: auto;
+}
+.servicestext{
+  max-width: 900px;
+  position: relative;
+  margin: auto;
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+
+.column {
+  flex: 30%;
+  max-width: 30%;
+
+}
+p{
+  font-weight: bold;
+}
+.servicebox{
+  max-width: 300px;
+  height: 100px;
+  position: relative;
+  
+}
+.first:nth-child(odd) .second:nth-child(2n+1){
+	background-color:wheat;
+}
+.first:nth-child(even) .second:nth-child(2n){
+	background-color:wheat;
+}
+

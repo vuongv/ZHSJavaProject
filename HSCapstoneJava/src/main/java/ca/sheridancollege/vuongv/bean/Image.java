@@ -24,6 +24,10 @@ public class Image {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	@NonNull
+	private String imageName;
+	@NonNull
 	private String fullFilePath;
+	@Builder.Default
+	private Boolean toDisplay = true;
 
 }

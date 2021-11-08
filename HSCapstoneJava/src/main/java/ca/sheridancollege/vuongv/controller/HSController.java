@@ -1,7 +1,10 @@
 package ca.sheridancollege.vuongv.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -22,11 +25,13 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import ca.sheridancollege.vuongv.bean.Customer;
 import ca.sheridancollege.vuongv.bean.FileUploadUtil;
+import ca.sheridancollege.vuongv.bean.Image;
 import ca.sheridancollege.vuongv.bean.Testimonial;
 import ca.sheridancollege.vuongv.bean.WorkOrder;
 import ca.sheridancollege.vuongv.bean.WorkService;
 import ca.sheridancollege.vuongv.bean.WorkWorker;
 import ca.sheridancollege.vuongv.repository.CustomerRepository;
+import ca.sheridancollege.vuongv.repository.ImageRepository;
 import ca.sheridancollege.vuongv.repository.OrderRepository;
 import ca.sheridancollege.vuongv.repository.ServiceRepository;
 import ca.sheridancollege.vuongv.repository.TestimonialRepository;
@@ -42,11 +47,14 @@ public class HSController {
 	private CustomerRepository customerRepo;
 	private WorkerRepository workerRepo;
 	private TestimonialRepository tRepo;
+	private ImageRepository imageRepo;
 
 	
 	@GetMapping("/")
-	public String index(Model model) { 
-		return "index";
+	public String index(Model model) {
+		List<WorkService> serviceList = serviceRepo.findAll();
+		model.addAttribute("serviceList", serviceList);
+		return "homeGood";
 	}
 	
 	@GetMapping("/login") 
@@ -443,7 +451,7 @@ public class HSController {
 		if(serviceRepo.existsByServiceName(serviceName)) {
 			
 			model.addAttribute("duplicate", "Sorry, this Service already exists, please enter a new service");
-			return "addService";
+			return "secure/addService";
 	    }
 		
 		WorkService service = WorkService
@@ -731,17 +739,27 @@ public class HSController {
 		return "redirect:/adminView/viewTestimonial";
 	}
 	
-	@GetMapping("/gallery")
-	public String gallery (Model model) {
-		
-		return "gallery";
-	}
-	
 	@PostMapping("/adminView/viewTestimonial")
 	public String filterTestimonial(Model model, @RequestParam String searchInput) {
 		List<Testimonial> tList = tRepo.findByServiceNameIgnoreCaseContaining(searchInput);
 		model.addAttribute("testList", tList);
 		return "secure/viewTestimonial";
+	}
+	
+	@GetMapping("/gallery")
+	public String gallery (Model model) {
+		
+		List<Image> imageList = imageRepo.findAll();
+		model.addAttribute("imageList", imageList);		
+		return "gallery";
+	}
+	
+	@GetMapping("/adminView/viewImage")
+	public String viewImage(Model model) {
+		List<Image> imageList = imageRepo.findAll();
+		model.addAttribute("imageList", imageList);
+		
+		return "secure/viewImage";
 	}
 	
 	@GetMapping("/adminView/addImage")
@@ -752,11 +770,136 @@ public class HSController {
 	
 	@PostMapping("/adminView/addImage")
 	public String addImage_POST(Model model, @RequestParam("image") MultipartFile multipartFile) throws IOException {
-		//
-		FileUploadUtil.saveFile("src/main/resources/static/images/gallery", StringUtils.cleanPath(multipartFile.getOriginalFilename()), multipartFile);
-		System.out.print("We have saved!");
+		if(imageRepo.existsByImageName(StringUtils.cleanPath(multipartFile.getOriginalFilename()))) {
+			model.addAttribute("duplicate", "Sorry, this Image Name already exists, please enter a change the image name of your file");
+			return "secure/addImage";
+		}
+		
+		String fullPath = "/images/gallery/" + StringUtils.cleanPath(multipartFile.getOriginalFilename());
+		Image i = Image.builder().imageName(StringUtils.cleanPath(multipartFile.getOriginalFilename())).fullFilePath(fullPath).build();	
+		Image test = imageRepo.save(i);
+		if (test != null) {
+			model.addAttribute("addStatus", true);
+			model.addAttribute("image", test);
+		}
+		FileUploadUtil.saveFile("src/main/resources/static/images/gallery", 
+				StringUtils.cleanPath(multipartFile.getOriginalFilename()), multipartFile);
 		return "secure/addImage";
 	}
+	
+	@GetMapping("/adminView/deleteImage/{imageId}")
+	public String deleteImage(Model model, @PathVariable String imageId,
+			RedirectAttributes redirectAttributes) {
+		
+		
+		Optional<Image> i = imageRepo.findById(Long.valueOf(imageId));
+		try { 
+			Path path1 = Paths.get(i.get().getImageName());
+			String dir = System.getProperty("user.dir") + "/src/main/resources/static" 
+														+ i.get().getFullFilePath();
+			File file = new File(dir);
+            if(file.delete()) { 
+            
+               imageRepo.deleteById(Long.valueOf(i.get().getId()));
+       			redirectAttributes.addFlashAttribute("deleteImage", true);
+       			redirectAttributes.addFlashAttribute("deletedImage", i.get());
+            } else {
+               System.out.println("Delete operation is failed.");
+               	
+               redirectAttributes.addFlashAttribute("deleteImage", false);
+               redirectAttributes.addFlashAttribute("deletedImage", i.get());
+
+               }
+         }
+           catch(Exception e)
+           {
+               System.out.println("Failed to Delete image !!");
+               System.out.println(e.getMessage());
+               redirectAttributes.addFlashAttribute("deleteImage", false);
+               redirectAttributes.addFlashAttribute("deletedImage", i.get());
+
+           }
+		
+		return "redirect:/adminView/viewImage";
+		
+	}
+	
+	@GetMapping("/adminView/editImage/{imageId}")
+	public String editImage (Model model, @PathVariable String imageId,
+			RedirectAttributes redirectAttributes) {
+		Optional<Image> image = imageRepo.findById(Long.valueOf(imageId));
+		model.addAttribute("image", image.get());
+		List<Boolean> toDisplay = new ArrayList<Boolean>();
+		toDisplay.add(true);
+		toDisplay.add(false);
+		model.addAttribute("toDisplay", toDisplay);
+		return "secure/editImage";
+		
+	}
+	
+	
+	@PostMapping("/adminView/editImage/{imageId}")
+	public String editTestimonial (Model model,
+			@PathVariable String imageId,
+			@RequestParam String imageName,
+			@RequestParam String toDisplay,
+			RedirectAttributes redirectAttributes) {
+		
+		
+		
+		
+		
+		///////
+		Boolean renamed = false;
+		Boolean toRename;
+		Optional<Image> oldImage = imageRepo.findById(Long.valueOf(imageId));
+		String oldDir = System.getProperty("user.dir") + "/src/main/resources/static" 
+				+ oldImage.get().getFullFilePath();
+		String oldImageName = oldImage.get().getImageName();
+		Image newImage = Image.builder().id(Long.valueOf(imageId))
+				.imageName(imageName)
+				.fullFilePath("/images/gallery/" + imageName)
+				.toDisplay(Boolean.valueOf(toDisplay))
+				.build();
+		String newDir = System.getProperty("user.dir") + "/src/main/resources/static" 
+				+ newImage.getFullFilePath();
+		String newImageName = newImage.getImageName();
+		
+		System.out.println(oldImageName.equals(newImageName));
+		
+		if (!oldImageName.equals(newImageName)) {
+			toRename = true;
+			File oldFile = new File(oldDir);
+			File newFile = new File(newDir);
+			if(oldFile.renameTo(newFile)) {
+				System.out.println("renamed image");
+				renamed = true;
+				
+			}
+			else {
+				System.out.println("Couldn't rename image");
+				
+			}
+		}
+		else {
+			toRename = false;
+		}
+		
+		Image holder = imageRepo.save(newImage);
+
+		
+		if (holder != null && (renamed == true || toRename == false)) {
+			redirectAttributes.addFlashAttribute("editStatus", true);
+			redirectAttributes.addFlashAttribute("newImage", holder);
+			
+		}
+		else {
+			redirectAttributes.addFlashAttribute("editStatus", false);
+		}
+		
+		return "redirect:/adminView/viewImage";
+	}
+	
 	
 	
 	

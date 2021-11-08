@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html style="font-size: 16px;" xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="../static/css/Home1.css" th:href="@{/css/Home1.css}">
+  </head>
+  <header >
+    <div style="height: 200px; background-color:rgb(223, 179, 135); margin: 0; padding: 0;">
+
+    </div>
+    <div>
+      <ul class="nav" style="background-color:rgb(223, 179, 135);">
+        <li style="float: left; background-color:rgb(223, 179, 135);"><a style="display: block; padding: 14px 16px; text-align: center; text-decoration: none;" href="HomeGood.html">Home</a></li>
+        <li style="float: left; background-color:rgb(223, 179, 135);"><a style="display: block; padding: 14px 16px; text-align: center; text-decoration: none;" href="GalleryGood.html">Gallery</a></li>
+        <li style="float: left; background-color:rgb(223, 179, 135);"><a style="display: block; padding: 14px 16px; text-align: center; text-decoration: none;" href="TestimonialsGood.html">Testimonials</a></li>
+      </ul>
+    </div>
+    
+  </header>
+ <body>
+     <div class="main-image">
+         <img src="quote.png" th:src="@{/images/quote.png}" style="width: 100%;">
+     </div>
+     <br>
+     <div class="servicestext">
+         <h2>Available Services</h2>
+     </div>
+     <div class="servicestext">
+     <!-- <div class="row">
+         <div class="column">
+             Needs to be auto generated
+            <div class="servicebox" style="background-color:wheat;">
+                <p style="padding-top: 5%; padding-left: 5%;">Chimney Sweep</p>
+            </div>
+            <div class="servicebox">
+                <p style="padding-top: 5%; padding-left: 5%;">Chimney Repair</p>
+            </div>
+            
+         </div>
+         <div class="column">
+            
+           <div class="servicebox" >
+               <p style="padding-top: 5%; padding-left: 5%;">Consultation</p>
+           </div>
+           <div class="servicebox" style="background-color:wheat;">
+            <p style="padding-top: 5%; padding-left: 5%;">Fireplace Building</p>
+            </div>
+        </div>
+        <div class="column">
+            <div class="servicebox" style="background-color:wheat;">
+                <p style="padding-top: 5%; padding-left: 5%;">Gas Fitting</p>
+            </div>
+            <div class="servicebox">
+                <p style="padding-top: 5%; padding-left: 5%;">Free Cookies</p>
+            </div>
+         </div>
+     </div> -->
+    <div th:each="service,rowStatus : ${serviceList}" class="row interest-featured first" th:if="${rowStatus.index % 3} == 0">
+    	<div th:each="service,serviceStatus : ${serviceList}" class="col-md-4 interest column second" 
+         th:if="${serviceStatus.index lt rowStatus.index + 3 and serviceStatus.index ge rowStatus.index}" >
+       		<div class="servicebox" >
+       			<p style="padding-top: 5%; padding-left: 5%;" th:text="${service.serviceName}">Free Cookies</p>
+       		</div>
+		</div>
+  </div>
+<!--      <div th:each="interest,rowStatus : ${interests}" class="row interest-featured" th:if="${rowStatus.index % 3} == 0">
+    <div th:each="interest,interestStatus : ${interests}" class="col-md-4 interest" th:text="${interest}"
+         th:if="${interestStatus.index lt rowStatus.index + 3 and interestStatus.index ge rowStatus.index}"></div>
+  </div> -->
+    </div>
+    <br>
+   <div class="main-image" style="margin-bottom: 5%;">
+        <div>
+            <h1 >About Us</h1>
+            <p style="max-width: 300px; float: left;">
+                Paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur id suscipit ex. Suspendisse rhoncus laoreet purus quis elementum. Phasellus sed efficitur dolor, et ultricies sapien. Quisque fringilla sit amet dolor commodo efficitur. Aliquam et sem odio. In ullamcorper nisi nunc, et molestie ipsum iaculis sit amet.
+            </p>
+        </div>
+        <div style="float: right; max-width: 400px;">
+            <img src="quote.png" th:src="@{/images/quote.png}" style="width: 100%;">
+           </div>
+   </div>
+   
+ </body> 
+ <br><br><br><br><br><br><br><br><br><br>
+ <footer style="height: 100px; background-color: chocolate;">
+    <div >
+        <div class="main-image">
+            <div style="float: left;">
+                <strong><h3>Contact Us</h3></strong>
+                <strong><h3>+1 (905)-359-6861</h3></strong>
+                <strong><h3>harrywalker8930@gmail.com</h3></strong>
+            </div>
+            <div style="float: right;">
+                <strong><h2>H&S Fireplaces</h2></strong>
+            </div>
+            
+            
+        </div>
+    </div>
+ </footer>
+ </html>

@@ -24,23 +24,24 @@
  <body>
    <section>
    <div class="gallery-slideshow">
-      <div class="currentImage slide">
-        <img src="quote.png" th:src="@{/images/quote.png}" style="width:100%">
+      <div class="currentImage slide" th:each="i : ${imageList}">
+        <img src="quote.png" th:src="@{${i.fullFilePath}}" style="width:100%">
       </div>
-
-      <div class="currentImage slide">
-        <img src="quote.png" th:src="@{/images/quote.png}" style="width:100%">
-      </div>
-
-      <div class="currentImage slide">
-        <img src="quote.png" th:src="@{/images/quote.png}" style="width:100%">
-      </div>
+      
+      
+     
       
    </div>
   </section>
   <section>
     <!--Needs to be dynamically generated-->
-    <div class="row">
+     <div th:each="image,rowStatus : ${imageList}" class="row interest-featured first" th:if="${rowStatus.index % 3} == 0">
+    	<div th:each="image,imageStatus : ${imageList}" class="col-md-4 interest column second" 
+         th:if="${imageStatus.index lt rowStatus.index + 3 and imageStatus.index ge rowStatus.index}" >
+       		<img src="quote.png" th:src="@{${image.fullFilePath}}">
+		</div>
+	</div>
+    <!-- <div class="row">
       <div class="column">
         <img src="quote.png" th:src="@{/images/quote.png}">
         <img src="quote.png" th:src="@{/images/quote.png}">
@@ -72,7 +73,7 @@
         <img src="quote.png" th:src="@{/images/quote.png}">
       </div>
 
-    </div>
+    </div> -->
   </section>
  
  </body> 

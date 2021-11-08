@@ -55,6 +55,16 @@ function verifyDeleteTestimonial(y){
 	}
 }
 
+function verifyDeleteImage(x) {
+    var x = confirm("Are you sure you would like to delete image: " + x);
+	if(x == true){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
 function emailLowerCase(id) {
   var x = document.getElementById(id);
   x.value = x.value.toLowerCase();
@@ -1318,5 +1328,14 @@ function sortCustomerTableByProvince() {
       }
     }
   }
+}
+
+function noEmptyFile(){
+	if (document.getElementById("imageFile").files.length == 0){
+		alert("You must select an image");
+		return false;
+	}
+	return true;
+	
 }
 
