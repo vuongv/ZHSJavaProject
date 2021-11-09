@@ -12,5 +12,7 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
 	public List<Image> findByToDisplay(Boolean b);
 
 	public boolean existsByImageName(String cleanPath);
+	
+	public List<Image> findByImageNameIgnoreCaseContaining(String searchInput);
 
 }

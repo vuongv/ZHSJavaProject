@@ -76,19 +76,19 @@
 	
 	<br>
     <div   style="margin-bottom:1%" >
-	<form method="post" action="#" th:action="@{/adminView/viewWorker}" >
+	<form method="post" action="#" th:action="@{/adminView/viewImage}" >
 		<input type="text" name="searchInput" style="padding-right:10% ">
 		<input type="submit" value="Search" >
 		
 	</form>
 
 </div>
-    <table class="table table-striped" id="workerTable">
+    <table class="table table-striped" id="imageTable">
         <tr class="table-info">
-            <th> <a href="#" onclick="return sortWorkerTableById();" >Id</a></th>
-            <th>Image Name</th>
-            <th> <a href="#" onclick="return sortWorkerTableByName();" >Image View</a></th>
-            <th>Display Image</th>
+            <th><a href="#" onclick="return sortImageTableById();" >Id</a></th>
+            <th><a href="#" onclick="return sortImageTableByName();" >Image Name</a></th>
+            <th><a href="#" onclick="return sortImageTableByName();" >Image View</a></th>
+            <th><a href="#" onclick="return sortImageTableByDisplay();" >Display Image</a></th>
             <th>Action</th>
         </tr>
         <tr th:each="image : ${imageList}">

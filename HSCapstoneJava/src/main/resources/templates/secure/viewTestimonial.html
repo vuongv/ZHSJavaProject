@@ -76,13 +76,13 @@
 	</form>
 
 </div>
-	<table th:if="${testList != null and !testList.empty}" class="table table-striped" id="serviceTable">
+	<table th:if="${testList != null and !testList.empty}" class="table table-striped" id="testimonialTable">
 		<tr class="table-info">
-			<th><a href="#" onclick="return sortServiceTableById();">Testimonial Id</a></th>
-			<th><a href="#" onclick="return sortServiceTableByName();">Service Name</a></th>
-			<th><a href="#" onclick="return sortServiceTableByCost();">User Name</a></th>
-			<th><a href="#" onclick="return sortServiceTableByDescription();">Testimonial</a></th>
-			<th><a href="#" onclick="return sortServiceTableByDuration();">To Display</a></th>
+			<th><a href="#" onclick="return sortTestimonialTableById();">Testimonial Id</a></th>
+			<th><a href="#" onclick="return sortTestimonialTableByServiceName();">Service Name</a></th>
+			<th><a href="#" onclick="return sortTestimonialTableByUserName();">User Name</a></th>
+			<th><a href="#" onclick="return sortTestimonialTableByTestimonial();">Testimonial</a></th>
+			<th><a href="#" onclick="return sortTestimonialTableByDisplay();">To Display</a></th>
 			<th>Action</th>
 		</tr>
 		<tr th:each="t : ${testList}">

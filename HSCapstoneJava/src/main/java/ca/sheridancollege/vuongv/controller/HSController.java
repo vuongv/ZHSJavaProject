@@ -761,7 +761,12 @@ public class HSController {
 		
 		return "secure/viewImage";
 	}
-	
+	@PostMapping("/adminView/viewImage")
+	public String filterImage(Model model, @RequestParam String searchInput) {
+		List<Image> imageList = imageRepo.findByImageNameIgnoreCaseContaining(searchInput);
+		model.addAttribute("imageList", imageList);
+		return "secure/viewImage";
+	}
 	@GetMapping("/adminView/addImage")
 	public String addImage_GET(Model model) {
 		
@@ -839,7 +844,7 @@ public class HSController {
 	
 	
 	@PostMapping("/adminView/editImage/{imageId}")
-	public String editTestimonial (Model model,
+	public String editImage (Model model,
 			@PathVariable String imageId,
 			@RequestParam String imageName,
 			@RequestParam String toDisplay,
