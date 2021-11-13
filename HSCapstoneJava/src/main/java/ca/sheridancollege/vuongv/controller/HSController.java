@@ -202,10 +202,12 @@ public class HSController {
 		for (WorkOrder o : orderList) {
 			System.out.println(o.getWorkOrderId());
 		}
+		model.addAttribute("searchInput",searchInput);
 		model.addAttribute("orderList", orderList);
 		model.addAttribute("customerList", customerList);
 		model.addAttribute("workerList", workerList);
 		model.addAttribute("serviceList", serviceList);
+		
 		return "secure/viewOrder";
 	}
 	
@@ -384,7 +386,8 @@ public class HSController {
 		
 		}
 		model.addAttribute("customerList", customerList);
-
+		model.addAttribute("searchInput", searchInput);
+		model.addAttribute("filterOption",filterOption);
 		return "secure/viewCustomer";
 	}
 	
@@ -481,6 +484,7 @@ public class HSController {
 	public String filterService(Model model, @RequestParam String searchInput) {
 		List<WorkService> serviceList = serviceRepo.findByServiceNameIgnoreCaseContaining(searchInput);
 		model.addAttribute("serviceList", serviceList);
+		model.addAttribute("searchInput", searchInput);
 		return "secure/viewService";
 	}
 	@GetMapping("/adminView/deleteService/{serviceId}")
@@ -540,6 +544,7 @@ public class HSController {
 	public String filterWorker(Model model, @RequestParam String searchInput) {
 		List<WorkWorker> workerList = workerRepo.findByNameIgnoreCaseContaining(searchInput);
 		model.addAttribute("workerList", workerList);
+		model.addAttribute("searchInput", searchInput);
 		return "secure/viewWorker";
 	}
 
@@ -742,6 +747,7 @@ public class HSController {
 	@PostMapping("/adminView/viewTestimonial")
 	public String filterTestimonial(Model model, @RequestParam String searchInput) {
 		List<Testimonial> tList = tRepo.findByServiceNameIgnoreCaseContaining(searchInput);
+		model.addAttribute("searchInput",searchInput);
 		model.addAttribute("testList", tList);
 		return "secure/viewTestimonial";
 	}
@@ -765,6 +771,7 @@ public class HSController {
 	public String filterImage(Model model, @RequestParam String searchInput) {
 		List<Image> imageList = imageRepo.findByImageNameIgnoreCaseContaining(searchInput);
 		model.addAttribute("imageList", imageList);
+		model.addAttribute("searchInput",searchInput);
 		return "secure/viewImage";
 	}
 	@GetMapping("/adminView/addImage")
