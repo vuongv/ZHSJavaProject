@@ -72,14 +72,14 @@
 	<form method="post" action="#" th:action="@{/adminView/viewWorker}" >
 		<input type="text" name="searchInput" style="padding-right:10% " th:placeholder="${searchInput}">
 		<input type="submit" value="Search" >
-		<input type="submit" value="Reset" >
+		
 		
 	</form>
 
 </div>
     <table class="table table-striped" id="workerTable">
         <tr class="table-info">
-            <th> <a href="#" onclick="return sortWorkerTableById();" >Id</a></th>
+            <th> <a href="#" onclick="return sortWorkerTableByIdTest();" >Id</a></th>
             <th> <a href="#" onclick="return sortWorkerTableByName();" >Name</a></th>
             <th>Action</th>
         </tr>

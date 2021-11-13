@@ -174,13 +174,13 @@ function sortWorkerTableById() {
       y = rows[i + 1].getElementsByTagName("TD")[0];
       
       if (dir == "asc") {
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+        if (parseInt(x.innerHTML) > parseInt(y.innerHTML)) {
           
           shouldSwitch = true;
           break;
         }
       } else if (dir == "desc") {
-        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+        if (parseInt(x.innerHTML) < parseInt(y.innerHTML)) {
           
           shouldSwitch = true;
           break;
@@ -203,6 +203,9 @@ function sortWorkerTableById() {
   }
 }
 
+
+
+
 function sortServiceTableById() {
   var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
   table = document.getElementById("serviceTable");
@@ -223,13 +226,13 @@ function sortServiceTableById() {
       y = rows[i + 1].getElementsByTagName("TD")[0];
       
       if (dir == "asc") {
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+        if (parseInt(x.innerHTML) > parseInt(y.innerHTML)) {
           
           shouldSwitch = true;
           break;
         }
       } else if (dir == "desc") {
-        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+        if (parseInt(x.innerHTML) < parseInt(y.innerHTML)) {
           
           shouldSwitch = true;
           break;
@@ -468,13 +471,13 @@ function sortOrderTableByOrderId() {
       y = rows[i + 1].getElementsByTagName("TD")[0];
       
       if (dir == "asc") {
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+        if (parseInt(x.innerHTML) > parseInt(y.innerHTML)) {
           
           shouldSwitch = true;
           break;
         }
       } else if (dir == "desc") {
-        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+        if (parseInt(x.innerHTML) < parseInt(y.innerHTML)) {
           
           shouldSwitch = true;
           break;
@@ -566,13 +569,13 @@ function sortOrderTableByCustomerId() {
       y = rows[i + 1].getElementsByTagName("TD")[2];
       
       if (dir == "asc") {
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+        if (parseInt(x.innerHTML) > parseInt(y.innerHTML)) {
           
           shouldSwitch = true;
           break;
         }
       } else if (dir == "desc") {
-        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+        if (parseInt(x.innerHTML) < parseInt(y.innerHTML)) {
           
           shouldSwitch = true;
           break;
@@ -909,13 +912,13 @@ function sortCustomerTableById() {
       y = rows[i + 1].getElementsByTagName("TD")[0];
       
       if (dir == "asc") {
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+        if (parseInt(x.innerHTML) > parseInt(y.innerHTML)) {
           
           shouldSwitch = true;
           break;
         }
       } else if (dir == "desc") {
-        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+        if (parseInt(x.innerHTML) < parseInt(y.innerHTML)) {
           
           shouldSwitch = true;
           break;
@@ -1349,13 +1352,13 @@ function sortImageTableById() {
       y = rows[i + 1].getElementsByTagName("TD")[0];
       
       if (dir == "asc") {
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+        if (parseInt(x.innerHTML) > parseInt(y.innerHTML)) {
           
           shouldSwitch = true;
           break;
         }
       } else if (dir == "desc") {
-        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+        if (parseInt(x.innerHTML) < parseInt(y.innerHTML)) {
           
           shouldSwitch = true;
           break;
@@ -1493,13 +1496,13 @@ function sortTestimonialTableById() {
       y = rows[i + 1].getElementsByTagName("TD")[0];
       
       if (dir == "asc") {
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+        if (parseInt(x.innerHTML) > parseInt(y.innerHTML)) {
           
           shouldSwitch = true;
           break;
         }
       } else if (dir == "desc") {
-        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+        if (parseInt(x.innerHTML) < parseInt(y.innerHTML)) {
           
           shouldSwitch = true;
           break;
