@@ -797,14 +797,33 @@ public class HSController {
 	}
 	
 	@PostMapping("/adminView/viewTestimonial")
-	public String filterTestimonial(Model model, @RequestParam String searchInput) {
-		List<Testimonial> tList = tRepo.findByServiceNameIgnoreCaseContaining(searchInput);
+	public String filterTestimonial(Model model, @RequestParam String searchInput,@RequestParam String filterOption) {
+		List<Testimonial> tList = new ArrayList<Testimonial>();
+		boolean notFoundAlert = false;
+		switch(filterOption) {
+		case "1":
+			tList = tRepo.findByServiceNameIgnoreCaseContaining(searchInput);
+			if (tList.isEmpty()) {
+				notFoundAlert = true;
+			}
+			break;
+		case "2":
+			tList = tRepo.findByUserNameIgnoreCaseContaining(searchInput);
+			if (tList.isEmpty()) {
+				notFoundAlert = true;
+			}
+			break;
+		case "3":
+			tList = tRepo.findByUserEmailIgnoreCaseContaining(searchInput);
+			if (tList.isEmpty()) {
+				notFoundAlert = true;
+			}
+			break;
+		}
 		model.addAttribute("searchInput",searchInput);
 		model.addAttribute("testList", tList);
-		if(tList.isEmpty()){
-			boolean notFoundAlert = true;
-			model.addAttribute("emptyAlert", notFoundAlert);
-		}
+		model.addAttribute("emptyAlert", notFoundAlert);
+		model.addAttribute("filterOption", filterOption);
 		return "secure/viewTestimonial";
 	}
 	

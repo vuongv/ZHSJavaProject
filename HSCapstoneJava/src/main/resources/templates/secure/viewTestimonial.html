@@ -70,6 +70,12 @@
 
 <div style="margin-bottom:1%" >
 	<form method="post" action="#" th:action="@{/adminView/viewTestimonial}" >
+		<select name="filterOption" class="searchDrop" required>
+		<option value="" selected disabled hidden>Choose here</option>
+			<option value="1" th:selected="${filterOption == '1'}">Service Name</option>
+			<option value="2" th:selected="${filterOption == '2'}">User Name</option>
+		    <option value="3" th:selected="${filterOption == '3'}">User Email</option>
+		   </select>
 		<input type="text" name="searchInput" style="padding-right:10% " th:placeholder="${searchInput}">
 		<input type="submit" value="Search" >
 		<input type="submit" value="Reset" >

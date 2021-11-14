@@ -10,4 +10,6 @@ public interface TestimonialRepository extends JpaRepository<Testimonial, Long> 
 	public List<Testimonial> findByToDisplay(Boolean b);
 
 	public List<Testimonial> findByServiceNameIgnoreCaseContaining(String searchInput);
+	public List<Testimonial> findByUserNameIgnoreCaseContaining(String searchInput);
+	public List<Testimonial> findByUserEmailIgnoreCaseContaining(String searchInput);
 }
