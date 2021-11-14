@@ -73,9 +73,9 @@ Successfully deleted [[${deletedOrder.workOrderId}]]
 	<form method="post" action="#" th:action="@{/adminView/viewOrder}" >
 	<select name="filterOption" class="searchDrop" required>
 		<option value="" selected disabled hidden>Choose here</option>
-		    <option value="1">Service</option>
-		    <option value="2">Worker</option>
-		    <option value="3">Customer</option>
+		    <option value="1" th:selected="${filterOption == '1'}">Service</option>
+		    <option value="2" th:selected="${filterOption == '2'}">Worker</option>
+		    <option value="3" th:selected="${filterOption == '3'}">Customer</option>
 		   </select>
 		<input type="text" name="searchInput" style="padding-right:10% " th:placeholder="${searchInput}">
 		<input type="submit" value="Search" >

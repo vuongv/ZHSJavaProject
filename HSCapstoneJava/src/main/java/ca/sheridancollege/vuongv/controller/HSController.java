@@ -213,6 +213,7 @@ public class HSController {
 			System.out.println(o.getWorkOrderId());
 		}
 		model.addAttribute("searchInput",searchInput);
+		model.addAttribute("filterOption",filterOption);
 		model.addAttribute("orderList", orderList);
 		model.addAttribute("customerList", customerList);
 		model.addAttribute("workerList", workerList);
