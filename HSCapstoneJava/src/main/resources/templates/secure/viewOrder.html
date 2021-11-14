@@ -72,6 +72,7 @@ Successfully deleted [[${deletedOrder.workOrderId}]]
 <div   style="margin-bottom:1%" >
 	<form method="post" action="#" th:action="@{/adminView/viewOrder}" >
 	<select name="filterOption" class="searchDrop" required>
+		<option value="" selected disabled hidden>Choose here</option>
 		    <option value="1">Service</option>
 		    <option value="2">Worker</option>
 		    <option value="3">Customer</option>

@@ -72,8 +72,9 @@
 	
 	<form method="post" action="#" th:action="@{/adminView/viewCustomer}" >
 	<select name="filterOption" class="searchDrop" required>
-		    <option value="1" th:selected="${filterOption == 1 }">Name</option>
-		    <option value="2" th:selected="${filterOption == 2 }">Email</option>
+			<option value="" selected disabled hidden>Choose here</option>
+		    <option value="1">Name</option>
+		    <option value="2">Email</option>
 		    <option value="3">Home Phone</option>
 		    <option value="4">Address</option>
 		    <option value="5">City</option>
