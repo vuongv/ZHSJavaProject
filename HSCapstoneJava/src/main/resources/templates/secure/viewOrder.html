@@ -59,9 +59,12 @@
 <div th:if ="${addStatus == true}" style="color:green">
 Successfully added Order for [[${customer.name}]]
 </div>
-<div th:if ="${deleteStatus == true}" style="color:green">
-Successfully deleted [[${deletedOrder.workOrderId}]]
+<div th:if="${deleteStatus == true}" style="color:green">
+Successfully deleted Order #[[${deletedOrder.workOrderId}]]
 </div>
+<div th:if="${editStatus == true}" style="color:green">
+Successfully edited Order #[[${o.workOrderId}]]
+	</div>
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
 	<a href="/adminView/addOrder" th:href="@{/adminView/addOrder}" class="btn btn-info" role="button">Add Order</a>
 </div>

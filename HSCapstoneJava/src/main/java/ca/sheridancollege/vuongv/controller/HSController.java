@@ -284,7 +284,7 @@ public class HSController {
 			@RequestParam String orderWorker,
 			@RequestParam String orderTotal,
 			@RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate orderAppointmentDate,
-			@RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.TIME) LocalTime orderAppointmentTime) {
+			@RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.TIME) LocalTime orderAppointmentTime, RedirectAttributes redirectAttributes) {
 		Optional<WorkOrder> oldOrder = orderRepo.findById(Long.valueOf(workOrderId));
 		Optional<Customer> oldCust = customerRepo.findById(Long.valueOf(customerId));
 		WorkOrder order = WorkOrder.builder().workOrderId(workOrderId)
@@ -307,7 +307,10 @@ public class HSController {
 		
 		customerRepo.save(cust);
 		orderRepo.save(order);
-		
+		if (order != null) {
+			redirectAttributes.addFlashAttribute("editStatus", true);
+			redirectAttributes.addFlashAttribute("o", order);
+		}
 		return "redirect:/adminView/viewOrder";
 	}
 	
@@ -332,13 +335,14 @@ public class HSController {
 			@RequestParam String address,
 			@RequestParam String city,
 			@RequestParam String postal,
-			@RequestParam String province) {
+			@RequestParam String province,
+			RedirectAttributes redirectAttributes) {
 		Optional<Customer> oldCust = customerRepo.findById(Long.valueOf(id));
 		Customer cust = Customer.builder().id(Long.valueOf(id)).name(name).email(email)
 				.homePhone(homePhone).cellPhone(cellPhone).address(address).city(city)
 				.postal(postal).province(province).workOrders(oldCust.get().getWorkOrders()).build();
 		customerRepo.save(cust);
-		
+		redirectAttributes.addFlashAttribute("editCustomer", oldCust.get());
 		return "redirect:/adminView/viewCustomer";
 	}
 	
@@ -517,7 +521,6 @@ public class HSController {
 		List<WorkService> serviceList = serviceRepo.findByServiceNameIgnoreCaseContaining(searchInput);
 		model.addAttribute("serviceList", serviceList);
 		model.addAttribute("searchInput", searchInput);
-		
 		if(serviceList.isEmpty()){
 			boolean notFoundAlert = true;
 			model.addAttribute("emptyAlert", notFoundAlert);
@@ -527,9 +530,11 @@ public class HSController {
 	@GetMapping("/adminView/deleteService/{serviceId}")
 	public String deleteService (Model model, @PathVariable String serviceId, RedirectAttributes redirectAttributes ) {
 		RedirectView redirectView = new RedirectView("/viewService",true);
+		Optional<WorkService> s = serviceRepo.findById(Long.valueOf(serviceId));
 		serviceRepo.deleteById(Long.valueOf(serviceId));
 		
 		redirectAttributes.addFlashAttribute("deleteService");
+		redirectAttributes.addFlashAttribute("deleteService", s.get());
 		return "redirect:/adminView/viewService";
 	}
 	
@@ -546,7 +551,7 @@ public class HSController {
 		@RequestParam String serviceName,
 		@RequestParam double serviceCost,
 		@RequestParam String serviceDescription, 
-		@RequestParam int serviceDuration ) {
+		@RequestParam int serviceDuration, RedirectAttributes redirectAttributes) {
 		
 		Optional<WorkService> serv = serviceRepo.findById(Long.valueOf(serviceId));
 		
@@ -566,6 +571,10 @@ public class HSController {
 		}
 		
 		serviceRepo.save(service);
+		if (service != null) {
+			redirectAttributes.addFlashAttribute("editStatus", true);
+			redirectAttributes.addFlashAttribute("editService", service);
+		}
 		return "redirect:/adminView/viewService";
 	}
 
@@ -627,10 +636,12 @@ public class HSController {
 	public String deleteWorker(Model model, @PathVariable String workerId, RedirectAttributes redirectAttributes) {
 		
 		RedirectView redirectView = new RedirectView("/viewWorker", true);
-		
+		Optional<WorkWorker> worker = workerRepo.findById(Long.valueOf(workerId));
 		workerRepo.deleteById(Long.valueOf(workerId));
-
-		redirectAttributes.addFlashAttribute("deleteWorker");
+		
+		
+		redirectAttributes.addFlashAttribute("deleteWorker", worker.get());
+		
 		
 		return "redirect:/adminView/viewWorker";
 	}
@@ -648,7 +659,7 @@ public class HSController {
 	
 	//Used to be editCustomer, pretty sure it had to be Worker, if anything breaks, check this
 	@PostMapping("/adminView/editWorker")
-	public String editWorker(Model model, @RequestParam String id, @RequestParam String name) {
+	public String editWorker(Model model, @RequestParam String id, @RequestParam String name, RedirectAttributes redirectAttributes) {
 		
 		Optional<WorkWorker> oldWorker = workerRepo.findById(Long.valueOf(id));
 		List<WorkOrder> relatedWorkOrder = orderRepo.findByWorker(oldWorker.get().getName()) ;
@@ -661,7 +672,7 @@ public class HSController {
 		}
 		
 		workerRepo.save(worker);
-		
+		redirectAttributes.addFlashAttribute("editWorker",worker);
 		return "redirect:/adminView/viewWorker";
 	}
 	

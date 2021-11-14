@@ -61,7 +61,9 @@
 	<div th:if ="${customerResultDelete == false}">
 		<p style="color:red;">Couldn't delete [[${cust.name}]], You must delete his work orders first!</p>
 	</div>
-	
+	<div th:if="${editCustomer != null}" style="color:green">
+		Successfully edited [[${editCustomer.name}]]
+	</div>
 	
 	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
 		<a href="#" th:href="@{/adminView/addCustomer}" class="btn btn-info" role="button">Add Customer</a>

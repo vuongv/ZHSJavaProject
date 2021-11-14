@@ -55,11 +55,11 @@
 	<div th:if="${addStatus} == true">
 		<p style="color:green;">Successfully added [[${worker.name}]]!</p>
 	</div>
-	<div th:if ="${customerResultDelete == true}">
-		<p style="color:green;">Successfully deleted [[${cust.name}]]</p>
+	<div th:if="${editWorker != null}" style="color:green">
+		Successfully edited [[${editWorker.name}]]
 	</div>
-	<div th:if ="${customerResultDelete == false}">
-		<p style="color:red;">Couldn't delete [[${cust.name}]], You must delete his work orders first!</p>
+	<div th:if="${deleteWorker != null}" style="color:green">
+		Successfully deleted [[${deleteWorker.name}]]
 	</div>
 
     
