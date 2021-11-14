@@ -85,6 +85,7 @@
 			<th><a href="#" onclick="return sortTestimonialTableById();">Testimonial Id</a></th>
 			<th><a href="#" onclick="return sortTestimonialTableByServiceName();">Service Name</a></th>
 			<th><a href="#" onclick="return sortTestimonialTableByUserName();">User Name</a></th>
+			<th><a href="#" onclick="return sortTestimonialTableByEmail()" >User Email</a></th>
 			<th><a href="#" onclick="return sortTestimonialTableByTestimonial();">Testimonial</a></th>
 			<th><a href="#" onclick="return sortTestimonialTableByDisplay();">To Display</a></th>
 			<th>Action</th>
@@ -93,6 +94,7 @@
 			<td th:text="${t.testimonialId}"></td>
 			<td th:text="${t.serviceName}"></td>
 			<td th:text="${t.userName}"></td>
+			<td th:text="${t.userEmail}"></td>
 			<td th:text="${t.userTestimonial}"></td>
 			<td th:text="${t.toDisplay}"></td>
 			<td>
