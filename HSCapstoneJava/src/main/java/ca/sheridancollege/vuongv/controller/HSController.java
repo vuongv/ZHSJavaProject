@@ -164,7 +164,8 @@ public class HSController {
 	@PostMapping("/adminView/viewOrder")
 	public String filterOrder(Model model, @RequestParam String searchInput, @RequestParam String filterOption) {
 		System.out.println("this is "+searchInput);
-		boolean alert = false;
+		boolean notFoundAlert = false;
+	
 		List<WorkOrder> orderList = new ArrayList<WorkOrder>();
 		List<WorkService> serviceList = new ArrayList<WorkService>();
 		List<WorkWorker> workerList = new ArrayList<WorkWorker>();		
@@ -173,19 +174,19 @@ public class HSController {
 		case "1":
 			orderList = orderRepo.findByServiceIgnoreCaseContaining(searchInput);
 			if (orderList.isEmpty()) {
-				alert = true;
+				notFoundAlert = true;
 			}
 			break;
 		case "2":
 			orderList = orderRepo.findByWorkerIgnoreCaseContaining(searchInput);
 			if (orderList.isEmpty()) {
-				alert = true;
+				notFoundAlert = true;
 			}
 			break;
 		case "3":
 			customerList = customerRepo.findByNameIgnoreCaseContaining(searchInput);
 			if (customerList.isEmpty()) {
-				alert = true;
+				notFoundAlert = true;
 			}
 			for (Customer c : customerList) {
 				for(WorkOrder w : c.getWorkOrders()) {
@@ -218,7 +219,7 @@ public class HSController {
 		model.addAttribute("customerList", customerList);
 		model.addAttribute("workerList", workerList);
 		model.addAttribute("serviceList", serviceList);
-		model.addAttribute("emptyAlert", alert);
+		model.addAttribute("emptyAlert", notFoundAlert);
 		
 		return "secure/viewOrder";
 	}
@@ -374,44 +375,44 @@ public class HSController {
 	}
 	@PostMapping("/adminView/viewCustomer")
 	public String filterCustomer(Model model, @RequestParam String searchInput, @RequestParam String filterOption) {
-		boolean alert = false;
+		boolean notFoundAlert = false;
 		List<Customer> customerList = new ArrayList<Customer>();
 		
 		switch(filterOption) {
 		case "1":
 			customerList = customerRepo.findByNameIgnoreCaseContaining(searchInput);
 			if (customerList.isEmpty()) {
-				alert = true;
+				notFoundAlert = true;
 			}
 			break;
 		case "2":
 			customerList = customerRepo.findByEmailIgnoreCaseContaining(searchInput);
 			if (customerList.isEmpty()) {
-				alert = true;
+				notFoundAlert = true;
 			}
 			break;
 		case "3":
 			customerList = customerRepo.findByHomePhoneIgnoreCaseContaining(searchInput);
 			if (customerList.isEmpty()) {
-				alert = true;
+				notFoundAlert = true;
 			}
 			break;
 		case "4":
 			customerList = customerRepo.findByAddressIgnoreCaseContaining(searchInput);
 			if (customerList.isEmpty()) {
-				alert = true;
+				notFoundAlert = true;
 			}
 			break;
 		case "5":
 			customerList = customerRepo.findByCityIgnoreCaseContaining(searchInput);
 			if (customerList.isEmpty()) {
-				alert = true;
+				notFoundAlert = true;
 			}
 			break;
 		case "6":
 			customerList = customerRepo.findByPostalIgnoreCaseContaining(searchInput);
 			if (customerList.isEmpty()) {
-				alert = true;
+				notFoundAlert = true;
 			}
 			break;
 		
@@ -419,13 +420,12 @@ public class HSController {
 		model.addAttribute("customerList", customerList);
 		model.addAttribute("searchInput", searchInput);
 		model.addAttribute("filterOption",filterOption);
-		model.addAttribute("emptyAlert", alert);
+		model.addAttribute("emptyAlert", notFoundAlert);
 		return "secure/viewCustomer";
 	}
 	
 	@GetMapping("/adminView/addCustomer")
 	public String addCustomer(Model model){
-		
 		return "secure/addCustomer";
 	}
 	
@@ -519,8 +519,8 @@ public class HSController {
 		model.addAttribute("searchInput", searchInput);
 		
 		if(serviceList.isEmpty()){
-			boolean alert = true;
-			model.addAttribute("emptyAlert", alert);
+			boolean notFoundAlert = true;
+			model.addAttribute("emptyAlert", notFoundAlert);
 		}
 		return "secure/viewService";
 	}
@@ -583,8 +583,8 @@ public class HSController {
 		model.addAttribute("workerList", workerList);
 		model.addAttribute("searchInput", searchInput);
 		if(workerList.isEmpty()){
-			boolean alert = true;
-			model.addAttribute("emptyAlert", alert);
+			boolean notFoundAlert = true;
+			model.addAttribute("emptyAlert", notFoundAlert);
 		}
 		return "secure/viewWorker";
 	}
@@ -791,8 +791,8 @@ public class HSController {
 		model.addAttribute("searchInput",searchInput);
 		model.addAttribute("testList", tList);
 		if(tList.isEmpty()){
-			boolean alert = true;
-			model.addAttribute("emptyAlert", alert);
+			boolean notFoundAlert = true;
+			model.addAttribute("emptyAlert", notFoundAlert);
 		}
 		return "secure/viewTestimonial";
 	}
@@ -818,8 +818,8 @@ public class HSController {
 		model.addAttribute("imageList", imageList);
 		model.addAttribute("searchInput",searchInput);
 		if(imageList.isEmpty()){
-			boolean alert = true;
-			model.addAttribute("emptyAlert", alert);
+			boolean notFoundAlert = true;
+			model.addAttribute("emptyAlert", notFoundAlert);
 		}
 		return "secure/viewImage";
 	}
