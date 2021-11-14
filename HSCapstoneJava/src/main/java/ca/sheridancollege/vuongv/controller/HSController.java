@@ -164,6 +164,7 @@ public class HSController {
 	@PostMapping("/adminView/viewOrder")
 	public String filterOrder(Model model, @RequestParam String searchInput, @RequestParam String filterOption) {
 		System.out.println("this is "+searchInput);
+		boolean alert = false;
 		List<WorkOrder> orderList = new ArrayList<WorkOrder>();
 		List<WorkService> serviceList = new ArrayList<WorkService>();
 		List<WorkWorker> workerList = new ArrayList<WorkWorker>();		
@@ -171,12 +172,21 @@ public class HSController {
 		switch(filterOption) {
 		case "1":
 			orderList = orderRepo.findByServiceIgnoreCaseContaining(searchInput);
+			if (orderList.isEmpty()) {
+				alert = true;
+			}
 			break;
 		case "2":
 			orderList = orderRepo.findByWorkerIgnoreCaseContaining(searchInput);
+			if (orderList.isEmpty()) {
+				alert = true;
+			}
 			break;
 		case "3":
 			customerList = customerRepo.findByNameIgnoreCaseContaining(searchInput);
+			if (customerList.isEmpty()) {
+				alert = true;
+			}
 			for (Customer c : customerList) {
 				for(WorkOrder w : c.getWorkOrders()) {
 					orderList.add(orderRepo.findById(w.getWorkOrderId()).get());
@@ -207,6 +217,7 @@ public class HSController {
 		model.addAttribute("customerList", customerList);
 		model.addAttribute("workerList", workerList);
 		model.addAttribute("serviceList", serviceList);
+		model.addAttribute("emptyAlert", alert);
 		
 		return "secure/viewOrder";
 	}
@@ -362,32 +373,52 @@ public class HSController {
 	}
 	@PostMapping("/adminView/viewCustomer")
 	public String filterCustomer(Model model, @RequestParam String searchInput, @RequestParam String filterOption) {
+		boolean alert = false;
 		List<Customer> customerList = new ArrayList<Customer>();
 		
 		switch(filterOption) {
 		case "1":
 			customerList = customerRepo.findByNameIgnoreCaseContaining(searchInput);
+			if (customerList.isEmpty()) {
+				alert = true;
+			}
 			break;
 		case "2":
 			customerList = customerRepo.findByEmailIgnoreCaseContaining(searchInput);
+			if (customerList.isEmpty()) {
+				alert = true;
+			}
 			break;
 		case "3":
 			customerList = customerRepo.findByHomePhoneIgnoreCaseContaining(searchInput);
+			if (customerList.isEmpty()) {
+				alert = true;
+			}
 			break;
 		case "4":
 			customerList = customerRepo.findByAddressIgnoreCaseContaining(searchInput);
+			if (customerList.isEmpty()) {
+				alert = true;
+			}
 			break;
 		case "5":
 			customerList = customerRepo.findByCityIgnoreCaseContaining(searchInput);
+			if (customerList.isEmpty()) {
+				alert = true;
+			}
 			break;
 		case "6":
 			customerList = customerRepo.findByPostalIgnoreCaseContaining(searchInput);
+			if (customerList.isEmpty()) {
+				alert = true;
+			}
 			break;
 		
 		}
 		model.addAttribute("customerList", customerList);
 		model.addAttribute("searchInput", searchInput);
 		model.addAttribute("filterOption",filterOption);
+		model.addAttribute("emptyAlert", alert);
 		return "secure/viewCustomer";
 	}
 	
@@ -485,6 +516,11 @@ public class HSController {
 		List<WorkService> serviceList = serviceRepo.findByServiceNameIgnoreCaseContaining(searchInput);
 		model.addAttribute("serviceList", serviceList);
 		model.addAttribute("searchInput", searchInput);
+		
+		if(serviceList.isEmpty()){
+			boolean alert = true;
+			model.addAttribute("emptyAlert", alert);
+		}
 		return "secure/viewService";
 	}
 	@GetMapping("/adminView/deleteService/{serviceId}")
@@ -545,6 +581,10 @@ public class HSController {
 		List<WorkWorker> workerList = workerRepo.findByNameIgnoreCaseContaining(searchInput);
 		model.addAttribute("workerList", workerList);
 		model.addAttribute("searchInput", searchInput);
+		if(workerList.isEmpty()){
+			boolean alert = true;
+			model.addAttribute("emptyAlert", alert);
+		}
 		return "secure/viewWorker";
 	}
 
@@ -749,6 +789,10 @@ public class HSController {
 		List<Testimonial> tList = tRepo.findByServiceNameIgnoreCaseContaining(searchInput);
 		model.addAttribute("searchInput",searchInput);
 		model.addAttribute("testList", tList);
+		if(tList.isEmpty()){
+			boolean alert = true;
+			model.addAttribute("emptyAlert", alert);
+		}
 		return "secure/viewTestimonial";
 	}
 	
@@ -772,6 +816,10 @@ public class HSController {
 		List<Image> imageList = imageRepo.findByImageNameIgnoreCaseContaining(searchInput);
 		model.addAttribute("imageList", imageList);
 		model.addAttribute("searchInput",searchInput);
+		if(imageList.isEmpty()){
+			boolean alert = true;
+			model.addAttribute("emptyAlert", alert);
+		}
 		return "secure/viewImage";
 	}
 	@GetMapping("/adminView/addImage")

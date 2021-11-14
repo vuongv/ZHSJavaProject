@@ -77,6 +77,9 @@
 	</form>
 
 </div>
+<div th:if ="${emptyAlert == true}" style="color:red">
+	 	There are no matches for your search
+	</div>
 	<table th:if="${testList != null and !testList.empty}" class="table table-striped" id="testimonialTable">
 		<tr class="table-info">
 			<th><a href="#" onclick="return sortTestimonialTableById();">Testimonial Id</a></th>

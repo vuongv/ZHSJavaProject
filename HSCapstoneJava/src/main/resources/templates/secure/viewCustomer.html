@@ -95,8 +95,10 @@
 		
 		</form>
 </div> -->
-
-	<table class="table table-striped" id="customerTable">
+<div th:if ="${emptyAlert == true}" style="color:red">
+	 	There are no matches for your search
+	</div>
+	<table th:if="${customerList != null and !customerList.empty}" class="table table-striped" id="customerTable">
 		<tr class="table-info">
 			<th><a href="#" onclick="return sortCustomerTableById();">Id</a></th>
 			<th><a href="#" onclick="return sortCustomerTableByName();">Name</a></th>

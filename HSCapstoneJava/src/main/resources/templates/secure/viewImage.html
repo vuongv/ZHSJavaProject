@@ -84,7 +84,10 @@
 	</form>
 
 </div>
-    <table class="table table-striped" id="imageTable">
+<div th:if ="${emptyAlert == true}" style="color:red">
+	 	There are no matches for your search
+	</div>
+    <table th:if="${imageList != null and !imageList.empty}" class="table table-striped" id="imageTable">
         <tr class="table-info">
             <th><a href="#" onclick="return sortImageTableByIdTest();" >Id</a></th>
             <th><a href="#" onclick="return sortImageTableByName();" >Image Name</a></th>

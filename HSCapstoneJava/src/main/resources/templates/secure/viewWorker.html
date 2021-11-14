@@ -77,7 +77,10 @@
 	</form>
 
 </div>
-    <table class="table table-striped" id="workerTable">
+<div th:if ="${emptyAlert == true}" style="color:red">
+	 	There are no matches for your search
+	</div>
+    <table th:if="${workerList != null and !workerList.empty}" class="table table-striped" id="workerTable">
         <tr class="table-info">
             <th> <a href="#" onclick="return sortWorkerTableByIdTest();" >Id</a></th>
             <th> <a href="#" onclick="return sortWorkerTableByName();" >Name</a></th>

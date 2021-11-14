@@ -84,6 +84,9 @@ Successfully deleted [[${deletedOrder.workOrderId}]]
 	</form>
 
 </div>
+<div th:if ="${emptyAlert == true}" style="color:red">
+	 	There are no matches for your search
+	</div>
 <table th:if="${orderList != null and !orderList.empty}" class="table table-striped" id="orderTable">
 	<tr class="table-info">
 
