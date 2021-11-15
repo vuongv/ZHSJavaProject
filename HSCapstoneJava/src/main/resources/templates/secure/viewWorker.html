@@ -70,9 +70,9 @@
 	<br>
     <div   style="margin-bottom:1%" >
 	<form method="post" action="#" th:action="@{/adminView/viewWorker}" >
-		<input type="text" name="searchInput" style="padding-right:10% " th:placeholder="${searchInput}">
+		<input type="text" name="searchInput" style="padding-right:10%; width:30% " th:value="${searchInput}" placeholder="Search by Worker Name" >
 		<input type="submit" value="Search" >
-		
+		<input type="submit" value="Reset" >
 		
 	</form>
 
