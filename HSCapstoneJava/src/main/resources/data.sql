@@ -41,19 +41,16 @@ INSERT INTO Testimonial (SERVICE_NAME, USER_EMAIL, USER_NAME, USER_TESTIMONIAL, 
 INSERT INTO Testimonial (SERVICE_NAME, USER_EMAIL, USER_NAME, USER_TESTIMONIAL, TO_DISPLAY) VALUES ('Chimney cleaning', 'TEST_97@yahoo.ca', 'TEST Koehler','I LOVE FIREPLACES!', FALSE);
 
 INSERT INTO Image(IMAGE_NAME,FULL_FILE_PATH, TO_DISPLAY) VALUES 
-('Apex Predator.png','/images/gallery/Apex Predator.png', true),
-('apple.png','/images/gallery/apple.png', true),
-('apple3.png','/images/gallery/apple3.png', true),
-('apple4.png', '/images/gallery/apple4.png', true),
-('diamond.png', '/images/gallery/diamond.png', true),
-('donkey.png','/images/gallery/donkey.png', true),
-('donkey3.png', '/images/gallery/donkey3.png', true),
-('fc.png', '/images/gallery/fc.png', true),
-('jays.jpg', '/images/gallery/jays.jpg', true),
-('leafs.png', '/images/gallery/leafs.png', true),
-('marlies.jpeg', '/images/gallery/marlies.jpeg', true),
-('masters.png', '/images/gallery/masters.png', true),
-('raptors.jpg', '/images/gallery/raptors.jpg', true);
+('fireplace1.jpg','/images/gallery/fireplace1.jpg', true),
+('fireplace2.jpg','/images/gallery/fireplace2.jpg', true),
+('fireplace3.jpg','/images/gallery/fireplace3.jpg', true),
+('fireplace4.jpg', '/images/gallery/fireplace4.jpg', true),
+('fireplace5.jpg', '/images/gallery/fireplace5.jpg', true),
+('fireplace6.jpg','/images/gallery/fireplace6.jpg', true),
+('fireplace7.jpg', '/images/gallery/fireplace7.jpg', true),
+('fireplace8.jpg', '/images/gallery/fireplace8.jpg', true),
+('fireplace9.jpg', '/images/gallery/fireplace9.jpg', true),
+('fireplace10.jpg', '/images/gallery/fireplace10.jpg', true);
 
 
 

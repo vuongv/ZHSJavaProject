@@ -625,7 +625,7 @@ public class HSController {
 		List<Testimonial> tList = tRepo.findByToDisplay(true);
 		
 		model.addAttribute("serviceList", serviceList);
-		model.addAttribute("tList", tList);
+		model.addAttribute("testList", tList);
 		return "testimonials";
 	}
 	
@@ -904,6 +904,22 @@ public class HSController {
 		
 		return "redirect:/adminView/viewImage";
 	}
+	
+	
+	@GetMapping("/test")
+	public String test(Model model) {
+		List<Image> imageList = imageRepo.findAll();
+		model.addAttribute("imageList", imageList);		
+		return "test";
+	}
+	
+	@GetMapping("/testimonialsTest")
+	public String test2(Model model) {
+		List<Testimonial> testList = tRepo.findAll();
+		model.addAttribute("testList", testList);		
+		return "testimonialsTest";
+	}
+	
 	
 	
 	

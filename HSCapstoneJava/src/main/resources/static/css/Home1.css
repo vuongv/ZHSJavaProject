@@ -1,12 +1,16 @@
 
+
 .licenter {
     float: center ;
     margin-left: auto;
     margin-right: auto;
 }
 
+
+
 li a:hover {
-    background-color: rgba(75, 71, 47, 0.644);
+    background-color: rgba(128,111,104);
+    color:white;
   }
   
 .nav {
@@ -19,8 +23,8 @@ li a:hover {
   }
 
 .main-image {
-  padding-top: 5%;
-  max-width: 900px;
+  padding-top: 3%;
+  max-width: 850px;
   position: relative;
   margin: auto;
 }
@@ -41,8 +45,8 @@ li a:hover {
   max-width: 30%;
 
 }
-p{
-  font-weight: bold;
+.services-para{
+	font-weight:bold;
 }
 .servicebox{
   max-width: 300px;
@@ -52,8 +56,19 @@ p{
 }
 .first:nth-child(odd) .second:nth-child(2n+1){
 	background-color:wheat;
+	
+}
+.first:nth-child(odd) .second:nth-child(2n){
+	background-color:#65000C;
+	color:white;
 }
 .first:nth-child(even) .second:nth-child(2n){
 	background-color:wheat;
 }
+.first:nth-child(even) .second:nth-child(2n+1){
+	background-color:#65000C;
+	color:white;
+}
+
+
 
