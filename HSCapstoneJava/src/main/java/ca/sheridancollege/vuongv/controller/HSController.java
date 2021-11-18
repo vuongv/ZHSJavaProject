@@ -164,6 +164,8 @@ public class HSController {
 	@PostMapping("/adminView/viewOrder")
 	public String filterOrder(Model model, @RequestParam String searchInput, @RequestParam String filterOption) {
 		System.out.println("this is "+searchInput);
+		boolean notFoundAlert = false;
+	
 		List<WorkOrder> orderList = new ArrayList<WorkOrder>();
 		List<WorkService> serviceList = new ArrayList<WorkService>();
 		List<WorkWorker> workerList = new ArrayList<WorkWorker>();		
@@ -171,12 +173,21 @@ public class HSController {
 		switch(filterOption) {
 		case "1":
 			orderList = orderRepo.findByServiceIgnoreCaseContaining(searchInput);
+			if (orderList.isEmpty()) {
+				notFoundAlert = true;
+			}
 			break;
 		case "2":
 			orderList = orderRepo.findByWorkerIgnoreCaseContaining(searchInput);
+			if (orderList.isEmpty()) {
+				notFoundAlert = true;
+			}
 			break;
 		case "3":
 			customerList = customerRepo.findByNameIgnoreCaseContaining(searchInput);
+			if (customerList.isEmpty()) {
+				notFoundAlert = true;
+			}
 			for (Customer c : customerList) {
 				for(WorkOrder w : c.getWorkOrders()) {
 					orderList.add(orderRepo.findById(w.getWorkOrderId()).get());
@@ -202,10 +213,14 @@ public class HSController {
 		for (WorkOrder o : orderList) {
 			System.out.println(o.getWorkOrderId());
 		}
+		model.addAttribute("searchInput",searchInput);
+		model.addAttribute("filterOption",filterOption);
 		model.addAttribute("orderList", orderList);
 		model.addAttribute("customerList", customerList);
 		model.addAttribute("workerList", workerList);
 		model.addAttribute("serviceList", serviceList);
+		model.addAttribute("emptyAlert", notFoundAlert);
+		
 		return "secure/viewOrder";
 	}
 	
@@ -269,7 +284,7 @@ public class HSController {
 			@RequestParam String orderWorker,
 			@RequestParam String orderTotal,
 			@RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate orderAppointmentDate,
-			@RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.TIME) LocalTime orderAppointmentTime) {
+			@RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.TIME) LocalTime orderAppointmentTime, RedirectAttributes redirectAttributes) {
 		Optional<WorkOrder> oldOrder = orderRepo.findById(Long.valueOf(workOrderId));
 		Optional<Customer> oldCust = customerRepo.findById(Long.valueOf(customerId));
 		WorkOrder order = WorkOrder.builder().workOrderId(workOrderId)
@@ -292,7 +307,10 @@ public class HSController {
 		
 		customerRepo.save(cust);
 		orderRepo.save(order);
-		
+		if (order != null) {
+			redirectAttributes.addFlashAttribute("editStatus", true);
+			redirectAttributes.addFlashAttribute("o", order);
+		}
 		return "redirect:/adminView/viewOrder";
 	}
 	
@@ -317,13 +335,14 @@ public class HSController {
 			@RequestParam String address,
 			@RequestParam String city,
 			@RequestParam String postal,
-			@RequestParam String province) {
+			@RequestParam String province,
+			RedirectAttributes redirectAttributes) {
 		Optional<Customer> oldCust = customerRepo.findById(Long.valueOf(id));
 		Customer cust = Customer.builder().id(Long.valueOf(id)).name(name).email(email)
 				.homePhone(homePhone).cellPhone(cellPhone).address(address).city(city)
 				.postal(postal).province(province).workOrders(oldCust.get().getWorkOrders()).build();
 		customerRepo.save(cust);
-		
+		redirectAttributes.addFlashAttribute("editCustomer", oldCust.get());
 		return "redirect:/adminView/viewCustomer";
 	}
 	
@@ -360,37 +379,57 @@ public class HSController {
 	}
 	@PostMapping("/adminView/viewCustomer")
 	public String filterCustomer(Model model, @RequestParam String searchInput, @RequestParam String filterOption) {
+		boolean notFoundAlert = false;
 		List<Customer> customerList = new ArrayList<Customer>();
 		
 		switch(filterOption) {
 		case "1":
 			customerList = customerRepo.findByNameIgnoreCaseContaining(searchInput);
+			if (customerList.isEmpty()) {
+				notFoundAlert = true;
+			}
 			break;
 		case "2":
 			customerList = customerRepo.findByEmailIgnoreCaseContaining(searchInput);
+			if (customerList.isEmpty()) {
+				notFoundAlert = true;
+			}
 			break;
 		case "3":
 			customerList = customerRepo.findByHomePhoneIgnoreCaseContaining(searchInput);
+			if (customerList.isEmpty()) {
+				notFoundAlert = true;
+			}
 			break;
 		case "4":
 			customerList = customerRepo.findByAddressIgnoreCaseContaining(searchInput);
+			if (customerList.isEmpty()) {
+				notFoundAlert = true;
+			}
 			break;
 		case "5":
 			customerList = customerRepo.findByCityIgnoreCaseContaining(searchInput);
+			if (customerList.isEmpty()) {
+				notFoundAlert = true;
+			}
 			break;
 		case "6":
 			customerList = customerRepo.findByPostalIgnoreCaseContaining(searchInput);
+			if (customerList.isEmpty()) {
+				notFoundAlert = true;
+			}
 			break;
 		
 		}
 		model.addAttribute("customerList", customerList);
-
+		model.addAttribute("searchInput", searchInput);
+		model.addAttribute("filterOption",filterOption);
+		model.addAttribute("emptyAlert", notFoundAlert);
 		return "secure/viewCustomer";
 	}
 	
 	@GetMapping("/adminView/addCustomer")
 	public String addCustomer(Model model){
-		
 		return "secure/addCustomer";
 	}
 	
@@ -481,14 +520,21 @@ public class HSController {
 	public String filterService(Model model, @RequestParam String searchInput) {
 		List<WorkService> serviceList = serviceRepo.findByServiceNameIgnoreCaseContaining(searchInput);
 		model.addAttribute("serviceList", serviceList);
+		model.addAttribute("searchInput", searchInput);
+		if(serviceList.isEmpty()){
+			boolean notFoundAlert = true;
+			model.addAttribute("emptyAlert", notFoundAlert);
+		}
 		return "secure/viewService";
 	}
 	@GetMapping("/adminView/deleteService/{serviceId}")
 	public String deleteService (Model model, @PathVariable String serviceId, RedirectAttributes redirectAttributes ) {
 		RedirectView redirectView = new RedirectView("/viewService",true);
+		Optional<WorkService> s = serviceRepo.findById(Long.valueOf(serviceId));
 		serviceRepo.deleteById(Long.valueOf(serviceId));
 		
 		redirectAttributes.addFlashAttribute("deleteService");
+		redirectAttributes.addFlashAttribute("deleteService", s.get());
 		return "redirect:/adminView/viewService";
 	}
 	
@@ -505,7 +551,7 @@ public class HSController {
 		@RequestParam String serviceName,
 		@RequestParam double serviceCost,
 		@RequestParam String serviceDescription, 
-		@RequestParam int serviceDuration ) {
+		@RequestParam int serviceDuration, RedirectAttributes redirectAttributes) {
 		
 		Optional<WorkService> serv = serviceRepo.findById(Long.valueOf(serviceId));
 		
@@ -525,6 +571,10 @@ public class HSController {
 		}
 		
 		serviceRepo.save(service);
+		if (service != null) {
+			redirectAttributes.addFlashAttribute("editStatus", true);
+			redirectAttributes.addFlashAttribute("editService", service);
+		}
 		return "redirect:/adminView/viewService";
 	}
 
@@ -540,6 +590,11 @@ public class HSController {
 	public String filterWorker(Model model, @RequestParam String searchInput) {
 		List<WorkWorker> workerList = workerRepo.findByNameIgnoreCaseContaining(searchInput);
 		model.addAttribute("workerList", workerList);
+		model.addAttribute("searchInput", searchInput);
+		if(workerList.isEmpty()){
+			boolean notFoundAlert = true;
+			model.addAttribute("emptyAlert", notFoundAlert);
+		}
 		return "secure/viewWorker";
 	}
 
@@ -581,10 +636,12 @@ public class HSController {
 	public String deleteWorker(Model model, @PathVariable String workerId, RedirectAttributes redirectAttributes) {
 		
 		RedirectView redirectView = new RedirectView("/viewWorker", true);
-		
+		Optional<WorkWorker> worker = workerRepo.findById(Long.valueOf(workerId));
 		workerRepo.deleteById(Long.valueOf(workerId));
-
-		redirectAttributes.addFlashAttribute("deleteWorker");
+		
+		
+		redirectAttributes.addFlashAttribute("deleteWorker", worker.get());
+		
 		
 		return "redirect:/adminView/viewWorker";
 	}
@@ -602,7 +659,7 @@ public class HSController {
 	
 	//Used to be editCustomer, pretty sure it had to be Worker, if anything breaks, check this
 	@PostMapping("/adminView/editWorker")
-	public String editWorker(Model model, @RequestParam String id, @RequestParam String name) {
+	public String editWorker(Model model, @RequestParam String id, @RequestParam String name, RedirectAttributes redirectAttributes) {
 		
 		Optional<WorkWorker> oldWorker = workerRepo.findById(Long.valueOf(id));
 		List<WorkOrder> relatedWorkOrder = orderRepo.findByWorker(oldWorker.get().getName()) ;
@@ -615,7 +672,7 @@ public class HSController {
 		}
 		
 		workerRepo.save(worker);
-		
+		redirectAttributes.addFlashAttribute("editWorker",worker);
 		return "redirect:/adminView/viewWorker";
 	}
 	
@@ -740,9 +797,33 @@ public class HSController {
 	}
 	
 	@PostMapping("/adminView/viewTestimonial")
-	public String filterTestimonial(Model model, @RequestParam String searchInput) {
-		List<Testimonial> tList = tRepo.findByServiceNameIgnoreCaseContaining(searchInput);
+	public String filterTestimonial(Model model, @RequestParam String searchInput,@RequestParam String filterOption) {
+		List<Testimonial> tList = new ArrayList<Testimonial>();
+		boolean notFoundAlert = false;
+		switch(filterOption) {
+		case "1":
+			tList = tRepo.findByServiceNameIgnoreCaseContaining(searchInput);
+			if (tList.isEmpty()) {
+				notFoundAlert = true;
+			}
+			break;
+		case "2":
+			tList = tRepo.findByUserNameIgnoreCaseContaining(searchInput);
+			if (tList.isEmpty()) {
+				notFoundAlert = true;
+			}
+			break;
+		case "3":
+			tList = tRepo.findByUserEmailIgnoreCaseContaining(searchInput);
+			if (tList.isEmpty()) {
+				notFoundAlert = true;
+			}
+			break;
+		}
+		model.addAttribute("searchInput",searchInput);
 		model.addAttribute("testList", tList);
+		model.addAttribute("emptyAlert", notFoundAlert);
+		model.addAttribute("filterOption", filterOption);
 		return "secure/viewTestimonial";
 	}
 	
@@ -765,6 +846,11 @@ public class HSController {
 	public String filterImage(Model model, @RequestParam String searchInput) {
 		List<Image> imageList = imageRepo.findByImageNameIgnoreCaseContaining(searchInput);
 		model.addAttribute("imageList", imageList);
+		model.addAttribute("searchInput",searchInput);
+		if(imageList.isEmpty()){
+			boolean notFoundAlert = true;
+			model.addAttribute("emptyAlert", notFoundAlert);
+		}
 		return "secure/viewImage";
 	}
 	@GetMapping("/adminView/addImage")

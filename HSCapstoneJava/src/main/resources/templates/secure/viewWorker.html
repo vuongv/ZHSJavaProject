@@ -55,11 +55,11 @@
 	<div th:if="${addStatus} == true">
 		<p style="color:green;">Successfully added [[${worker.name}]]!</p>
 	</div>
-	<div th:if ="${customerResultDelete == true}">
-		<p style="color:green;">Successfully deleted [[${cust.name}]]</p>
+	<div th:if="${editWorker != null}" style="color:green">
+		Successfully edited [[${editWorker.name}]]
 	</div>
-	<div th:if ="${customerResultDelete == false}">
-		<p style="color:red;">Couldn't delete [[${cust.name}]], You must delete his work orders first!</p>
+	<div th:if="${deleteWorker != null}" style="color:green">
+		Successfully deleted [[${deleteWorker.name}]]
 	</div>
 
     
@@ -70,15 +70,19 @@
 	<br>
     <div   style="margin-bottom:1%" >
 	<form method="post" action="#" th:action="@{/adminView/viewWorker}" >
-		<input type="text" name="searchInput" style="padding-right:10% ">
+		<input type="text" name="searchInput" style="padding-right:10%; width:30% " th:value="${searchInput}" placeholder="Search by Worker Name" >
 		<input type="submit" value="Search" >
+		<input type="submit" value="Reset" >
 		
 	</form>
 
 </div>
-    <table class="table table-striped" id="workerTable">
+<div th:if ="${emptyAlert == true}" style="color:red">
+	 	There are no matches for your search
+	</div>
+    <table th:if="${workerList != null and !workerList.empty}" class="table table-striped" id="workerTable">
         <tr class="table-info">
-            <th> <a href="#" onclick="return sortWorkerTableById();" >Id</a></th>
+            <th> <a href="#" onclick="return sortWorkerTableByIdTest();" >Id</a></th>
             <th> <a href="#" onclick="return sortWorkerTableByName();" >Name</a></th>
             <th>Action</th>
         </tr>

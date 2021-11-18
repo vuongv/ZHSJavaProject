@@ -56,6 +56,12 @@
 	<div th:if ="${addStatus == true}" style="color:green">
 		Successfully added [[${service.serviceName}]]
 	</div>
+	<div th:if="${editStatus == true}" style="color:green">
+		Successfully edited [[${editService.serviceName}]]
+	</div>
+	<div th:if="${deleteService != null}" style="color:green">
+		Successfully deleted [[${deleteService.serviceName}]]
+	</div>
 	
 	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
 		<a href="/adminView/addOrder" th:href="@{/adminView/addService}" class="btn btn-info" role="button">Add Service</a>
@@ -67,12 +73,16 @@
 	
 <div   style="margin-bottom:1%" >
 	<form method="post" action="#" th:action="@{/adminView/viewService}" >
-		<input type="text" name="searchInput" style="padding-right:10% ">
+		<input type="text" name="searchInput" style="padding-right:10%; width:30%" th:value="${searchInput}" placeholder="Search by Service Name">
 		<input type="submit" value="Search" >
+		<input type="submit" value="Reset" >
 		
 	</form>
 
 </div>
+<div th:if ="${emptyAlert == true}" style="color:red">
+	 	There are no matches for your search
+	</div>
 	<table th:if="${serviceList != null and !serviceList.empty}" class="table table-striped" id="serviceTable">
 		<tr class="table-info">
 			<th><a href="#" onclick="return sortServiceTableById();">Service Id</a></th>

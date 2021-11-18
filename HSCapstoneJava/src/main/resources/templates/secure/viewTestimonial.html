@@ -70,17 +70,28 @@
 
 <div style="margin-bottom:1%" >
 	<form method="post" action="#" th:action="@{/adminView/viewTestimonial}" >
-		<input type="text" name="searchInput" style="padding-right:10% ">
+		<select name="filterOption" class="searchDrop" required>
+		<option value="" selected disabled hidden>Choose here</option>
+			<option value="1" th:selected="${filterOption == '1'}">Service Name</option>
+			<option value="2" th:selected="${filterOption == '2'}">User Name</option>
+		    <option value="3" th:selected="${filterOption == '3'}">User Email</option>
+		   </select>
+		<input type="text" name="searchInput" style="padding-right:10%; width:30% " th:value="${searchInput}" placeholder="Search by Criteria">
 		<input type="submit" value="Search" >
+		<input type="submit" value="Reset" >
 		
 	</form>
 
 </div>
+<div th:if ="${emptyAlert == true}" style="color:red">
+	 	There are no matches for your search
+	</div>
 	<table th:if="${testList != null and !testList.empty}" class="table table-striped" id="testimonialTable">
 		<tr class="table-info">
 			<th><a href="#" onclick="return sortTestimonialTableById();">Testimonial Id</a></th>
 			<th><a href="#" onclick="return sortTestimonialTableByServiceName();">Service Name</a></th>
 			<th><a href="#" onclick="return sortTestimonialTableByUserName();">User Name</a></th>
+			<th><a href="#" onclick="return sortTestimonialTableByEmail()" >User Email</a></th>
 			<th><a href="#" onclick="return sortTestimonialTableByTestimonial();">Testimonial</a></th>
 			<th><a href="#" onclick="return sortTestimonialTableByDisplay();">To Display</a></th>
 			<th>Action</th>
@@ -89,6 +100,7 @@
 			<td th:text="${t.testimonialId}"></td>
 			<td th:text="${t.serviceName}"></td>
 			<td th:text="${t.userName}"></td>
+			<td th:text="${t.userEmail}"></td>
 			<td th:text="${t.userTestimonial}"></td>
 			<td th:text="${t.toDisplay}"></td>
 			<td>

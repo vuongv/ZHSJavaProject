@@ -59,9 +59,12 @@
 <div th:if ="${addStatus == true}" style="color:green">
 Successfully added Order for [[${customer.name}]]
 </div>
-<div th:if ="${deleteStatus == true}" style="color:green">
-Successfully deleted [[${deletedOrder.workOrderId}]]
+<div th:if="${deleteStatus == true}" style="color:green">
+Successfully deleted Order #[[${deletedOrder.workOrderId}]]
 </div>
+<div th:if="${editStatus == true}" style="color:green">
+Successfully edited Order #[[${o.workOrderId}]]
+	</div>
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
 	<a href="/adminView/addOrder" th:href="@{/adminView/addOrder}" class="btn btn-info" role="button">Add Order</a>
 </div>
@@ -72,16 +75,23 @@ Successfully deleted [[${deletedOrder.workOrderId}]]
 <div   style="margin-bottom:1%" >
 	<form method="post" action="#" th:action="@{/adminView/viewOrder}" >
 	<select name="filterOption" class="searchDrop" required>
-		    <option value="1">Service</option>
-		    <option value="2">Worker</option>
-		    <option value="3">Customer</option>
+		<option value="" selected disabled hidden>Choose here</option>
+			<option value="3" th:selected="${filterOption == '3'}">Customer</option>
+			<option value="2" th:selected="${filterOption == '2'}">Worker</option>
+		    <option value="1" th:selected="${filterOption == '1'}">Service</option>
+		    
+		    
 		   </select>
-		<input type="text" name="searchInput" style="padding-right:10% ">
+		<input type="text" name="searchInput" style="padding-right:10%; width:30%" th:value="${searchInput}" placeholder="Search by Criteria">
 		<input type="submit" value="Search" >
+		<input type="submit" value="Reset" >
 		
 	</form>
 
 </div>
+<div th:if ="${emptyAlert == true}" style="color:red">
+	 	There are no matches for your search
+	</div>
 <table th:if="${orderList != null and !orderList.empty}" class="table table-striped" id="orderTable">
 	<tr class="table-info">
 

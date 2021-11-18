@@ -77,15 +77,19 @@
 	<br>
     <div   style="margin-bottom:1%" >
 	<form method="post" action="#" th:action="@{/adminView/viewImage}" >
-		<input type="text" name="searchInput" style="padding-right:10% ">
+		<input type="text" name="searchInput" style="padding-right:10%; width:30% " th:value="${searchInput}" placeholder="Search Image Name">
 		<input type="submit" value="Search" >
+		<input type="submit" value="Reset" >
 		
 	</form>
 
 </div>
-    <table class="table table-striped" id="imageTable">
+<div th:if ="${emptyAlert == true}" style="color:red">
+	 	There are no matches for your search
+	</div>
+    <table th:if="${imageList != null and !imageList.empty}" class="table table-striped" id="imageTable">
         <tr class="table-info">
-            <th><a href="#" onclick="return sortImageTableById();" >Id</a></th>
+            <th><a href="#" onclick="return sortImageTableByIdTest();" >Id</a></th>
             <th><a href="#" onclick="return sortImageTableByName();" >Image Name</a></th>
             <th><a href="#" onclick="return sortImageTableByName();" >Image View</a></th>
             <th><a href="#" onclick="return sortImageTableByDisplay();" >Display Image</a></th>

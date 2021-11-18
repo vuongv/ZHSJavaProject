@@ -61,31 +61,46 @@
 	<div th:if ="${customerResultDelete == false}">
 		<p style="color:red;">Couldn't delete [[${cust.name}]], You must delete his work orders first!</p>
 	</div>
-	
+	<div th:if="${editCustomer != null}" style="color:green">
+		Successfully edited [[${editCustomer.name}]]
+	</div>
 	
 	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
 		<a href="#" th:href="@{/adminView/addCustomer}" class="btn btn-info" role="button">Add Customer</a>
 	</div>
 	
 	<br>
-	<div   style="margin-bottom:1%" >
+	<div   style="margin-bottom:1%;">
+	
 	<form method="post" action="#" th:action="@{/adminView/viewCustomer}" >
 	<select name="filterOption" class="searchDrop" required>
-		    <option value="1">Name</option>
-		    <option value="2">Email</option>
-		    <option value="3">Home Phone</option>
-		    <option value="4">Address</option>
-		    <option value="5">City</option>
-		    <option value="6">Postal</option>
+			<option value="" selected disabled hidden>Choose here</option>
+		    <option value="1" th:selected="${filterOption == '1'}">Name</option>
+		    <option value="2" th:selected="${filterOption == '2'}">Email</option>
+		    <option value="3" th:selected="${filterOption == '3'}">Home Phone</option>
+		    <option value="4" th:selected="${filterOption == '4'}">Address</option>
+		    <option value="5" th:selected="${filterOption == '5'}">City</option>
+		    <option value="6" th:selected="${filterOption == '6'}">Postal</option>
 	
 		   </select>
-		<input type="text" name="searchInput" style="padding-right:10% ">
+		<input type="text" name="searchInput" style="padding-right:10%; width:30% " th:value="${searchInput}" placeholder="Search by Criteria">
 		<input type="submit" value="Search" >
+		<input type="submit" value="Reset" >
 		
 	</form>
-
-</div>
-	<table class="table table-striped" id="customerTable">
+	
+	
+</div >
+<!-- <div style="float: right">
+<form method="get" action='#' th:action="@{/adminView/viewCustomer}" style="padding-right:10% " >
+		<input type="text" value="" hidden>
+		
+		</form>
+</div> -->
+<div th:if ="${emptyAlert == true}" style="color:red">
+	 	There are no matches for your search
+	</div>
+	<table th:if="${customerList != null and !customerList.empty}" class="table table-striped" id="customerTable">
 		<tr class="table-info">
 			<th><a href="#" onclick="return sortCustomerTableById();">Id</a></th>
 			<th><a href="#" onclick="return sortCustomerTableByName();">Name</a></th>
