@@ -70,7 +70,7 @@
 	</div>
 	
 	<br>
-	<div   style="margin-bottom:1%;">
+	<div   style="margin-bottom: 1%;float:left; width:38%;">
 	
 	<form method="post" action="#" th:action="@{/adminView/viewCustomer}" >
 	<select name="filterOption" class="searchDrop" required>
@@ -83,14 +83,18 @@
 		    <option value="6" th:selected="${filterOption == '6'}">Postal</option>
 	
 		   </select>
-		<input type="text" name="searchInput" style="padding-right:10%; width:30% " th:value="${searchInput}" placeholder="Search by Criteria">
-		<input type="submit" value="Search" >
-		<input type="submit" value="Reset" >
+		<input type="text" name="searchInput" style="padding-right: 10%; width: 49.7%" th:value="${searchInput}" placeholder="Search by Criteria">
+		<input type="submit" value="Search" style="width:19%" >
 		
 	</form>
 	
 	
 </div >
+<div style="width:20%; margin:auto; display:inline-block;">
+		<form method="get" action="#" th:action="@{/adminView/viewCustomer}">
+			<input type="submit" value="Reset">
+		</form>
+	</div>
 <!-- <div style="float: right">
 <form method="get" action='#' th:action="@{/adminView/viewCustomer}" style="padding-right:10% " >
 		<input type="text" value="" hidden>

@@ -72,7 +72,7 @@ Successfully edited Order #[[${o.workOrderId}]]
 <br>
 
 
-<div   style="margin-bottom:1%" >
+<div  style="margin-bottom: 1%;float:left; width:38%;" >
 	<form method="post" action="#" th:action="@{/adminView/viewOrder}" >
 	<select name="filterOption" class="searchDrop" required>
 		<option value="" selected disabled hidden>Choose here</option>
@@ -82,13 +82,18 @@ Successfully edited Order #[[${o.workOrderId}]]
 		    
 		    
 		   </select>
-		<input type="text" name="searchInput" style="padding-right:10%; width:30%" th:value="${searchInput}" placeholder="Search by Criteria">
-		<input type="submit" value="Search" >
-		<input type="submit" value="Reset" >
+		<input type="text" name="searchInput" style="padding-right:10%; width:50%" th:value="${searchInput}" placeholder="Search by Criteria">
+		<input type="submit" value="Search" style="width:19%" >
+	
 		
 	</form>
 
 </div>
+<div style="width:20%; margin:auto; display:inline-block;">
+		<form method="get" action="#" th:action="@{/adminView/viewOrder}">
+			<input type="submit" value="Reset">
+		</form>
+	</div>
 <div th:if ="${emptyAlert == true}" style="color:red">
 	 	There are no matches for your search
 	</div>
