@@ -146,20 +146,29 @@
 		   <input type="number" name="orderTotal" class="form-control" id="inputTotal" th:value="${order.orderCost}" required>
 		</div>
 		 <div></div>
-		<div class="col-md-6">
+		<div class="col-md-4">
 		   <label  for="inputDate" class="form-label">Appointment Date</label>
 		   <input type="date" name="orderAppointmentDate" class="form-control" id="inputDate" th:value="${order.appointmentDate}" required>
 		</div>
 		
-		<div class="col-md-6">
+		<div class="col-md-4">
 		   <label  for="inputTime" class="form-label">Appointment Time</label>
 		   <input type="time" name="orderAppointmentTime" class="form-control" id="inputTime" th:value="${order.appointmentTime}" required>
+		</div>
+		
+		<div class="col-md-4">
+		   <label  for="inputStatus" class="form-label">Status</label>
+		   <select name="orderStatus" id="inputState" class="form-select" required>
+		   				<option value="In Progress" th:selected="${order.status == 'In Progress'}" >In Progress</option>
+					    <option value="Completed" th:selected="${order.status == 'Completed'}">Completed</option>
+					    <option value="Not Finished" th:selected="${order.status == 'Not Finished'}">Not Finished</option>
+		   </select>
 		</div>
 		
 		<div class="col text-center">
 			<button type="submit" class="btn btn-warning">Save Changes</button>
 		</div>
-			
+		<input type="date" name="orderDate" class="form-control" id="orderDate" th:value="${order.orderDate}" required hidden>
 	</form>
 	
 	</div>

@@ -128,6 +128,7 @@ public class HSController {
 					.orderCost(BigDecimal.valueOf(Long.valueOf(orderTotal)))
 					.worker(orderWorker)
 					.service(orderServiceType)
+					.status("Not Finished")
 					.build();
 			
 			cust.getWorkOrders().add(workOrder);
@@ -192,6 +193,12 @@ public class HSController {
 				for(WorkOrder w : c.getWorkOrders()) {
 					orderList.add(orderRepo.findById(w.getWorkOrderId()).get());
 				}
+			}
+			break;
+		case "4":
+			orderList = orderRepo.findByStatusIgnoreCaseContaining(searchInput);
+			if (orderList.isEmpty()) {
+				notFoundAlert = true;
 			}
 			break;
 		}
@@ -283,16 +290,22 @@ public class HSController {
 			@RequestParam String orderServiceType,
 			@RequestParam String orderWorker,
 			@RequestParam String orderTotal,
+			@RequestParam String orderStatus,
+			@RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate orderDate,
 			@RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate orderAppointmentDate,
 			@RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.TIME) LocalTime orderAppointmentTime, RedirectAttributes redirectAttributes) {
 		Optional<WorkOrder> oldOrder = orderRepo.findById(Long.valueOf(workOrderId));
 		Optional<Customer> oldCust = customerRepo.findById(Long.valueOf(customerId));
-		WorkOrder order = WorkOrder.builder().workOrderId(workOrderId)
+		WorkOrder order = WorkOrder.builder()
+				.workOrderId(workOrderId)
+				.orderDate(orderDate)
 				.appointmentDate(orderAppointmentDate)
 				.appointmentTime(orderAppointmentTime)
 				.orderCost(new BigDecimal(orderTotal))
 				.worker(orderWorker)
+				.status(orderStatus)
 				.service(orderServiceType).build();
+		
 		Customer cust = Customer.builder().id(Long.valueOf(customerId))
 				.name(customerName)
 				.email(customerEmail)

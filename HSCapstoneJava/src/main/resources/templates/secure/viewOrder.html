@@ -79,7 +79,7 @@ Successfully edited Order #[[${o.workOrderId}]]
 			<option value="3" th:selected="${filterOption == '3'}">Customer</option>
 			<option value="2" th:selected="${filterOption == '2'}">Worker</option>
 		    <option value="1" th:selected="${filterOption == '1'}">Service</option>
-		    
+		    <option value="4" th:selected="${filterOption == '4'}">Status</option>
 		    
 		   </select>
 		<input type="text" name="searchInput" style="padding-right:10%; width:50%" th:value="${searchInput}" placeholder="Search by Criteria">
@@ -101,14 +101,15 @@ Successfully edited Order #[[${o.workOrderId}]]
 	<tr class="table-info">
 
 		<th> <a href="#" onclick="return sortOrderTableByOrderId();" >Order Id</a></th>
-		<th> <a href="#" onclick="return sortOrderTableByCustomerName();" >Customer Name</a> </th>
-		<th> <a href="#" onclick="return sortOrderTableByCustomerId();" >Customer ID</a></th>
-		<th> <a href="#" onclick="return sortOrderTableByWorkerName();" >Worker Name</a></th>
-		<th> <a href="#" onclick="return sortOrderTableByServiceName();" >Service Name</a></th>
+		<th> <a href="#" onclick="return sortOrderTableByCustomerName();" >Cust. Name</a> </th>
+		<th> <a href="#" onclick="return sortOrderTableByCustomerId();" >Cust. ID</a></th>
+		<th> <a href="#" onclick="return sortOrderTableByWorkerName();" >Worker</a></th>
+		<th> <a href="#" onclick="return sortOrderTableByServiceName();" >Service</a></th>
 		<th> <a href="#" onclick="return sortOrderTableByDateCreated();" >Date Created</a></th>
 		<th> <a href="#" onclick="return sortOrderTableByInvoiceCost();" >Invoice Cost</a></th>
 		<th> <a href="#" onclick="return sortOrderTableByNextAppointmentDate();" >Next Appointment Date</a></th>
 		<th> <a href="#" onclick="return sortOrderTableByTime();" >Time</a></th>
+		<th> <a href="#" onclick="return sortOrderTableByStatus();" >Status</a></th>
 		<th>Action</th> 
 	</tr>
 	<tr th:each="o,i : ${orderList}">
@@ -121,6 +122,9 @@ Successfully edited Order #[[${o.workOrderId}]]
 		<td th:text="${o.orderCost}"></td>
 		<td th:text="${o.appointmentDate}"></td>
 		<td th:text="${o.appointmentTime}"></td>
+		<td th:text="${o.status}" th:if= "${o.status == 'Completed'}" style="color: green"></td>
+		<td th:text="${o.status}" th:if= "${o.status == 'Not Finished'}" style="color: red"></td>
+		<td th:text="${o.status}" th:if= "${o.status == 'In Progress'}" style="color: orange"></td>
 		<td>
       
 		<div class="row">

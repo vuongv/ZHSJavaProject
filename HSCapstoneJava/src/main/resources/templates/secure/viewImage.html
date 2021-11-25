@@ -99,12 +99,12 @@
 	<table th:if="${imageList != null and !imageList.empty}"
 		class="table table-striped" id="imageTable">
 		<tr class="table-info">
-			<th><a href="#" onclick="return sortImageTableByIdTest();">Id</a></th>
-			<th><a href="#" onclick="return sortImageTableByName();">Image
+			<th><a href="#" onclick="return sortImageTableByIdTest();" >Id</a></th>
+			<th><a href="#" onclick="return sortImageTableByName();" >Image
 					Name</a></th>
 			<th><a href="#" onclick="return sortImageTableByName();">Image
 					View</a></th>
-			<th><a href="#" onclick="return sortImageTableByDisplay();">Display
+			<th><a href="#" onclick="return sortImageTableByDisplay();" >Display
 					Image</a></th>
 			<th>Action</th>
 		</tr>
@@ -114,7 +114,7 @@
 			<td><img th:src="@{${image.fullFilePath}}"
 				style="height: auto; width: 100px;"></td>
 			<td th:text="${image.toDisplay}"></td>
-			<td>
+			<td >
 				<div class="row">
 					<div class="col-sm-1">
 						<div class="row">
