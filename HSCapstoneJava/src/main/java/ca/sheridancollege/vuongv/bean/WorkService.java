@@ -27,6 +27,6 @@ public class WorkService {
 	private String serviceName;
 	private double serviceCost;
 	private String serviceDescription;
-	private int serviceDuration;
+	private double serviceDuration;
 	
 }

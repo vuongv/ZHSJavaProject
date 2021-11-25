@@ -2,7 +2,7 @@ INSERT INTO CUSTOMER(ADDRESS, CELL_PHONE, CITY, EMAIL, HOME_PHONE, NAME, POSTAL,
  VALUES ('123 playground street', '(416) 857-0231','Brampton','vuongv@sheridancollege.ca','(123) 456-1234','Henry','L6S5H7','Ontario');
  
  INSERT INTO WORK_ORDER(WORK_ORDER_ID, ORDER_DATE, ORDER_COST, APPOINTMENT_DATE, APPOINTMENT_TIME, WORKER, SERVICE, STATUS) 
-VALUES (1,'2020-12-20',1000,'2021-04-01','10:00:00', 'Kap3', 'Chimney cleaning', 'In Progress'),(2,'2020-12-20',1000,'2021-04-01','10:00:00', 'Kap2', 'Chimney Installation', 'Not Finished') ;
+VALUES (1,'2020-12-20',1000,'2021-04-01','10:00:00', 'Kap3', 'Chimney cleaning', 'In Progress'),(2,'2020-12-20',1000,'2021-04-01','10:00:00', 'Kap2', 'Chimney Installation', 'Not Started') ;
 
  
 

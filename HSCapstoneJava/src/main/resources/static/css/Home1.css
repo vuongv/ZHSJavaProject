@@ -70,5 +70,28 @@ li a:hover {
 	color:white;
 }
 
+.email {
+  color: black;
+  text-decoration: none;
+}
+
+.email:visited 
+{
+    color: black;
+    text-decoration: none;
+}
+
+.emailfooter {
+  color: white;
+  text-decoration: none;
+}
+
+.emailfooter:visited 
+{
+    color: white;
+    text-decoration: none;
+}
+
+
 
 

@@ -125,10 +125,10 @@ public class HSController {
 					.orderDate(LocalDate.now())
 					.appointmentDate(orderAppointmentDate)
 					.appointmentTime(orderAppointmentTime)
-					.orderCost(BigDecimal.valueOf(Long.valueOf(orderTotal)))
+					.orderCost(new BigDecimal(orderTotal))
 					.worker(orderWorker)
 					.service(orderServiceType)
-					.status("Not Finished")
+					.status("Not Started")
 					.build();
 			
 			cust.getWorkOrders().add(workOrder);
@@ -497,7 +497,7 @@ public class HSController {
 			@RequestParam String serviceName,
 			@RequestParam double serviceCost,
 			@RequestParam String serviceDescription,
-			@RequestParam int serviceDuration,
+			@RequestParam double serviceDuration,
 			RedirectAttributes redirectAttributes) {
 		
 		if(serviceRepo.existsByServiceName(serviceName)) {
@@ -564,7 +564,7 @@ public class HSController {
 		@RequestParam String serviceName,
 		@RequestParam double serviceCost,
 		@RequestParam String serviceDescription, 
-		@RequestParam int serviceDuration, RedirectAttributes redirectAttributes) {
+		@RequestParam double serviceDuration, RedirectAttributes redirectAttributes) {
 		
 		Optional<WorkService> serv = serviceRepo.findById(Long.valueOf(serviceId));
 		
@@ -843,7 +843,7 @@ public class HSController {
 	@GetMapping("/gallery")
 	public String gallery (Model model) {
 		
-		List<Image> imageList = imageRepo.findAll();
+		List<Image> imageList = imageRepo.findByToDisplay(true);
 		model.addAttribute("imageList", imageList);		
 		return "gallery";
 	}

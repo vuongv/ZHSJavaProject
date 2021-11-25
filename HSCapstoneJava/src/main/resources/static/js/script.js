@@ -324,13 +324,13 @@ function sortServiceTableByCost() {
       y = rows[i + 1].getElementsByTagName("TD")[2];
       
       if (dir == "asc") {
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+        if ( parseFloat((x.innerHTML.toLowerCase()).substring(1)) > parseFloat( (y.innerHTML.toLowerCase()).substring(1)) ) {
           
           shouldSwitch = true;
           break;
         }
       } else if (dir == "desc") {
-        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+        if ( parseFloat((x.innerHTML.toLowerCase()).substring(1)) < parseFloat( (y.innerHTML.toLowerCase()).substring(1)) ) {
           
           shouldSwitch = true;
           break;

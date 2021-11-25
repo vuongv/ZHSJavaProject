@@ -70,7 +70,7 @@
 		 <br>
 		<div class="col-md-6">
 		 	<label for="emailInput" class="form-label">Cost</label>
-		   <input type="number" th:value="${serv.serviceCost}" name="serviceCost" id="serviceCostInput" class="form-control" placeholder="Service Cost" aria-label="Email" required>
+		   <input type="number" step=".01" th:value="${serv.serviceCost}" name="serviceCost" id="serviceCostInput" class="form-control" placeholder="Service Cost" aria-label="Email" required>
 		</div>
 		 <div></div>
 		<div class="col-md-6">
@@ -79,8 +79,8 @@
 		</div>
 		 
 		<div class="col-md-6">
-		 	<label for="cellphoneInput" class="form-label">Duration</label>
-		   <input type="text" th:value="${serv.serviceDuration}" name="serviceDuration" placeholder="Service Duration" id="serviceDurationInput" class="form-control" aria-label="Service Duration">
+		 	<label for="cellphoneInput" class="form-label">Duration (hour)</label>
+		   <input type="number" step=".01" th:value="${serv.serviceDuration}" name="serviceDuration" placeholder="Service Duration" id="serviceDurationInput" class="form-control" aria-label="Service Duration">
 		</div>
 		<div class="col text-center">
 			<button type="submit" class="btn btn-warning">Save Changes</button>

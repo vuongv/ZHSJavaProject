@@ -147,7 +147,7 @@ li a:hover {
 
 
 /*NEW STUFF*/
-@charset "UTF-8";
+/* @charset "UTF-8"; */
 .slideshow-container {
     max-width: 1000px;
     position: relative;
@@ -242,4 +242,26 @@ li a:hover {
 }
 a{
 	text-decoration:none !important;
+}
+
+.email {
+  color: black;
+  text-decoration: none;
+}
+
+.email:visited 
+{
+    color: black;
+    text-decoration: none;
+}
+
+.emailfooter {
+  color: white;
+  text-decoration: none;
+}
+
+.emailfooter:visited 
+{
+    color: white;
+    text-decoration: none;
 }

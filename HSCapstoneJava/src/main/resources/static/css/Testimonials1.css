@@ -168,3 +168,25 @@ li a:hover {
 a{
 	text-decoration:none !important;
 }
+
+.email {
+  color: black;
+  text-decoration: none;
+}
+
+.email:visited 
+{
+    color: black;
+    text-decoration: none;
+}
+
+.emailfooter {
+  color: white;
+  text-decoration: none;
+}
+
+.emailfooter:visited 
+{
+    color: white;
+    text-decoration: none;
+}

@@ -74,7 +74,7 @@ Successfully edited Order #[[${o.workOrderId}]]
 
 <div  style="margin-bottom: 1%;float:left; width:38%;" >
 	<form method="post" action="#" th:action="@{/adminView/viewOrder}" >
-	<select name="filterOption" class="searchDrop" required>
+	<select name="filterOption" class="searchDrop" required >
 		<option value="" selected disabled hidden>Choose here</option>
 			<option value="3" th:selected="${filterOption == '3'}">Customer</option>
 			<option value="2" th:selected="${filterOption == '2'}">Worker</option>
@@ -123,7 +123,7 @@ Successfully edited Order #[[${o.workOrderId}]]
 		<td th:text="${o.appointmentDate}"></td>
 		<td th:text="${o.appointmentTime}"></td>
 		<td th:text="${o.status}" th:if= "${o.status == 'Completed'}" style="color: green"></td>
-		<td th:text="${o.status}" th:if= "${o.status == 'Not Finished'}" style="color: red"></td>
+		<td th:text="${o.status}" th:if= "${o.status == 'Not Started'}" style="color: red"></td>
 		<td th:text="${o.status}" th:if= "${o.status == 'In Progress'}" style="color: orange"></td>
 		<td>
       

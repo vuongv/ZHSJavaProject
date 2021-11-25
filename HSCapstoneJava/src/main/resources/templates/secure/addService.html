@@ -73,7 +73,7 @@ Successfully added [[${service.serviceName}]]
 		
 		<div class="col-md-6">
 		   <label  for="costInput" class="form-label">Service Cost ($)</label>
-		   <input type="number" name="serviceCost" class="form-control" id="costInput" required>
+		   <input type="number" step=".01" name="serviceCost" class="form-control" id="costInput" required>
 		</div>
 		
 		<div></div>
@@ -85,8 +85,8 @@ Successfully added [[${service.serviceName}]]
 		</div>
 
 		<div class="col-md-12">
-		 	<label for="durationInput" class="form-label">Service Duration</label>
-		   <input type="number" name="serviceDuration" id="durationInput" class="form-control" placeholder="Duration" required>
+		 	<label for="durationInput" class="form-label">Service Duration (hour)</label>
+		   <input type="number" step=".01" name="serviceDuration" id="durationInput" class="form-control" placeholder="Duration" required>
 		</div>
 		
 		 <div></div>

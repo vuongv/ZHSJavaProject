@@ -143,7 +143,7 @@
 		
 		<div class="col-md-4">
 		   <label  for="inputTotal" class="form-label">Invoice Total ($)</label>
-		   <input type="number" name="orderTotal" class="form-control" id="inputTotal" th:value="${order.orderCost}" required>
+		   <input type="number" step=".01" name="orderTotal" class="form-control" id="inputTotal" th:value="${order.orderCost}" required>
 		</div>
 		 <div></div>
 		<div class="col-md-4">
@@ -161,7 +161,7 @@
 		   <select name="orderStatus" id="inputState" class="form-select" required>
 		   				<option value="In Progress" th:selected="${order.status == 'In Progress'}" >In Progress</option>
 					    <option value="Completed" th:selected="${order.status == 'Completed'}">Completed</option>
-					    <option value="Not Finished" th:selected="${order.status == 'Not Finished'}">Not Finished</option>
+					    <option value="Not Started" th:selected="${order.status == 'Not Started'}">Not Started</option>
 		   </select>
 		</div>
 		
